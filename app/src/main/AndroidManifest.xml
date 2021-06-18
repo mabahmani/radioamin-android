@@ -3,13 +3,14 @@
     package="ir.mab.radioamin">
 
     <application
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Radioamin">
-        <activity android:name=".BaseActivity"></activity>
+        <activity android:name=".ui.BaseActivity"/>
         <activity
             android:name=".ui.SplashActivity"
             android:theme="@style/SplashTheme">
