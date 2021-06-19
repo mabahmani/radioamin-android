@@ -1,67 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/color1"
-    tools:context=".ui.SplashActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/musicLogo"
-        android:layout_width="178dp"
-        android:layout_height="102dp"
-        app:srcCompat="@drawable/ic_music_logo"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="128dp"
-        />
+    <data>
+        <variable
+            name="handlers"
+            type="ir.mab.radioamin.ui.splash.SplashActivity.MyHandlers" />
+    </data>
 
-
-    <androidx.appcompat.widget.AppCompatTextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/musicLogo"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="32dp"
-        android:textColor="@color/white"
-        android:textSize="12sp"
-        android:lineSpacingExtra="4sp"
-        android:text="@string/sign_in_msg"
-        android:gravity="center"
-        />
+        android:layout_height="match_parent"
+        android:background="@color/color1"
+        tools:context=".ui.splash.SplashActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:orientation="vertical"
-        android:layout_marginBottom="64dp">
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/musicLogo"
+            android:layout_width="178dp"
+            android:layout_height="102dp"
+            app:srcCompat="@drawable/ic_music_logo"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="128dp" />
 
-        <Button
-            android:id="@+id/signInButton"
-            android:layout_width="wrap_content"
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/sign_in"
-            android:layout_gravity="center_horizontal"
-            android:textColor="@color/color1"
-            />
-
-        <Button
-            android:id="@+id/deviceFilesButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/device_files_only"
-            android:layout_gravity="center_horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/musicLogo"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="32dp"
             android:textColor="@color/white"
-            android:layout_marginTop="16dp"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            />
+            android:textSize="12sp"
+            android:lineSpacingExtra="4sp"
+            android:text="@string/sign_in_msg"
+            android:gravity="center" />
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:orientation="vertical"
+            android:layout_marginBottom="64dp">
+
+            <Button
+                android:id="@+id/signInButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_in"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/color1" />
+
+            <Button
+                android:id="@+id/deviceFilesButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/device_files_only"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/white"
+                android:layout_marginTop="16dp"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:onClick="@{handlers::onClickDeviceFilesOnly}"
+                />
+
+        </LinearLayout>
 
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

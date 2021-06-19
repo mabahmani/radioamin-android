@@ -3,4 +3,8 @@
     <string name="sign_in_msg">Sign in to stream and browse playlists, albums, and artists from Radioamin</string>
     <string name="sign_in">Sign in</string>
     <string name="device_files_only">Device Files Only</string>
+    <string name="playlists">Playlists</string>
+    <string name="albums">Albums</string>
+    <string name="songs">Songs</string>
+    <string name="artists">Artists</string>
 </resources>
