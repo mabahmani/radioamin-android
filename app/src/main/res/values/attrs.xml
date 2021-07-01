@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="NavigationItemWithIconAndTextCompoundView">
+        <attr name="nitTitle" format="string" />
+        <attr name="nitIcon" format="reference" />
+        <attr name="nitTitleColor" format="color" />
+        <attr name="nitIconTint" format="color" />
+        <attr name="nitChevronTint" format="color" />
+    </declare-styleable>
+</resources>
