@@ -89,7 +89,7 @@
             android:layout_marginTop="16dp"
             >
 
-            <ir.mab.radioamin.ui.custom.compound.NavigationItemWithIconAndTextCompoundView
+            <ir.mab.radioamin.ui.custom.NavigationItemWithIconAndTextCompoundView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:nitIcon="@drawable/ic_list_music"
@@ -103,7 +103,7 @@
                 android:focusable="true"
                 />
 
-            <ir.mab.radioamin.ui.custom.compound.NavigationItemWithIconAndTextCompoundView
+            <ir.mab.radioamin.ui.custom.NavigationItemWithIconAndTextCompoundView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:nitIcon="@drawable/ic_album_collection"
@@ -117,7 +117,7 @@
                 android:focusable="true"
                 />
 
-            <ir.mab.radioamin.ui.custom.compound.NavigationItemWithIconAndTextCompoundView
+            <ir.mab.radioamin.ui.custom.NavigationItemWithIconAndTextCompoundView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:nitIcon="@drawable/ic_music_note"
@@ -131,7 +131,7 @@
                 android:focusable="true"
                 />
 
-            <ir.mab.radioamin.ui.custom.compound.NavigationItemWithIconAndTextCompoundView
+            <ir.mab.radioamin.ui.custom.NavigationItemWithIconAndTextCompoundView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:nitIcon="@drawable/ic_user_music"

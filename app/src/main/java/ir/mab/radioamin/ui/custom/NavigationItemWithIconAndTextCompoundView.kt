@@ -1,4 +1,4 @@
-package ir.mab.radioamin.ui.custom.compound
+package ir.mab.radioamin.ui.custom
 
 import android.content.Context
 import android.util.AttributeSet
@@ -21,10 +21,10 @@ class NavigationItemWithIconAndTextCompoundView @JvmOverloads constructor(
 
             try {
                 findViewById<AppCompatTextView>(R.id.title).text = getString(R.styleable.NavigationItemWithIconAndTextCompoundView_nitTitle)
-                findViewById<AppCompatTextView>(R.id.title).setTextColor(getColor(R.styleable.NavigationItemWithIconAndTextCompoundView_nitTitleColor, 0))
+                findViewById<AppCompatTextView>(R.id.title).setTextColor(getColor(R.styleable.NavigationItemWithIconAndTextCompoundView_nitTitleColor, resources.getColor(R.color.white)))
                 findViewById<AppCompatImageView>(R.id.icon).setImageResource(getResourceId(R.styleable.NavigationItemWithIconAndTextCompoundView_nitIcon, 0))
-                findViewById<AppCompatImageView>(R.id.icon).setColorFilter(getColor(R.styleable.NavigationItemWithIconAndTextCompoundView_nitIconTint, 0))
-                findViewById<AppCompatImageView>(R.id.chevronRight).setColorFilter(getColor(R.styleable.NavigationItemWithIconAndTextCompoundView_nitChevronTint, 0))
+                findViewById<AppCompatImageView>(R.id.icon).setColorFilter(getColor(R.styleable.NavigationItemWithIconAndTextCompoundView_nitIconTint, resources.getColor(R.color.white)))
+                findViewById<AppCompatImageView>(R.id.chevronRight).setColorFilter(getColor(R.styleable.NavigationItemWithIconAndTextCompoundView_nitChevronTint, resources.getColor(R.color.white)))
             } finally {
                 recycle()
             }
