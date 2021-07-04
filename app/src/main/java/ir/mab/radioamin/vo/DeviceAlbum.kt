@@ -1,7 +1,7 @@
 package ir.mab.radioamin.vo
 
-data class DevicePlaylist(
+data class DeviceAlbum(
     val id: Long?,
     val name: String?,
-    val memberCounts: Int?
+    val artist: String?
 )

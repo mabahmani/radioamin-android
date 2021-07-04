@@ -6,7 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import ir.mab.radioamin.di.IoDispatcher
-import ir.mab.radioamin.repo.DeviceFilesRepository
+import ir.mab.radioamin.repo.DevicePlaylistRepository
 import kotlinx.coroutines.CoroutineDispatcher
 
 @Module
@@ -19,6 +19,14 @@ class RepoModule {
         @IoDispatcher coroutineDispatcher: CoroutineDispatcher
     ): DeviceFilesRepository {
         return DeviceFilesRepository(application, coroutineDispatcher)
+    }
+
+    @Provides
+    fun provideDevicePlaylistRepository(
+        application: Application,
+        @IoDispatcher coroutineDispatcher: CoroutineDispatcher
+    ): DevicePlaylistRepository {
+        return DevicePlaylistRepository(application, coroutineDispatcher)
     }
 
 }
