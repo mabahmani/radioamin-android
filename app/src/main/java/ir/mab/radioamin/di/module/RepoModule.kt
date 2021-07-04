@@ -14,14 +14,6 @@ import kotlinx.coroutines.CoroutineDispatcher
 class RepoModule {
 
     @Provides
-    fun provideDeviceFilesRepository(
-        application: Application,
-        @IoDispatcher coroutineDispatcher: CoroutineDispatcher
-    ): DeviceFilesRepository {
-        return DeviceFilesRepository(application, coroutineDispatcher)
-    }
-
-    @Provides
     fun provideDevicePlaylistRepository(
         application: Application,
         @IoDispatcher coroutineDispatcher: CoroutineDispatcher
