@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/device_files_nav_graph"
+    app:startDestination="@id/deviceFiles">
+
+    <fragment
+        android:id="@+id/deviceFiles"
+        android:name="ir.mab.radioamin.ui.deviceonly.DeviceFilesFragment"
+        android:label="DeviceFiles"
+        tools:layout="@layout/fragment_device_files">
+        <action
+            android:id="@+id/action_deviceFilesFragment_to_devicePlaylistsFragment"
+            app:destination="@id/devicePlaylists" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/devicePlaylists"
+        android:name="ir.mab.radioamin.ui.deviceonly.DevicePlaylistsFragment"
+        android:label="DevicePlaylists"
+        tools:layout="@layout/fragment_device_playlists">
+
+        <action
+            android:id="@+id/action_devicePlaylistsFragment_to_devicePlaylistFragment"
+            app:destination="@id/devicePlaylist" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/devicePlaylist"
+        android:name="ir.mab.radioamin.ui.deviceonly.DevicePlaylistFragment"
+        android:label="DevicePlaylist"
+        tools:layout="@layout/fragment_device_playlist" />
+
+
+</navigation>

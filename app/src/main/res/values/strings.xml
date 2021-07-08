@@ -7,4 +7,12 @@
     <string name="albums">Albums</string>
     <string name="songs">Songs</string>
     <string name="artists">Artists</string>
+    <string name="songCount">%d songs</string>
+    <string name="songCountSingle">%d song</string>
+    <string name="playlistMembersCountSingle">Playlist • %d song</string>
+    <string name="playlistMembersCount">Playlist • %d songs</string>
+    <string name="new_playlist">New Playlist</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="play">Play</string>
+    <string name="songArtistDuration">%s • %s</string>
 </resources>

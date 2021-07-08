@@ -65,7 +65,7 @@ class DeviceSongRepository(
                             id
                         )
 
-                        songs.add(DeviceSong(id, name, artist, duration, contentUri))
+                        songs.add(DeviceSong(id, name, artist, duration, contentUri, null))
 
                     }
 

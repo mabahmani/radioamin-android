@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.mab.radioamin.repo.DevicePlaylistRepository
 import ir.mab.radioamin.vo.DevicePlaylist
+import ir.mab.radioamin.vo.DeviceSong
 import ir.mab.radioamin.vo.generic.Resource
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,6 +21,15 @@ class DevicePlaylistsViewModel @Inject constructor(
         var result: LiveData<Resource<List<DevicePlaylist>>> = MutableLiveData()
         viewModelScope.launch {
             result = devicePlaylistRepository.getDevicePlaylists()
+        }
+
+        return result
+    }
+
+    fun getDevicePlaylistMembers(playlistId: Long): LiveData<Resource<List<DeviceSong>>>{
+        var result: LiveData<Resource<List<DeviceSong>>> = MutableLiveData()
+        viewModelScope.launch {
+            result = devicePlaylistRepository.getPlaylistMembers(playlistId)
         }
 
         return result

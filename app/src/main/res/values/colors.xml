@@ -10,4 +10,11 @@
     <color name="color1">#151515</color>
     <color name="color2">#bbdefb</color>
     <color name="color3">#42a5f5</color>
+    <color name="color4">#37474f</color>
+    <color name="color5">#4f5b62</color>
+    <color name="color6">#263238</color>
+    <color name="color7">#b0bec5</color>
+    <color name="color8">#e0e0e0</color>
+    <color name="color9">#cfd8dc</color>
+    <color name="color10">#bdbdbd</color>
 </resources>
