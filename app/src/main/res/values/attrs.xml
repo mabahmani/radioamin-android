@@ -14,4 +14,11 @@
         <attr name="stBackIconTint" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="EmptyListCompoundView">
+        <attr name="elText" format="string" />
+        <attr name="elIcon" format="reference" />
+        <attr name="elTextColor" format="color" />
+        <attr name="elIconTint" format="color" />
+    </declare-styleable>
+
 </resources>

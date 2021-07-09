@@ -13,6 +13,10 @@
         <variable
             name="showProgress"
             type="boolean" />
+
+        <variable
+            name="showEmptyList"
+            type="boolean" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -135,6 +139,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:pcVisibility="@{showProgress ? View.VISIBLE: View.GONE}" />
+
+                <ir.mab.radioamin.ui.custom.EmptyListCompoundView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:elText="@string/empty_playlists_msg"
+                    app:elIcon="@drawable/ic_list_music"
+                    android:layout_below="@id/newPlaylistParent"
+                    android:visibility="@{showEmptyList ? View.VISIBLE: View.GONE}"
+                    />
 
             </RelativeLayout>
 

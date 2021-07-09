@@ -54,8 +54,15 @@ class DevicePlaylistsFragment: Fragment() {
                 }
 
                 Status.SUCCESS ->{
-                    devicePlaylistsAdapter.list = it.data?: mutableListOf()
-                    devicePlaylistsAdapter.notifyDataSetChanged()
+                    if (it.data.isNullOrEmpty()){
+                        binding.showEmptyList = true
+                    }
+                    else{
+                        devicePlaylistsAdapter.list = it.data
+                        devicePlaylistsAdapter.notifyDataSetChanged()
+                        binding.showEmptyList = false
+                    }
+
                     binding.showProgress = false
                     binding.refreshLayout.isRefreshing = false
                 }
