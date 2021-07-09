@@ -12,7 +12,15 @@
         tools:layout="@layout/fragment_device_files">
         <action
             android:id="@+id/action_deviceFilesFragment_to_devicePlaylistsFragment"
-            app:destination="@id/devicePlaylists" />
+            app:destination="@id/devicePlaylists"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+<!--            app:enterAnim="@animator/nav_default_enter_anim"-->
+<!--            app:exitAnim="@animator/nav_default_exit_anim"-->
+<!--            app:popEnterAnim="@animator/nav_default_pop_enter_anim"-->
+<!--            app:popExitAnim="@animator/nav_default_pop_exit_anim"-->
     </fragment>
 
     <fragment
@@ -23,7 +31,12 @@
 
         <action
             android:id="@+id/action_devicePlaylistsFragment_to_devicePlaylistFragment"
-            app:destination="@id/devicePlaylist" />
+            app:destination="@id/devicePlaylist"
+            app:enterAnim="@anim/slide_in_enter_micro"
+            app:exitAnim="@anim/slide_out_micro"
+            app:popEnterAnim="@anim/slide_in_enter_micro"
+            app:popExitAnim="@anim/slide_out_micro"
+            />
     </fragment>
 
     <fragment

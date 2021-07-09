@@ -24,6 +24,10 @@ class DeviceFilesFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.refreshLayout.setOnRefreshListener {
+            binding.refreshLayout.isRefreshing = false
+        }
+
         binding.playlistsParent.setOnClickListener {
             it.findNavController()
                 .navigate(R.id.action_deviceFilesFragment_to_devicePlaylistsFragment)

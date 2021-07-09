@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import ir.mab.radioamin.ui.custom.ProgressCompoundView
 import ir.mab.radioamin.ui.custom.SimpleToolbarWithBackIconAndTitleCompoundView
 
@@ -12,7 +13,7 @@ object BindingAdapters {
     @JvmStatic
     fun loadImage(view: AppCompatImageView, imageBitmap: Bitmap?) {
         if (imageBitmap != null) {
-            Glide.with(view).load(imageBitmap).into(view)
+            Glide.with(view).load(imageBitmap).transition(DrawableTransitionOptions.withCrossFade()).into(view)
         }
     }
 

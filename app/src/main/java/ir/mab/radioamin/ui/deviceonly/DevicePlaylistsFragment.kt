@@ -30,8 +30,15 @@ class DevicePlaylistsFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.handler = Handlers()
+        initRefreshLayout()
         initList()
         getDevicePlaylists()
+    }
+
+    private fun initRefreshLayout() {
+        binding.refreshLayout.setOnRefreshListener {
+            getDevicePlaylists()
+        }
     }
 
     private fun initList() {
@@ -50,10 +57,12 @@ class DevicePlaylistsFragment: Fragment() {
                     devicePlaylistsAdapter.list = it.data?: mutableListOf()
                     devicePlaylistsAdapter.notifyDataSetChanged()
                     binding.showProgress = false
+                    binding.refreshLayout.isRefreshing = false
                 }
 
                 Status.ERROR ->{
                     binding.showProgress = false
+                    binding.refreshLayout.isRefreshing = false
                 }
             }
         })
