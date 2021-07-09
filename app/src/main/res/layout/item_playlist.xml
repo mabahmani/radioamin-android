@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="playlist"
             type="ir.mab.radioamin.vo.DevicePlaylist" />
@@ -16,37 +17,36 @@
             android:id="@+id/parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
             android:clickable="true"
-            android:focusable="true"
-            android:background="?selectableItemBackground">
+            android:focusable="true">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/coverParent"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="@color/color10"
+                app:cardCornerRadius="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginStart="24dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="12dp"
-                app:cardCornerRadius="5dp"
-                app:cardBackgroundColor="@color/color10">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="16dp"
-                    app:tint="@color/color6"
-                    app:srcCompat="@drawable/ic_list_music" />
+                    app:srcCompat="@drawable/ic_list_music"
+                    app:tint="@color/color6" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/cover"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:imageBitmap="@{playlist.thumbnail}"
-                    />
+                    app:imageBitmap="@{playlist.thumbnail}" />
 
             </androidx.cardview.widget.CardView>
 
@@ -54,21 +54,20 @@
                 android:id="@+id/infoParent"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:orientation="vertical"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/coverParent"
                 app:layout_constraintRight_toLeftOf="@+id/more"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    fontPath="fonts/OpenSans-SemiBold.ttf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{playlist.name}"
-                    android:textColor="@color/white"
-                    fontPath="fonts/OpenSans-SemiBold.ttf"
-                    />
+                    android:textColor="@color/white" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="match_parent"
@@ -80,17 +79,19 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/more"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:srcCompat="@drawable/ic_ellipsis_vertical"
-                app:tint="@color/white"
-                android:padding="12dp"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="?selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:focusable="true"
-                android:background="?selectableItemBackgroundBorderless" />
+                android:padding="6dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_ellipsis_vertical"
+                app:tint="@color/white" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

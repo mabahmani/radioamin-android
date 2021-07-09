@@ -18,7 +18,8 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color1">
+        android:background="@color/color1"
+        >
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
@@ -128,7 +129,7 @@
             <ir.mab.radioamin.ui.custom.ProgressCompoundView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="@{showProgress ? View.VISIBLE: View.GONE}" />
+                app:pcVisibility="@{showProgress ? View.VISIBLE: View.GONE}" />
 
         </RelativeLayout>
 
