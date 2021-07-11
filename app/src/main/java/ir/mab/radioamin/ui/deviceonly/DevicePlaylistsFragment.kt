@@ -3,22 +3,29 @@ package ir.mab.radioamin.ui.deviceonly
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import ir.mab.radioamin.R
+import ir.mab.radioamin.databinding.DialogCreatePlaylistBinding
 import ir.mab.radioamin.databinding.FragmentDevicePlaylistsBinding
 import ir.mab.radioamin.util.hidePermissionEducational
 import ir.mab.radioamin.util.showPermissionEducational
 import ir.mab.radioamin.vm.DevicePlaylistsViewModel
 import ir.mab.radioamin.vo.generic.Status
+import timber.log.Timber
 
 @AndroidEntryPoint
 class DevicePlaylistsFragment : Fragment() {
@@ -56,6 +63,7 @@ class DevicePlaylistsFragment : Fragment() {
                 getDevicePlaylists()
             }
             shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE) -> {
+                binding.refreshLayout.isRefreshing = false
                 binding.showEmptyList = true
                 requireActivity().showPermissionEducational(
                     getString(R.string.read_file_permission_title),
@@ -69,6 +77,7 @@ class DevicePlaylistsFragment : Fragment() {
             }
 
             else -> {
+                binding.refreshLayout.isRefreshing = false
                 binding.showEmptyList = true
                 requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             }
@@ -125,8 +134,59 @@ class DevicePlaylistsFragment : Fragment() {
 
     }
 
+    private fun createNewPlaylist(title: String, dialog: AlertDialog) {
+        devicePlaylistsViewModel.createPlaylist(title).observe(viewLifecycleOwner,{
+            when(it.status){
+                Status.LOADING ->{
+
+                }
+
+                Status.SUCCESS ->{
+                    getDevicePlaylists()
+                    dialog.dismiss()
+                }
+
+                Status.ERROR ->{
+                    Timber.e(it.message)
+                }
+            }
+        })
+    }
 
     inner class Handlers {
+        fun onClickNewPlaylist(view: View){
 
+            val dialogCreatePlaylistBinding = DialogCreatePlaylistBinding.inflate(LayoutInflater.from(requireContext()))
+
+            val dialog = MaterialAlertDialogBuilder(requireContext())
+                .setView(dialogCreatePlaylistBinding.root)
+                .show()
+
+
+            dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+
+
+            dialogCreatePlaylistBinding.title.addTextChangedListener {
+                if (TextUtils.isEmpty(it)){
+                    dialogCreatePlaylistBinding.positiveButton.isEnabled = false
+                    dialogCreatePlaylistBinding.positiveButton.setTextColor(ContextCompat.getColor(requireContext(),R.color.color5))
+                }
+                else{
+                    dialogCreatePlaylistBinding.positiveButton.isEnabled = true
+                    dialogCreatePlaylistBinding.positiveButton.setTextColor(ContextCompat.getColor(requireContext(),R.color.white))
+                }
+            }
+
+            dialogCreatePlaylistBinding.positiveButton.setOnClickListener{
+                createNewPlaylist(dialogCreatePlaylistBinding.title.text.toString(), dialog)
+            }
+
+            dialogCreatePlaylistBinding.negativeButton.setOnClickListener{
+                dialog.dismiss()
+            }
+
+
+        }
     }
+
 }

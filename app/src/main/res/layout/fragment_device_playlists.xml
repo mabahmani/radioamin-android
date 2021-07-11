@@ -76,14 +76,16 @@
                 <RelativeLayout
                     android:id="@+id/newPlaylistParent"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    >
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
                         android:focusable="true"
-                        android:background="?selectableItemBackground">
+                        android:background="?selectableItemBackground"
+                        android:onClick="@{handler.onClickNewPlaylist}">
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/coverParent"
@@ -145,6 +147,7 @@
                     android:layout_height="match_parent"
                     app:elText="@string/empty_playlists_msg"
                     app:elIcon="@drawable/ic_list_music"
+                    android:background="@color/color1"
                     android:visibility="@{showEmptyList ? View.VISIBLE: View.GONE}"
                     />
 

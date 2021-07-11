@@ -1,5 +1,6 @@
 package ir.mab.radioamin.vm
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -32,6 +33,14 @@ class DevicePlaylistsViewModel @Inject constructor(
             result = devicePlaylistRepository.getPlaylistMembers(playlistId)
         }
 
+        return result
+    }
+
+    fun createPlaylist(title: String): LiveData<Resource<Uri>>{
+        var result: LiveData<Resource<Uri>> = MutableLiveData()
+        viewModelScope.launch {
+            result = devicePlaylistRepository.addNewPlaylist(title)
+        }
         return result
     }
 }

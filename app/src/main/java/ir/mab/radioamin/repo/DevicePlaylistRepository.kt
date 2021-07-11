@@ -213,24 +213,34 @@ class DevicePlaylistRepository(
         )
     }
 
-    suspend fun addNewPlaylist(name: String) {
+    suspend fun addNewPlaylist(name: String): LiveData<Resource<Uri>> {
 
-        val resolver = application.contentResolver
+        return liveData(dispatcherIO) {
 
-        val playlistCollection =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                MediaStore.Audio.Playlists.getContentUri(
-                    MediaStore.VOLUME_EXTERNAL_PRIMARY
-                )
-            } else {
-                MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI
+            emit(Resource.loading(null))
+
+            val resolver = application.contentResolver
+
+            val playlistCollection =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    MediaStore.Audio.Playlists.getContentUri(
+                        MediaStore.VOLUME_EXTERNAL_PRIMARY
+                    )
+                } else {
+                    MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI
+                }
+
+            val newPlaylistDetails = ContentValues().apply {
+                put(MediaStore.Audio.Playlists.NAME, name)
             }
 
-        val newPlaylistDetails = ContentValues().apply {
-            put(MediaStore.Audio.Playlists.NAME, name)
+            try {
+                val result = resolver.insert(playlistCollection, newPlaylistDetails)
+                emit(Resource.success(result))
+            } catch (ex: java.lang.Exception) {
+                emit(Resource.error(null, ex.toString(), null, null))
+            }
         }
-        val res = resolver.insert(playlistCollection, newPlaylistDetails)
-
     }
 
     suspend fun addNewSongToPlaylist(songId: Long, playlistId: Long) {
