@@ -1,4 +1,4 @@
-package ir.mab.radioamin.ui.deviceonly
+package ir.mab.radioamin.ui.deviceonly.playlist
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 import ir.mab.radioamin.databinding.FragmentDevicePlaylistBinding
+import ir.mab.radioamin.ui.deviceonly.song.DeviceSongsAdapter
 import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.vm.DevicePlaylistsViewModel
 import ir.mab.radioamin.vo.generic.Status

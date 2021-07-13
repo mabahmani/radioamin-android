@@ -17,6 +17,14 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+
+        <action
+            android:id="@+id/action_deviceFilesFragment_to_deviceAlbumsFragment"
+            app:destination="@id/deviceAlbums"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
 <!--            app:enterAnim="@animator/nav_default_enter_anim"-->
 <!--            app:exitAnim="@animator/nav_default_exit_anim"-->
 <!--            app:popEnterAnim="@animator/nav_default_pop_enter_anim"-->
@@ -25,7 +33,7 @@
 
     <fragment
         android:id="@+id/devicePlaylists"
-        android:name="ir.mab.radioamin.ui.deviceonly.DevicePlaylistsFragment"
+        android:name="ir.mab.radioamin.ui.deviceonly.playlist.DevicePlaylistsFragment"
         android:label="DevicePlaylists"
         tools:layout="@layout/fragment_device_playlists">
 
@@ -41,9 +49,16 @@
 
     <fragment
         android:id="@+id/devicePlaylist"
-        android:name="ir.mab.radioamin.ui.deviceonly.DevicePlaylistFragment"
+        android:name="ir.mab.radioamin.ui.deviceonly.playlist.DevicePlaylistFragment"
         android:label="DevicePlaylist"
         tools:layout="@layout/fragment_device_playlist" />
 
 
+    <fragment
+        android:id="@+id/deviceAlbums"
+        android:name="ir.mab.radioamin.ui.deviceonly.album.DeviceAlbumsFragment"
+        android:label="DeviceAlbums"
+        tools:layout="@layout/fragment_device_albums">
+
+    </fragment>
 </navigation>

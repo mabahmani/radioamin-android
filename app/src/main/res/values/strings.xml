@@ -16,6 +16,7 @@
     <string name="play">Play</string>
     <string name="songArtistDuration">%s • %s</string>
     <string name="empty_playlists_msg">Playlists on your device will show up here</string>
+    <string name="empty_albums_msg">Albums on your device will show up here</string>
     <string name="allow">Allow</string>
     <string name="not_now">Not Now</string>
     <string name="read_file_permission_title">Play audio files from your device?</string>

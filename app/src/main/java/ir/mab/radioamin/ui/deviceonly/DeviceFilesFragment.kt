@@ -9,7 +9,7 @@ import androidx.navigation.findNavController
 import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.FragmentDeviceFilesBinding
 
-class DeviceFilesFragment: Fragment() {
+class DeviceFilesFragment : Fragment() {
     lateinit var binding: FragmentDeviceFilesBinding
 
     override fun onCreateView(
@@ -23,14 +23,21 @@ class DeviceFilesFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setListeners()
+    }
+
+    private fun setListeners() {
 
         binding.refreshLayout.setOnRefreshListener {
             binding.refreshLayout.isRefreshing = false
         }
 
         binding.playlistsParent.setOnClickListener {
-            it.findNavController()
-                .navigate(R.id.action_deviceFilesFragment_to_devicePlaylistsFragment)
+            it.findNavController().navigate(R.id.action_deviceFilesFragment_to_devicePlaylistsFragment)
+        }
+
+        binding.albumsParent.setOnClickListener {
+            it.findNavController().navigate(R.id.action_deviceFilesFragment_to_deviceAlbumsFragment)
         }
     }
 }

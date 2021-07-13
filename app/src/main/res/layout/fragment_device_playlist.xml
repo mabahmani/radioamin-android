@@ -8,7 +8,7 @@
 
         <variable
             name="handler"
-            type="ir.mab.radioamin.ui.deviceonly.DevicePlaylistsFragment.Handlers" />
+            type="ir.mab.radioamin.ui.deviceonly.playlist.DevicePlaylistsFragment" />
 
         <variable
             name="playlistName"

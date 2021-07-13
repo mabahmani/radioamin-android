@@ -1,4 +1,4 @@
-package ir.mab.radioamin.ui.deviceonly
+package ir.mab.radioamin.ui.deviceonly.song
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

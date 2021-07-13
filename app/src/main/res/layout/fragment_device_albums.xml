@@ -7,10 +7,6 @@
         <import type="android.view.View" />
 
         <variable
-            name="handler"
-            type="ir.mab.radioamin.ui.deviceonly.playlist.DevicePlaylistsFragment.Handlers" />
-
-        <variable
             name="showProgress"
             type="boolean" />
 
@@ -22,8 +18,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/color1"
-        >
+        android:background="@color/color1">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
@@ -54,7 +49,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         app:stBackIconTint="@color/white"
-                        app:stTitle="@string/playlists"
+                        app:stTitle="@string/albums"
                         app:stTitleColor="@color/white" />
 
                 </androidx.appcompat.widget.Toolbar>
@@ -76,57 +71,7 @@
                 <RelativeLayout
                     android:id="@+id/newPlaylistParent"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:background="?selectableItemBackground"
-                        android:onClick="@{handler.onClickNewPlaylist}">
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/coverParent"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            android:layout_marginStart="24dp"
-                            android:layout_marginEnd="24dp"
-                            android:layout_marginTop="12dp"
-                            android:layout_marginBottom="12dp"
-                            app:cardCornerRadius="5dp"
-                            app:cardBackgroundColor="@color/color6">
-
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:padding="16dp"
-                                app:tint="@color/white"
-                                app:srcCompat="@drawable/ic_plus"
-                                />
-
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintLeft_toRightOf="@+id/coverParent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="16dp"
-                            android:textColor="@color/white"
-                            android:text="@string/new_playlist"
-                            fontPath="fonts/OpenSans-SemiBold.ttf"
-                            />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
+                    android:layout_height="wrap_content">
 
                 </RelativeLayout>
 
@@ -145,11 +90,10 @@
                 <ir.mab.radioamin.ui.custom.EmptyListCompoundView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:elText="@string/empty_playlists_msg"
-                    app:elIcon="@drawable/ic_list_music"
                     android:background="@color/color1"
                     android:visibility="@{showEmptyList ? View.VISIBLE: View.GONE}"
-                    />
+                    app:elIcon="@drawable/ic_album_collection"
+                    app:elText="@string/empty_albums_msg" />
 
             </RelativeLayout>
 

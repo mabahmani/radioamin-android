@@ -1,4 +1,4 @@
-package ir.mab.radioamin.ui.deviceonly
+package ir.mab.radioamin.ui.deviceonly.playlist
 
 import android.Manifest
 import android.content.pm.PackageManager
