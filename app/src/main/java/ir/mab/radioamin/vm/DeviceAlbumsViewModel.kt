@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.mab.radioamin.repo.DeviceAlbumRepository
 import ir.mab.radioamin.vo.DeviceAlbum
+import ir.mab.radioamin.vo.DeviceSong
 import ir.mab.radioamin.vo.generic.Resource
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,6 +21,24 @@ class DeviceAlbumsViewModel @Inject constructor(
         var result: LiveData<Resource<List<DeviceAlbum>>> = MutableLiveData()
         viewModelScope.launch {
             result = deviceAlbumRepository.getDeviceAlbums()
+        }
+
+        return result
+    }
+
+    fun getDeviceAlbum(albumId: Long): LiveData<Resource<DeviceAlbum>> {
+        var result: LiveData<Resource<DeviceAlbum>> = MutableLiveData()
+        viewModelScope.launch {
+            result = deviceAlbumRepository.getDeviceAlbum(albumId)
+        }
+
+        return result
+    }
+
+    fun getDeviceAlbumSongs(albumId: Long): LiveData<Resource<List<DeviceSong>>> {
+        var result: LiveData<Resource<List<DeviceSong>>> = MutableLiveData()
+        viewModelScope.launch {
+            result = deviceAlbumRepository.getDeviceAlbumSongs(albumId)
         }
 
         return result

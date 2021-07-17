@@ -60,5 +60,21 @@
         android:label="DeviceAlbums"
         tools:layout="@layout/fragment_device_albums">
 
+        <action
+            android:id="@+id/action_deviceAlbumsFragment_to_deviceAlbumFragment"
+            app:destination="@id/deviceAlbum"
+            app:enterAnim="@anim/slide_in_enter_micro"
+            app:exitAnim="@anim/slide_out_micro"
+            app:popEnterAnim="@anim/slide_in_enter_micro"
+            app:popExitAnim="@anim/slide_out_micro"
+            />
+
     </fragment>
+
+    <fragment
+        android:id="@+id/deviceAlbum"
+        android:name="ir.mab.radioamin.ui.deviceonly.album.DeviceAlbumFragment"
+        android:label="DeviceAlbum"
+        tools:layout="@layout/fragment_device_album" />
+
 </navigation>

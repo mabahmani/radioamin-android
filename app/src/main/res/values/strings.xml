@@ -25,4 +25,6 @@
     <string name="create_new_playlist">Create New Playlist</string>
     <string name="cancel">Cancel</string>
     <string name="create">Create</string>
+    <string name="album">Album</string>
+    <string name="by_artist_name">by %s</string>
 </resources>

@@ -1,4 +1,4 @@
-package ir.mab.radioamin.ui.deviceonly.playlist
+package ir.mab.radioamin.ui.deviceonly.album
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,25 +11,24 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
-import ir.mab.radioamin.databinding.FragmentDevicePlaylistBinding
-import ir.mab.radioamin.ui.deviceonly.song.DeviceSongsAdapter
+import ir.mab.radioamin.databinding.FragmentDeviceAlbumBinding
 import ir.mab.radioamin.util.AppConstants
-import ir.mab.radioamin.vm.DevicePlaylistsViewModel
+import ir.mab.radioamin.vm.DeviceAlbumsViewModel
 import ir.mab.radioamin.vo.generic.Status
 import timber.log.Timber
 
 @AndroidEntryPoint
-class DevicePlaylistFragment: Fragment() {
-    private lateinit var binding: FragmentDevicePlaylistBinding
-    private val devicePlaylistsViewModel: DevicePlaylistsViewModel by viewModels()
-    private var deviceSongsAdapter = DeviceSongsAdapter(mutableListOf())
+class DeviceAlbumFragment: Fragment() {
+    private lateinit var binding: FragmentDeviceAlbumBinding
+    private val deviceAlbumsViewModel: DeviceAlbumsViewModel by viewModels()
+    private var deviceAlbumSongsAdapter = DeviceAlbumSongsAdapter(mutableListOf())
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentDevicePlaylistBinding.inflate(inflater)
+        binding = FragmentDeviceAlbumBinding.inflate(inflater)
         return binding.root
     }
 
@@ -39,11 +38,12 @@ class DevicePlaylistFragment: Fragment() {
         observeAppBarScroll()
         setBundleData()
         initList()
-        getDevicePlaylistMembers()
+        getAlbum()
+        getAlbumSongs()
     }
 
     private fun setBundleData() {
-        binding.playlistName = arguments?.getString(AppConstants.Arguments.PLAYLIST_NAME)
+        binding.albumName = arguments?.getString(AppConstants.Arguments.ALBUM_NAME)
     }
 
     private fun observeAppBarScroll() {
@@ -85,12 +85,13 @@ class DevicePlaylistFragment: Fragment() {
 
     private fun initList() {
         binding.list.layoutManager = LinearLayoutManager(requireContext())
-        binding.list.adapter = deviceSongsAdapter
+        binding.list.adapter = deviceAlbumSongsAdapter
     }
 
-    private fun getDevicePlaylistMembers() {
-        devicePlaylistsViewModel.getDevicePlaylistMembers(arguments?.getLong(AppConstants.Arguments.PLAYLIST_ID)?:-1).observe(viewLifecycleOwner,{
-            Timber.d("getDevicePlaylistMembers %s" , it)
+
+    private fun getAlbum() {
+        deviceAlbumsViewModel.getDeviceAlbum(arguments?.getLong(AppConstants.Arguments.ALBUM_ID)?:-1).observe(viewLifecycleOwner,{
+            Timber.d("getAlbum %s" , it)
 
             when(it.status){
                 Status.LOADING ->{
@@ -98,15 +99,13 @@ class DevicePlaylistFragment: Fragment() {
                 }
 
                 Status.SUCCESS ->{
-                    if (it.data.isNullOrEmpty()){
-                        binding.playlistMembersCount = 0
+                    if (it.data != null){
+                        if(it.data.thumbnail != null){
+                            binding.albumThumbnail = it.data.thumbnail
+                        }
+                        binding.albumArtist = it.data.artist
                     }
-                    else{
-                        binding.playlistMembersCount = it.data?.size
-                        binding.playlistThumbnail = it.data[0].thumbnail
-                        deviceSongsAdapter.list = it.data
-                        deviceSongsAdapter.notifyDataSetChanged()
-                    }
+
                     binding.showProgress = false
                 }
 
@@ -117,8 +116,26 @@ class DevicePlaylistFragment: Fragment() {
         })
     }
 
+    private fun getAlbumSongs() {
+        deviceAlbumsViewModel.getDeviceAlbumSongs(arguments?.getLong(AppConstants.Arguments.ALBUM_ID)?:-1).observe(viewLifecycleOwner,{
+            Timber.d("getAlbumSongs %s" , it)
 
-    inner class Handlers {
+            when(it.status){
+                Status.LOADING ->{
+                    binding.showProgress = true
+                }
 
+                Status.SUCCESS ->{
+                    deviceAlbumSongsAdapter.list = it.data?: mutableListOf()
+                    deviceAlbumSongsAdapter.notifyDataSetChanged()
+                    binding.showProgress = false
+                }
+
+                Status.ERROR ->{
+                    binding.showProgress = false
+                }
+            }
+        })
     }
+
 }
