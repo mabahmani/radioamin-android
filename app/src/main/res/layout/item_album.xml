@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="album"
             type="ir.mab.radioamin.vo.DeviceAlbum" />
@@ -46,6 +48,7 @@
                     android:id="@+id/cover"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:visibility="@{album.thumbnail == null ? View.GONE : View.VISIBLE}"
                     app:imageBitmap="@{album.thumbnail}" />
 
             </androidx.cardview.widget.CardView>

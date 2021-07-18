@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.view.View"/>
+
         <variable
             name="song"
             type="ir.mab.radioamin.vo.DeviceSong" />
@@ -50,7 +52,9 @@
                     android:id="@+id/cover"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:imageBitmap="@{song.thumbnail}" />
+                    app:imageBitmap="@{song.thumbnail}"
+                    android:visibility="@{song.thumbnail == null ? View.GONE : View.VISIBLE}"
+                    />
 
             </androidx.cardview.widget.CardView>
 

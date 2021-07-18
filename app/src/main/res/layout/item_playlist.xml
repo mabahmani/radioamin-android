@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View"/>
 
         <variable
             name="playlist"
@@ -46,7 +47,9 @@
                     android:id="@+id/cover"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:imageBitmap="@{playlist.thumbnail}" />
+                    app:imageBitmap="@{playlist.thumbnail}"
+                    android:visibility="@{playlist.thumbnail == null ? View.GONE : View.VISIBLE}"
+                    />
 
             </androidx.cardview.widget.CardView>
 
