@@ -43,5 +43,9 @@ class DeviceFilesFragment : Fragment() {
         binding.songsParent.setOnClickListener {
             it.findNavController().navigate(R.id.action_deviceFilesFragment_to_deviceSongsFragment)
         }
+
+        binding.artistsParent.setOnClickListener {
+            it.findNavController().navigate(R.id.action_deviceFilesFragment_to_deviceArtistsFragment)
+        }
     }
 }

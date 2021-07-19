@@ -148,6 +148,7 @@
                         app:nitTitleColor="@color/white" />
 
                     <ir.mab.radioamin.ui.custom.NavigationItemWithIconAndTextCompoundView
+                        android:id="@+id/artistsParent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="?selectableItemBackground"

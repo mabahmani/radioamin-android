@@ -8,24 +8,20 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import ir.mab.radioamin.ui.custom.ProgressCompoundView
 import ir.mab.radioamin.ui.custom.SimpleToolbarWithBackIconAndTitleCompoundView
 
-object BindingAdapters {
-    @BindingAdapter("imageBitmap")
-    @JvmStatic
-    fun loadImage(view: AppCompatImageView, imageBitmap: Bitmap?) {
-        if (imageBitmap != null) {
-            Glide.with(view).load(imageBitmap).transition(DrawableTransitionOptions.withCrossFade()).into(view)
-        }
+@BindingAdapter("imageBitmap")
+fun loadImage(view: AppCompatImageView, imageBitmap: Bitmap?) {
+    if (imageBitmap != null) {
+        Glide.with(view).load(imageBitmap).transition(DrawableTransitionOptions.withCrossFade())
+            .into(view)
     }
+}
 
-    @BindingAdapter("stTitle")
-    @JvmStatic
-    fun setTitle(view: SimpleToolbarWithBackIconAndTitleCompoundView, title: String){
-        view.setTitle(title)
-    }
+@BindingAdapter("stTitle")
+fun setTitle(view: SimpleToolbarWithBackIconAndTitleCompoundView, title: String) {
+    view.setTitle(title)
+}
 
-    @BindingAdapter("pcVisibility")
-    @JvmStatic
-    fun setVisibility(view: ProgressCompoundView, visibility: Int){
-        view.setVisibilityWithAnim(visibility)
-    }
+@BindingAdapter("pcVisibility")
+fun setVisibility(view: ProgressCompoundView, visibility: Int) {
+    view.setVisibilityWithAnim(visibility)
 }

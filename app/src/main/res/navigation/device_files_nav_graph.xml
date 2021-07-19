@@ -25,9 +25,18 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
+
         <action
             android:id="@+id/action_deviceFilesFragment_to_deviceSongsFragment"
             app:destination="@id/deviceSongs"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+        <action
+            android:id="@+id/action_deviceFilesFragment_to_deviceArtistsFragment"
+            app:destination="@id/deviceArtists"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -90,5 +99,12 @@
         android:name="ir.mab.radioamin.ui.deviceonly.song.DeviceSongsFragment"
         android:label="DeviceSongs"
         tools:layout="@layout/fragment_device_songs">
+    </fragment>
+
+    <fragment
+        android:id="@+id/deviceArtists"
+        android:name="ir.mab.radioamin.ui.deviceonly.artist.DeviceArtistsFragment"
+        android:label="DeviceArtists"
+        tools:layout="@layout/fragment_device_artists">
     </fragment>
 </navigation>
