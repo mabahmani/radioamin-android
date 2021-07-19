@@ -106,5 +106,20 @@
         android:name="ir.mab.radioamin.ui.deviceonly.artist.DeviceArtistsFragment"
         android:label="DeviceArtists"
         tools:layout="@layout/fragment_device_artists">
+
+        <action
+            android:id="@+id/action_deviceArtistsFragment_to_deviceArtistFragment"
+            app:destination="@id/deviceArtist"
+            app:enterAnim="@anim/slide_in_enter_micro"
+            app:exitAnim="@anim/slide_out_micro"
+            app:popEnterAnim="@anim/slide_in_enter_micro"
+            app:popExitAnim="@anim/slide_out_micro"
+            />
     </fragment>
+
+    <fragment
+        android:id="@+id/deviceArtist"
+        android:name="ir.mab.radioamin.ui.deviceonly.artist.DeviceArtistFragment"
+        android:label="DeviceArtist"
+        tools:layout="@layout/fragment_device_artist" />
 </navigation>
