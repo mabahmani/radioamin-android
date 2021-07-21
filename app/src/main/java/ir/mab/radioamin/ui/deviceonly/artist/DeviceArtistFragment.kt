@@ -1,5 +1,6 @@
 package ir.mab.radioamin.ui.deviceonly.artist
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,16 +10,19 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import ir.mab.radioamin.databinding.FragmentDeviceArtistBinding
+import ir.mab.radioamin.ui.deviceonly.DeviceFilesOptionBottomSheet
 import ir.mab.radioamin.ui.deviceonly.song.DeviceSongsAdapter
+import ir.mab.radioamin.ui.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.vm.DeviceArtistsViewModel
+import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.generic.Status
 
 @AndroidEntryPoint
-class DeviceArtistFragment : Fragment() {
+class DeviceArtistFragment : Fragment(), DeviceFilesMoreOnClickListeners {
     private lateinit var binding: FragmentDeviceArtistBinding
     private val deviceArtistViewModel: DeviceArtistsViewModel by viewModels()
-    private var deviceSongsAdapter = DeviceSongsAdapter(mutableListOf())
+    private var deviceSongsAdapter = DeviceSongsAdapter(mutableListOf(), this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -80,5 +84,21 @@ class DeviceArtistFragment : Fragment() {
             }
         })
 
+    }
+
+    override fun onShowOptions(
+        id: Long,
+        title: String,
+        subtitle: String,
+        thumbnail: Bitmap?,
+        type: DeviceFileType
+    ) {
+        DeviceFilesOptionBottomSheet(
+            id,
+            title,
+            subtitle,
+            thumbnail,
+            type
+        ).show(requireActivity().supportFragmentManager, null)
     }
 }

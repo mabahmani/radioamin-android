@@ -7,15 +7,17 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.ItemArtistBinding
+import ir.mab.radioamin.ui.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.vo.DeviceArtist
+import ir.mab.radioamin.vo.DeviceFileType
 
-class DeviceArtistsAdapter(var list: List<DeviceArtist>) :
+class DeviceArtistsAdapter(var list: List<DeviceArtist>, var deviceFilesMoreOnClickListeners: DeviceFilesMoreOnClickListeners) :
     RecyclerView.Adapter<DeviceArtistsAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemArtistBinding.inflate(LayoutInflater.from(parent.context)))
+        return ViewHolder(ItemArtistBinding.inflate(LayoutInflater.from(parent.context)), deviceFilesMoreOnClickListeners)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -26,7 +28,10 @@ class DeviceArtistsAdapter(var list: List<DeviceArtist>) :
         return list.size
     }
 
-    class ViewHolder(itemView: ItemArtistBinding) : RecyclerView.ViewHolder(itemView.root) {
+    class ViewHolder(
+        itemView: ItemArtistBinding,
+        var deviceFilesMoreOnClickListeners: DeviceFilesMoreOnClickListeners
+    ) : RecyclerView.ViewHolder(itemView.root) {
         var binding: ItemArtistBinding = itemView
 
         init {
@@ -38,6 +43,16 @@ class DeviceArtistsAdapter(var list: List<DeviceArtist>) :
 
             val bundle = bundleOf(AppConstants.Arguments.ARTIST_ID to model.id, AppConstants.Arguments.ARTIST_NAME to model.name)
             binding.parent.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_deviceArtistsFragment_to_deviceArtistFragment, bundle))
+
+            binding.more.setOnClickListener {
+                deviceFilesMoreOnClickListeners.onShowOptions(
+                    model.id?: -1,
+                    binding.title.text.toString(),
+                    binding.subtitle.text.toString(),
+                    model.thumbnail,
+                    DeviceFileType.ARTIST
+                )
+            }
         }
     }
 }

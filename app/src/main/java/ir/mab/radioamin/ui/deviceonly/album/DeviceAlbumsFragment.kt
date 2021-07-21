@@ -2,6 +2,7 @@ package ir.mab.radioamin.ui.deviceonly.album
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,17 +16,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.FragmentDeviceAlbumsBinding
+import ir.mab.radioamin.ui.deviceonly.DeviceFilesOptionBottomSheet
+import ir.mab.radioamin.ui.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.util.hidePermissionEducational
 import ir.mab.radioamin.util.showPermissionEducational
 import ir.mab.radioamin.vm.DeviceAlbumsViewModel
+import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.generic.Status
 
 @AndroidEntryPoint
-class DeviceAlbumsFragment : Fragment() {
+class DeviceAlbumsFragment : Fragment(), DeviceFilesMoreOnClickListeners {
     lateinit var binding: FragmentDeviceAlbumsBinding
     lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     private val deviceAlbumsViewModel: DeviceAlbumsViewModel by viewModels()
-    var deviceAlbumsAdapter = DeviceAlbumsAdapter(mutableListOf())
+    var deviceAlbumsAdapter = DeviceAlbumsAdapter(mutableListOf(), this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -124,6 +128,22 @@ class DeviceAlbumsFragment : Fragment() {
             }
         })
 
+    }
+
+    override fun onShowOptions(
+        id: Long,
+        title: String,
+        subtitle: String,
+        thumbnail: Bitmap?,
+        type: DeviceFileType
+    ) {
+        DeviceFilesOptionBottomSheet(
+            id,
+            title,
+            subtitle,
+            thumbnail,
+            type
+        ).show(requireActivity().supportFragmentManager, null)
     }
 
 }

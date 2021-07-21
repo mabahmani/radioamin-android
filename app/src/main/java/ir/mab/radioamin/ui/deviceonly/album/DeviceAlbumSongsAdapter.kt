@@ -4,15 +4,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.mab.radioamin.databinding.ItemAlbumSongBinding
+import ir.mab.radioamin.ui.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.util.DateTimeFormatter
+import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.DeviceSong
 
-class DeviceAlbumSongsAdapter(var list: List<DeviceSong>) :
+class DeviceAlbumSongsAdapter(var list: List<DeviceSong>, var deviceFilesMoreOnClickListeners: DeviceFilesMoreOnClickListeners) :
     RecyclerView.Adapter<DeviceAlbumSongsAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemAlbumSongBinding.inflate(LayoutInflater.from(parent.context)))
+        return ViewHolder(ItemAlbumSongBinding.inflate(LayoutInflater.from(parent.context)), deviceFilesMoreOnClickListeners)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -23,7 +25,10 @@ class DeviceAlbumSongsAdapter(var list: List<DeviceSong>) :
         return list.size
     }
 
-    class ViewHolder(itemView: ItemAlbumSongBinding) : RecyclerView.ViewHolder(itemView.root) {
+    class ViewHolder(
+        itemView: ItemAlbumSongBinding,
+        var deviceFilesMoreOnClickListeners: DeviceFilesMoreOnClickListeners
+    ) : RecyclerView.ViewHolder(itemView.root) {
         var binding: ItemAlbumSongBinding = itemView
 
         init {
@@ -33,6 +38,16 @@ class DeviceAlbumSongsAdapter(var list: List<DeviceSong>) :
         fun bind(model: DeviceSong) {
             binding.song = model
             binding.duration = DateTimeFormatter.durationToHumanTime(model.duration?:0)
+
+            binding.more.setOnClickListener {
+                deviceFilesMoreOnClickListeners.onShowOptions(
+                    model.id?: -1,
+                    binding.title.text.toString(),
+                    binding.subtitle.text.toString(),
+                    model.thumbnail,
+                    DeviceFileType.SONG
+                )
+            }
         }
     }
 }
