@@ -30,4 +30,10 @@
     <string name="album">Album</string>
     <string name="by_artist_name">by %s</string>
     <string name="shuffle_all">Shuffle all</string>
+    <string name="shuffle_play">Shuffle play</string>
+    <string name="add_to_playlist">Add to playlist</string>
+    <string name="play_next">Play next</string>
+    <string name="add_to_queue">Add to queue</string>
+    <string name="delete_playlist">Delete playlist</string>
+    <string name="edit_playlist">Edit Playlist</string>
 </resources>
