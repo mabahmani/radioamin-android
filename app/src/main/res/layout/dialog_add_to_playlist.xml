@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="showProgress"
+            type="Boolean" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color6"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/headerParent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            >
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/header_title"
+                fontPath="fonts/OpenSans-ExtraBold.ttf"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="24dp"
+                android:text="@string/add_to_playlist"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/closeIcon"
+                />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/closeIcon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:padding="6dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:srcCompat="@drawable/ic_xmark"
+                app:tint="@color/white"
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/dividerTop"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color4"
+            android:layout_below="@+id/headerParent"
+            />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:layout_below="@id/dividerTop"
+            android:paddingBottom="64dp"
+            android:clipToPadding="false"
+            />
+
+        <ir.mab.radioamin.ui.custom.ProgressCompoundView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dividerTop"
+            android:background="@color/color6"
+            android:visibility="@{showProgress ? View.VISIBLE : View.GONE}" />
+
+        <RelativeLayout
+            android:id="@+id/createNewPlaylistButtonParent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/color6"
+            >
+
+            <View
+                android:id="@+id/dividerBottom"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color4"
+                />
+
+            <Button
+                android:id="@+id/createNewPlaylistButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dividerBottom"
+                android:padding="16dp"
+                android:text="@string/create_new_playlist"
+                android:textColor="@color/white"
+                app:icon="@drawable/ic_plus"
+                app:iconGravity="textStart"
+                app:iconPadding="10dp"
+                app:iconSize="20dp"
+                app:iconTint="@color/white" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</layout>

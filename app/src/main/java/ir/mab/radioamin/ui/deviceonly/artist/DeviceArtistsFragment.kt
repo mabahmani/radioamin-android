@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.FragmentDeviceArtistsBinding
-import ir.mab.radioamin.ui.deviceonly.DeviceFilesOptionBottomSheet
+import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomSheet
 import ir.mab.radioamin.ui.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.util.hidePermissionEducational
 import ir.mab.radioamin.util.showPermissionEducational
@@ -56,7 +56,7 @@ class DeviceArtistsFragment : Fragment(), DeviceFilesMoreOnClickListeners {
             )
                     == PackageManager.PERMISSION_GRANTED -> {
 
-                getDevicePlaylists()
+                getDeviceArtists()
             }
             shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE) -> {
                 binding.refreshLayout.isRefreshing = false
@@ -85,7 +85,7 @@ class DeviceArtistsFragment : Fragment(), DeviceFilesMoreOnClickListeners {
             registerForActivityResult(ActivityResultContracts.RequestPermission()) {
                 //granted
                 if (it == true) {
-                    getDevicePlaylists()
+                    getDeviceArtists()
                 }
             }
     }
@@ -101,7 +101,7 @@ class DeviceArtistsFragment : Fragment(), DeviceFilesMoreOnClickListeners {
         binding.list.adapter = deviceArtistsAdapter
     }
 
-    private fun getDevicePlaylists() {
+    private fun getDeviceArtists() {
         deviceArtistsViewModel.getDeviceArtists().observe(viewLifecycleOwner, {
             when (it.status) {
                 Status.LOADING -> {

@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import ir.mab.radioamin.databinding.FragmentDeviceArtistBinding
-import ir.mab.radioamin.ui.deviceonly.DeviceFilesOptionBottomSheet
+import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomSheet
 import ir.mab.radioamin.ui.deviceonly.song.DeviceSongsAdapter
 import ir.mab.radioamin.ui.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.util.AppConstants

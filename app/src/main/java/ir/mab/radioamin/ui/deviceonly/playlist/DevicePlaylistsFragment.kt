@@ -22,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.DialogCreatePlaylistBinding
 import ir.mab.radioamin.databinding.FragmentDevicePlaylistsBinding
-import ir.mab.radioamin.ui.deviceonly.DeviceFilesOptionBottomSheet
+import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomSheet
 import ir.mab.radioamin.ui.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.util.hidePermissionEducational
 import ir.mab.radioamin.util.showPermissionEducational
@@ -33,10 +33,10 @@ import timber.log.Timber
 
 @AndroidEntryPoint
 class DevicePlaylistsFragment : Fragment(), DeviceFilesMoreOnClickListeners {
-    lateinit var binding: FragmentDevicePlaylistsBinding
-    lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+    private lateinit var binding: FragmentDevicePlaylistsBinding
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     private val devicePlaylistsViewModel: DevicePlaylistsViewModel by viewModels()
-    var devicePlaylistsAdapter = DevicePlaylistsAdapter(mutableListOf(), this)
+    private var devicePlaylistsAdapter = DevicePlaylistsAdapter(mutableListOf(), this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
