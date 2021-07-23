@@ -20,7 +20,6 @@ import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.vm.DevicePlaylistsViewModel
 import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.generic.Status
-import timber.log.Timber
 
 @AndroidEntryPoint
 class DevicePlaylistFragment: Fragment(), DeviceFilesMoreOnClickListeners {
@@ -44,10 +43,23 @@ class DevicePlaylistFragment: Fragment(), DeviceFilesMoreOnClickListeners {
         setBundleData()
         initList()
         getDevicePlaylistMembers()
+        setMoreClickListener()
+    }
+
+    private fun setMoreClickListener() {
+        binding.more.setOnClickListener {
+            DeviceFilesOptionBottomSheet(
+                arguments?.getLong(AppConstants.Arguments.ALBUM_ID)?: -1,
+                binding.playlistName?: "",
+                binding.playlistCountsText.text.toString(),
+                binding.playlistThumbnail,
+                DeviceFileType.PLAYLIST
+            ).show(requireActivity().supportFragmentManager, null)
+        }
     }
 
     private fun setBundleData() {
-        binding.playlistName = arguments?.getString(AppConstants.Arguments.PLAYLIST_NAME)
+        binding.playlistName = arguments?.getString(AppConstants.Arguments.PLAYLIST_NAME,"")
     }
 
     private fun observeAppBarScroll() {
@@ -94,7 +106,6 @@ class DevicePlaylistFragment: Fragment(), DeviceFilesMoreOnClickListeners {
 
     private fun getDevicePlaylistMembers() {
         devicePlaylistsViewModel.getDevicePlaylistMembers(arguments?.getLong(AppConstants.Arguments.PLAYLIST_ID)?:-1).observe(viewLifecycleOwner,{
-            Timber.d("getDevicePlaylistMembers %s" , it)
 
             when(it.status){
                 Status.LOADING ->{
@@ -106,7 +117,7 @@ class DevicePlaylistFragment: Fragment(), DeviceFilesMoreOnClickListeners {
                         binding.playlistMembersCount = 0
                     }
                     else{
-                        binding.playlistMembersCount = it.data?.size
+                        binding.playlistMembersCount = it.data.size
                         binding.playlistThumbnail = it.data[0].thumbnail
                         deviceSongsAdapter.list = it.data
                         deviceSongsAdapter.notifyDataSetChanged()

@@ -19,7 +19,6 @@ import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.vm.DeviceAlbumsViewModel
 import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.generic.Status
-import timber.log.Timber
 
 @AndroidEntryPoint
 class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners {
@@ -44,6 +43,19 @@ class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners {
         initList()
         getAlbum()
         getAlbumSongs()
+        setMoreClickListener()
+    }
+
+    private fun setMoreClickListener() {
+        binding.more.setOnClickListener {
+            DeviceFilesOptionBottomSheet(
+                arguments?.getLong(AppConstants.Arguments.ALBUM_ID)?: -1,
+                binding.albumName?: "",
+                binding.albumArtist?: "",
+                binding.albumThumbnail,
+                DeviceFileType.ALBUM
+            ).show(requireActivity().supportFragmentManager, null)
+        }
     }
 
     private fun setBundleData() {
@@ -95,7 +107,6 @@ class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners {
 
     private fun getAlbum() {
         deviceAlbumsViewModel.getDeviceAlbum(arguments?.getLong(AppConstants.Arguments.ALBUM_ID)?:-1).observe(viewLifecycleOwner,{
-            Timber.d("getAlbum %s" , it)
 
             when(it.status){
                 Status.LOADING ->{
@@ -122,7 +133,6 @@ class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners {
 
     private fun getAlbumSongs() {
         deviceAlbumsViewModel.getDeviceAlbumSongs(arguments?.getLong(AppConstants.Arguments.ALBUM_ID)?:-1).observe(viewLifecycleOwner,{
-            Timber.d("getAlbumSongs %s" , it)
 
             when(it.status){
                 Status.LOADING ->{

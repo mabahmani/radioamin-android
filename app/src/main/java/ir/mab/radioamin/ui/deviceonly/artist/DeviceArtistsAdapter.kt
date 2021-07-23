@@ -1,5 +1,6 @@
 package ir.mab.radioamin.ui.deviceonly.artist
 
+import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
@@ -52,6 +53,12 @@ class DeviceArtistsAdapter(var list: List<DeviceArtist>, var deviceFilesMoreOnCl
                     model.thumbnail,
                     DeviceFileType.ARTIST
                 )
+            }
+
+            binding.parent.setOnLongClickListener {
+                it.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+                binding.more.performClick()
+                true
             }
         }
     }

@@ -36,4 +36,6 @@
     <string name="add_to_queue">Add to queue</string>
     <string name="delete_playlist">Delete playlist</string>
     <string name="edit_playlist">Edit Playlist</string>
+    <string name="view">View</string>
+    <string name="added_to_playlist">Added to playlist</string>
 </resources>

@@ -43,4 +43,12 @@ class DevicePlaylistsViewModel @Inject constructor(
         }
         return result
     }
+
+    fun addSongsToPlaylist(songs: List<DeviceSong>, playlistId: Long): LiveData<Resource<Boolean>> {
+        var result: LiveData<Resource<Boolean>> = MutableLiveData()
+        viewModelScope.launch {
+            result = devicePlaylistRepository.addNewSongsToPlaylist(songs, playlistId)
+        }
+        return result
+    }
 }

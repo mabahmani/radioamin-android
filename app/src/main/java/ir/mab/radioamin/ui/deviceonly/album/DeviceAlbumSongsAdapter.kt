@@ -1,5 +1,6 @@
 package ir.mab.radioamin.ui.deviceonly.album
 
+import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -47,6 +48,12 @@ class DeviceAlbumSongsAdapter(var list: List<DeviceSong>, var deviceFilesMoreOnC
                     model.thumbnail,
                     DeviceFileType.SONG
                 )
+            }
+
+            binding.parent.setOnLongClickListener {
+                it.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+                binding.more.performClick()
+                true
             }
         }
     }
