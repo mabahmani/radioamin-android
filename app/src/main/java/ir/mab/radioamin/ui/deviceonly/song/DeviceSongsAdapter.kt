@@ -1,6 +1,5 @@
 package ir.mab.radioamin.ui.deviceonly.song
 
-import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -51,7 +50,7 @@ class DeviceSongsAdapter(var list: List<DeviceSong>, var deviceFilesMoreOnClickL
             }
 
             binding.parent.setOnLongClickListener {
-                it.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+                //it.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                 binding.more.performClick()
                 true
             }

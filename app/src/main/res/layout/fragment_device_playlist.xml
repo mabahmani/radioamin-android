@@ -28,12 +28,6 @@
         android:layout_height="match_parent"
         android:background="@color/color1">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </RelativeLayout>
-
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
@@ -126,6 +120,7 @@
                             >
 
                             <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/edit"
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
                                 android:padding="8dp"

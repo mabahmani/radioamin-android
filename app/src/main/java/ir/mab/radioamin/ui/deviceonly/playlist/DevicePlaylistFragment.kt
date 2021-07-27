@@ -7,11 +7,14 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
+import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.FragmentDevicePlaylistBinding
 import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomSheet
 import ir.mab.radioamin.ui.deviceonly.song.DeviceSongsAdapter
@@ -43,18 +46,23 @@ class DevicePlaylistFragment: Fragment(), DeviceFilesMoreOnClickListeners {
         setBundleData()
         initList()
         getDevicePlaylistMembers()
-        setMoreClickListener()
+        setClickListener()
     }
 
-    private fun setMoreClickListener() {
+    private fun setClickListener() {
         binding.more.setOnClickListener {
             DeviceFilesOptionBottomSheet(
-                arguments?.getLong(AppConstants.Arguments.ALBUM_ID)?: -1,
+                arguments?.getLong(AppConstants.Arguments.PLAYLIST_ID)?: -1,
                 binding.playlistName?: "",
                 binding.playlistCountsText.text.toString(),
                 binding.playlistThumbnail,
                 DeviceFileType.PLAYLIST
             ).show(requireActivity().supportFragmentManager, null)
+        }
+
+        binding.edit.setOnClickListener {
+            val bundle = bundleOf(AppConstants.Arguments.PLAYLIST_ID to arguments?.getLong(AppConstants.Arguments.PLAYLIST_ID), AppConstants.Arguments.PLAYLIST_NAME to binding.playlistName)
+            it.findNavController().navigate(R.id.action_devicePlaylistFragment_to_editDevicePlaylistFragment, bundle)
         }
     }
 

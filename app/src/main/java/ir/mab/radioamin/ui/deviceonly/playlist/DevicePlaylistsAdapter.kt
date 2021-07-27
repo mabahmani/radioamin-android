@@ -1,6 +1,5 @@
 package ir.mab.radioamin.ui.deviceonly.playlist
 
-import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
@@ -60,7 +59,7 @@ class DevicePlaylistsAdapter(var list: List<DevicePlaylist>, var deviceFilesMore
                 )
             }
             binding.parent.setOnLongClickListener {
-                it.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+                //it.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                 binding.more.performClick()
                 true
             }

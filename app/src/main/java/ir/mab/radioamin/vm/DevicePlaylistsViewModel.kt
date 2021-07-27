@@ -51,4 +51,12 @@ class DevicePlaylistsViewModel @Inject constructor(
         }
         return result
     }
+
+    fun editPlaylist(newName:String, songs: List<DeviceSong>, playlistId: Long, nameChanged: Boolean): LiveData<Resource<Boolean>> {
+        var result: LiveData<Resource<Boolean>> = MutableLiveData()
+        viewModelScope.launch {
+            result = devicePlaylistRepository.editPlaylist(newName, songs, playlistId, nameChanged)
+        }
+        return result
+    }
 }

@@ -38,4 +38,5 @@
     <string name="edit_playlist">Edit Playlist</string>
     <string name="view">View</string>
     <string name="added_to_playlist">Added to playlist</string>
+    <string name="done">Done</string>
 </resources>

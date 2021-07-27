@@ -1,6 +1,5 @@
 package ir.mab.radioamin.ui.deviceonly.album
 
-import android.view.HapticFeedbackConstants
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
@@ -56,7 +55,7 @@ class DeviceAlbumsAdapter(var list: List<DeviceAlbum>, var deviceFilesMoreOnClic
             }
 
             binding.parent.setOnLongClickListener {
-                it.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
+                //it.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                 binding.more.performClick()
                 true
             }
