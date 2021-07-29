@@ -21,8 +21,8 @@
     <string name="empty_artists_msg">Artists on your device will show up here</string>
     <string name="allow">Allow</string>
     <string name="not_now">Not Now</string>
-    <string name="read_file_permission_title">Play audio files from your device?</string>
-    <string name="read_file_permission_description">Allow Radioamin to access and play music files</string>
+    <string name="read_write_file_permission_title">Play audio files from your device?</string>
+    <string name="read_write_file_permission_description">Allow Radioamin to access and play music files</string>
     <string name="title">Title</string>
     <string name="create_new_playlist">Create New Playlist</string>
     <string name="cancel">Cancel</string>
