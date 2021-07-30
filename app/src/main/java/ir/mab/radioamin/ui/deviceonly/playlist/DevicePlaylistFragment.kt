@@ -11,6 +11,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,6 +19,7 @@ import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.FragmentDevicePlaylistBinding
 import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomSheet
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
+import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionsChangeListener
 import ir.mab.radioamin.ui.deviceonly.song.DeviceSongsAdapter
 import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.errorToast
@@ -27,7 +29,8 @@ import ir.mab.radioamin.vo.generic.Status
 import timber.log.Timber
 
 @AndroidEntryPoint
-class DevicePlaylistFragment: Fragment(), DeviceFilesMoreOnClickListeners {
+class DevicePlaylistFragment : Fragment(), DeviceFilesMoreOnClickListeners,
+    DeviceFilesOptionsChangeListener {
     private lateinit var binding: FragmentDevicePlaylistBinding
     private val devicePlaylistsViewModel: DevicePlaylistsViewModel by viewModels()
     private var deviceSongsAdapter = DeviceSongsAdapter(mutableListOf(), this)
@@ -55,22 +58,27 @@ class DevicePlaylistFragment: Fragment(), DeviceFilesMoreOnClickListeners {
     private fun setClickListener() {
         binding.more.setOnClickListener {
             DeviceFilesOptionBottomSheet(
-                arguments?.getLong(AppConstants.Arguments.PLAYLIST_ID)?: -1,
-                binding.playlistName?: "",
+                arguments?.getLong(AppConstants.Arguments.PLAYLIST_ID) ?: -1,
+                binding.playlistName ?: "",
                 binding.playlistCountsText.text.toString(),
                 binding.playlistThumbnail,
-                DeviceFileType.PLAYLIST
+                DeviceFileType.PLAYLIST,
+                this
             ).show(requireActivity().supportFragmentManager, null)
         }
 
         binding.edit.setOnClickListener {
-            val bundle = bundleOf(AppConstants.Arguments.PLAYLIST_ID to arguments?.getLong(AppConstants.Arguments.PLAYLIST_ID), AppConstants.Arguments.PLAYLIST_NAME to binding.playlistName)
-            it.findNavController().navigate(R.id.action_devicePlaylistFragment_to_editDevicePlaylistFragment, bundle)
+            val bundle = bundleOf(
+                AppConstants.Arguments.PLAYLIST_ID to arguments?.getLong(AppConstants.Arguments.PLAYLIST_ID),
+                AppConstants.Arguments.PLAYLIST_NAME to binding.playlistName
+            )
+            it.findNavController()
+                .navigate(R.id.action_devicePlaylistFragment_to_editDevicePlaylistFragment, bundle)
         }
     }
 
     private fun setBundleData() {
-        binding.playlistName = arguments?.getString(AppConstants.Arguments.PLAYLIST_NAME,"")
+        binding.playlistName = arguments?.getString(AppConstants.Arguments.PLAYLIST_NAME, "")
     }
 
     private fun observeAppBarScroll() {
@@ -83,29 +91,30 @@ class DevicePlaylistFragment: Fragment(), DeviceFilesMoreOnClickListeners {
 
         binding.appBar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { barLayout, verticalOffset ->
             //set app bar max scroll range
-            if (scrollRange == -1){
+            if (scrollRange == -1) {
                 scrollRange = barLayout?.totalScrollRange!!
                 scrollRangeQuarter = scrollRange - (scrollRange / 4)
             }
 
             //hide toolbar title when collapsed
-            if ((verticalOffset + scrollRange) < scrollRangeQuarter){
-                if(!isVisible){
+            if ((verticalOffset + scrollRange) < scrollRangeQuarter) {
+                if (!isVisible) {
                     binding.toolbar.setTitleVisibilityWithAnim(VISIBLE)
                     isVisible = true
                 }
             }
 
             //hide toolbar title when expanded
-            else{
-                if(isVisible){
+            else {
+                if (isVisible) {
                     binding.toolbar.setTitleVisibilityWithAnim(GONE)
                     isVisible = false
                 }
             }
 
             //set alpha for toolbar content based on scroll offset
-            binding.toolbarContent.alpha = (scrollRange + verticalOffset).toFloat() / scrollRange.toFloat()
+            binding.toolbarContent.alpha =
+                (scrollRange + verticalOffset).toFloat() / scrollRange.toFloat()
 
         })
     }
@@ -117,17 +126,19 @@ class DevicePlaylistFragment: Fragment(), DeviceFilesMoreOnClickListeners {
 
 
     private fun getDevicePlaylist() {
-        devicePlaylistsViewModel.getDevicePlaylist(arguments?.getLong(AppConstants.Arguments.PLAYLIST_ID)?:-1).observe(viewLifecycleOwner, {
+        devicePlaylistsViewModel.getDevicePlaylist(
+            arguments?.getLong(AppConstants.Arguments.PLAYLIST_ID) ?: -1
+        ).observe(viewLifecycleOwner, {
             Timber.d("getDevicePlaylist %s", it)
-            when(it.status){
-                Status.LOADING ->{
+            when (it.status) {
+                Status.LOADING -> {
                 }
 
-                Status.SUCCESS ->{
+                Status.SUCCESS -> {
                     binding.playlistThumbnail = it.data?.thumbnail
                 }
 
-                Status.ERROR ->{
+                Status.ERROR -> {
                     requireContext().errorToast(it.message.toString())
                 }
             }
@@ -135,18 +146,19 @@ class DevicePlaylistFragment: Fragment(), DeviceFilesMoreOnClickListeners {
     }
 
     private fun getDevicePlaylistMembers() {
-        devicePlaylistsViewModel.getDevicePlaylistMembers(arguments?.getLong(AppConstants.Arguments.PLAYLIST_ID)?:-1).observe(viewLifecycleOwner,{
+        devicePlaylistsViewModel.getDevicePlaylistMembers(
+            arguments?.getLong(AppConstants.Arguments.PLAYLIST_ID) ?: -1
+        ).observe(viewLifecycleOwner, {
 
-            when(it.status){
-                Status.LOADING ->{
+            when (it.status) {
+                Status.LOADING -> {
                     binding.showProgress = true
                 }
 
-                Status.SUCCESS ->{
-                    if (it.data.isNullOrEmpty()){
+                Status.SUCCESS -> {
+                    if (it.data.isNullOrEmpty()) {
                         binding.playlistMembersCount = 0
-                    }
-                    else{
+                    } else {
                         binding.playlistMembersCount = it.data.size
                         deviceSongsAdapter.list = it.data
                         deviceSongsAdapter.notifyDataSetChanged()
@@ -154,7 +166,7 @@ class DevicePlaylistFragment: Fragment(), DeviceFilesMoreOnClickListeners {
                     binding.showProgress = false
                 }
 
-                Status.ERROR ->{
+                Status.ERROR -> {
                     requireContext().errorToast(it.message.toString())
                     binding.showProgress = false
                 }
@@ -181,5 +193,9 @@ class DevicePlaylistFragment: Fragment(), DeviceFilesMoreOnClickListeners {
             thumbnail,
             type
         ).show(requireActivity().supportFragmentManager, null)
+    }
+
+    override fun onDeviceFilesChanged() {
+        findNavController().popBackStack()
     }
 }

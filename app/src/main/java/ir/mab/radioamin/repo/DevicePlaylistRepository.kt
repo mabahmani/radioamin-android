@@ -242,19 +242,33 @@ class DevicePlaylistRepository(
         }
     }
 
-    suspend fun deletePlaylist(playlistId: Long) {
-        val resolver = application.contentResolver
+    suspend fun deletePlaylist(playlistId: Long): LiveData<Resource<Boolean>> {
 
-        val playlistCollection = getPlaylistsUri()
+        return liveData(dispatcherIO) {
 
-        val selection = "${MediaStore.Audio.Playlists._ID} = ?"
-        val selectionArgs = arrayOf(playlistId.toString())
+            emit(Resource.loading(null))
 
-        resolver.delete(
-            playlistCollection,
-            selection,
-            selectionArgs
-        )
+            val resolver = application.contentResolver
+
+            val playlistCollection = getPlaylistsUri()
+
+            val selection = "${MediaStore.Audio.Playlists._ID} = ?"
+            val selectionArgs = arrayOf(playlistId.toString())
+
+            try {
+                resolver.delete(
+                    playlistCollection,
+                    selection,
+                    selectionArgs
+                )
+
+                emit(Resource.success(true))
+
+            } catch (ex: java.lang.Exception) {
+                emit(Resource.error(null, ex.message.toString(), true, null))
+            }
+        }
+
     }
 
     suspend fun createNewPlaylist(name: String): LiveData<Resource<Uri>> {

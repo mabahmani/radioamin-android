@@ -69,6 +69,14 @@ class DevicePlaylistsViewModel @Inject constructor(
         return result
     }
 
+    fun deletePlaylist(playlistId: Long): LiveData<Resource<Boolean>> {
+        var result: LiveData<Resource<Boolean>> = MutableLiveData()
+        viewModelScope.launch {
+            result = devicePlaylistRepository.deletePlaylist(playlistId)
+        }
+        return result
+    }
+
     fun movePlaylistMember(playlistId: Long, from: Int, to: Int) {
         viewModelScope.launch {
             devicePlaylistRepository.movePlaylistMember(playlistId, from, to)

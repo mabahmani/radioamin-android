@@ -21,7 +21,9 @@ import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.BottomsheetDeivceFilesOptionBinding
 import ir.mab.radioamin.databinding.DialogAddToPlaylistBinding
 import ir.mab.radioamin.databinding.DialogCreatePlaylistBinding
+import ir.mab.radioamin.databinding.DialogDeletePlaylistBinding
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionAddToPlaylistOnClickListener
+import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionsChangeListener
 import ir.mab.radioamin.util.*
 import ir.mab.radioamin.vm.DeviceAlbumsViewModel
 import ir.mab.radioamin.vm.DeviceArtistsViewModel
@@ -38,7 +40,7 @@ class DeviceFilesOptionBottomSheet(
     private val title: String,
     private val subtitle: String,
     private val thumbnail: Bitmap?,
-    private val type: DeviceFileType
+    private val type: DeviceFileType,
 ) : BottomSheetDialogFragment(), DeviceFilesOptionAddToPlaylistOnClickListener {
 
     private lateinit var binding: BottomsheetDeivceFilesOptionBinding
@@ -46,6 +48,17 @@ class DeviceFilesOptionBottomSheet(
     private val deviceAlbumsViewModel: DeviceAlbumsViewModel by viewModels()
     private val deviceArtistsViewModel: DeviceArtistsViewModel by viewModels()
     private lateinit var addToPlaylistDialog: AlertDialog
+    private var  deviceFilesOptionsChangeListener: DeviceFilesOptionsChangeListener? = null
+
+    constructor(
+        id: Long,
+        title: String,
+        subtitle: String,
+        thumbnail: Bitmap?,
+        type: DeviceFileType, deviceFilesOptionsChangeListener: DeviceFilesOptionsChangeListener
+    ) : this(id, title, subtitle, thumbnail, type) {
+        this.deviceFilesOptionsChangeListener = deviceFilesOptionsChangeListener
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,10 +82,62 @@ class DeviceFilesOptionBottomSheet(
         }
 
         binding.editPlaylistParent.setOnClickListener {
-            val bundle = bundleOf(AppConstants.Arguments.PLAYLIST_ID to id, AppConstants.Arguments.PLAYLIST_NAME to title)
-            findNavController().navigate(R.id.action_devicePlaylistFragment_to_editDevicePlaylistFragment, bundle)
+            val bundle = bundleOf(
+                AppConstants.Arguments.PLAYLIST_ID to id,
+                AppConstants.Arguments.PLAYLIST_NAME to title
+            )
+            findNavController().navigate(
+                R.id.action_devicePlaylistFragment_to_editDevicePlaylistFragment,
+                bundle
+            )
             dismiss()
         }
+
+        binding.deletePlaylistParent.setOnClickListener {
+            showDeletePlaylistDialog()
+        }
+
+    }
+
+    private fun showDeletePlaylistDialog() {
+
+        val dialogDeletePlaylistBinding =
+            DialogDeletePlaylistBinding.inflate(LayoutInflater.from(requireContext()))
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setView(dialogDeletePlaylistBinding.root)
+            .show()
+
+        dialogDeletePlaylistBinding.positiveButton.setOnClickListener {
+            devicePlaylistsViewModel.deletePlaylist(id).observe(viewLifecycleOwner, {
+                when (it.status) {
+                    Status.LOADING -> {
+
+                    }
+
+                    Status.SUCCESS -> {
+                        if (it.data == true) {
+                            if (deviceFilesOptionsChangeListener != null){
+                                deviceFilesOptionsChangeListener!!.onDeviceFilesChanged()
+                            }
+                            dialog.dismiss()
+                            dismiss()
+
+                            requireActivity().snack(getString(R.string.playlist_delete_msg))
+                        }
+                    }
+
+                    Status.ERROR -> {
+                        requireContext().errorToast(it.message.toString())
+                    }
+                }
+            })
+        }
+
+        dialogDeletePlaylistBinding.negativeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
 
     }
 

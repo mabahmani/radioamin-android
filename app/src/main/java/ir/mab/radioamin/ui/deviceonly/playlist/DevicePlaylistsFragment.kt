@@ -20,6 +20,7 @@ import ir.mab.radioamin.databinding.FragmentDevicePlaylistsBinding
 import ir.mab.radioamin.ui.deviceonly.DeviceFilesBaseFragment
 import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomSheet
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
+import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionsChangeListener
 import ir.mab.radioamin.util.errorToast
 import ir.mab.radioamin.util.snack
 import ir.mab.radioamin.vm.DevicePlaylistsViewModel
@@ -28,7 +29,7 @@ import ir.mab.radioamin.vo.generic.Status
 import timber.log.Timber
 
 @AndroidEntryPoint
-class DevicePlaylistsFragment : DeviceFilesBaseFragment(), DeviceFilesMoreOnClickListeners {
+class DevicePlaylistsFragment : DeviceFilesBaseFragment(), DeviceFilesMoreOnClickListeners, DeviceFilesOptionsChangeListener {
     private lateinit var binding: FragmentDevicePlaylistsBinding
     private val devicePlaylistsViewModel: DevicePlaylistsViewModel by viewModels()
     private var devicePlaylistsAdapter = DevicePlaylistsAdapter(mutableListOf(), this)
@@ -171,8 +172,13 @@ class DevicePlaylistsFragment : DeviceFilesBaseFragment(), DeviceFilesMoreOnClic
             title,
             subtitle,
             thumbnail,
-            type
+            type,
+            this
         ).show(requireActivity().supportFragmentManager, null)
+    }
+
+    override fun onDeviceFilesChanged() {
+        getDevicePlaylists()
     }
 
 }
