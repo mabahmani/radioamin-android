@@ -24,6 +24,9 @@ class SimpleToolbarWithBackIconAndTitleCompoundView @JvmOverloads constructor(
             try {
                 findViewById<AppCompatTextView>(R.id.title).text =
                     getString(R.styleable.SimpleToolbarWithBackIconAndTitleCompoundView_stTitle)
+
+                findViewById<AppCompatTextView>(R.id.title).isSelected = true
+
                 findViewById<AppCompatTextView>(R.id.title).setTextColor(
                     getColor(
                         R.styleable.SimpleToolbarWithBackIconAndTitleCompoundView_stTitleColor,

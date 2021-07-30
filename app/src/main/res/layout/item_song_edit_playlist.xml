@@ -77,6 +77,8 @@
                     android:layout_height="wrap_content"
                     android:text="@{song.name}"
                     android:textColor="@color/white"
+                    android:maxLines="2"
+                    android:ellipsize="end"
                     android:textSize="12sp" />
 
                 <androidx.appcompat.widget.AppCompatTextView

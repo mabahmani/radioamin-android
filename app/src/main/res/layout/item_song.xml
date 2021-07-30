@@ -76,6 +76,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{song.name}"
+                    android:maxLines="2"
+                    android:ellipsize="end"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
 
