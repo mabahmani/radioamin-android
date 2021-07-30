@@ -62,6 +62,14 @@
             app:popEnterAnim="@anim/slide_in_enter_micro"
             app:popExitAnim="@anim/slide_out_micro"
             />
+        <action
+            android:id="@+id/action_devicePlaylistFragment_to_editDevicePlaylistFragment"
+            app:destination="@id/editDevicePlaylist"
+            app:enterAnim="@anim/slide_in_enter_micro"
+            app:exitAnim="@anim/slide_out_micro"
+            app:popEnterAnim="@anim/slide_in_enter_micro"
+            app:popExitAnim="@anim/slide_out_micro"
+            />
     </fragment>
 
     <fragment

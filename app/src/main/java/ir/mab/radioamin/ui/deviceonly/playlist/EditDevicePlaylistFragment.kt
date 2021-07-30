@@ -44,7 +44,6 @@ class EditDevicePlaylistFragment : Fragment(), EditDevicePlaylistItemDragListene
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()
         observeAppBarScroll()
         observeTitleChange()
         setBundleData()
@@ -103,16 +102,15 @@ class EditDevicePlaylistFragment : Fragment(), EditDevicePlaylistItemDragListene
         }
     }
 
-    private fun init() {
-        binding.title.requestFocus()
-    }
-
     override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
         itemTouchHelper.startDrag(viewHolder)
     }
 
     private fun setBundleData() {
         binding.playlistName = arguments?.getString(AppConstants.Arguments.PLAYLIST_NAME, "")
+        binding.title.setText(arguments?.getString(AppConstants.Arguments.PLAYLIST_NAME, ""))
+        binding.title.setSelection(binding.title.text.toString().length)
+        binding.title.requestFocus()
     }
 
     private fun observeAppBarScroll() {

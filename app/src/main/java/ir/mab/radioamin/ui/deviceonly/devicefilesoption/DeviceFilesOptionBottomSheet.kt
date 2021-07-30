@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -51,7 +52,7 @@ class DeviceFilesOptionBottomSheet(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = BottomsheetDeivceFilesOptionBinding.inflate(inflater)
         return binding.root
     }
@@ -66,6 +67,12 @@ class DeviceFilesOptionBottomSheet(
 
         binding.addToPlaylistParent.setOnClickListener {
             showAddToPlaylistDialog()
+        }
+
+        binding.editPlaylistParent.setOnClickListener {
+            val bundle = bundleOf(AppConstants.Arguments.PLAYLIST_ID to id, AppConstants.Arguments.PLAYLIST_NAME to title)
+            findNavController().navigate(R.id.action_devicePlaylistFragment_to_editDevicePlaylistFragment, bundle)
+            dismiss()
         }
 
     }
