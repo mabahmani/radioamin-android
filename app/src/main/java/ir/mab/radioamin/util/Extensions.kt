@@ -9,7 +9,7 @@ import androidx.navigation.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
 import ir.mab.radioamin.R
-import ir.mab.radioamin.ui.deviceonly.DeviceFilesOnlyActivity
+import ir.mab.radioamin.ui.deviceonly.DeviceFilesActivity
 
 
 fun Context.toast(message: String) {
@@ -22,7 +22,7 @@ fun Activity.snackWithNavigateAction(
     bundle: Bundle
 ) {
 
-    if (this is DeviceFilesOnlyActivity) {
+    if (this is DeviceFilesActivity) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
             .setActionTextColor(ContextCompat.getColor(this, R.color.color3))
             .setAction(this.resources.getString(R.string.view)) {
@@ -37,7 +37,7 @@ fun Activity.showPermissionEducational(
     description: String,
     permissionEducationalActionListener: (allowed: Boolean) -> Unit
 ) {
-    if (this is DeviceFilesOnlyActivity) {
+    if (this is DeviceFilesActivity) {
         binding.permissionBottomSheet.setTitle(title)
         binding.permissionBottomSheet.setDescription(description)
         binding.permissionBottomSheet.setOnPermissionActionListener(
@@ -49,7 +49,7 @@ fun Activity.showPermissionEducational(
 }
 
 fun Activity.hidePermissionEducational() {
-    if (this is DeviceFilesOnlyActivity) {
+    if (this is DeviceFilesActivity) {
         BottomSheetBehavior.from(this.binding.permissionBottomSheet).state =
             BottomSheetBehavior.STATE_HIDDEN
     }

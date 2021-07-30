@@ -1,4 +1,4 @@
-package ir.mab.radioamin.ui.listener
+package ir.mab.radioamin.ui.deviceonly.listener
 
 import ir.mab.radioamin.vo.DevicePlaylist
 

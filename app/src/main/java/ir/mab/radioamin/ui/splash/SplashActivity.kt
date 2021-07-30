@@ -8,7 +8,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.ActivitySplashBinding
 import ir.mab.radioamin.ui.BaseActivity
-import ir.mab.radioamin.ui.deviceonly.DeviceFilesOnlyActivity
+import ir.mab.radioamin.ui.deviceonly.DeviceFilesActivity
 
 @AndroidEntryPoint
 class SplashActivity : BaseActivity() {
@@ -25,7 +25,7 @@ class SplashActivity : BaseActivity() {
 
     inner class MyHandlers {
         fun onClickDeviceFilesOnly(view: View) {
-            val intent = Intent(this@SplashActivity, DeviceFilesOnlyActivity::class.java)
+            val intent = Intent(this@SplashActivity, DeviceFilesActivity::class.java)
             startActivity(intent)
             finish()
         }

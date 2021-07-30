@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.mab.radioamin.databinding.ItemAlbumSongBinding
-import ir.mab.radioamin.ui.listener.DeviceFilesMoreOnClickListeners
+import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.util.DateTimeFormatter
 import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.DeviceSong

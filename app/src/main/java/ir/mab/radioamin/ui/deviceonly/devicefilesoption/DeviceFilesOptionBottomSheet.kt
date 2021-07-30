@@ -20,7 +20,7 @@ import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.BottomsheetDeivceFilesOptionBinding
 import ir.mab.radioamin.databinding.DialogAddToPlaylistBinding
 import ir.mab.radioamin.databinding.DialogCreatePlaylistBinding
-import ir.mab.radioamin.ui.listener.DeviceFilesOptionAddToPlaylistOnClickListener
+import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionAddToPlaylistOnClickListener
 import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.snackWithNavigateAction
 import ir.mab.radioamin.vm.DeviceAlbumsViewModel

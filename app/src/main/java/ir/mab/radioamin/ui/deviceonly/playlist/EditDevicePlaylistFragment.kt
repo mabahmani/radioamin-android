@@ -1,11 +1,14 @@
 package ir.mab.radioamin.ui.deviceonly.playlist
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -16,7 +19,7 @@ import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.FragmentEditDevicePlaylistBinding
-import ir.mab.radioamin.ui.listener.EditDevicePlaylistItemDragListeners
+import ir.mab.radioamin.ui.deviceonly.listener.EditDevicePlaylistItemDragListeners
 import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.vm.DevicePlaylistsViewModel
 import ir.mab.radioamin.vo.generic.Status
@@ -34,7 +37,7 @@ class EditDevicePlaylistFragment : Fragment(), EditDevicePlaylistItemDragListene
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentEditDevicePlaylistBinding.inflate(inflater)
         return binding.root
     }
@@ -43,10 +46,35 @@ class EditDevicePlaylistFragment : Fragment(), EditDevicePlaylistItemDragListene
         super.onViewCreated(view, savedInstanceState)
         init()
         observeAppBarScroll()
+        observeTitleChange()
         setBundleData()
         initList()
         getDevicePlaylistMembers()
         setClickListeners()
+    }
+
+    private fun observeTitleChange() {
+        binding.title.addTextChangedListener {
+            if (TextUtils.isEmpty(it)) {
+                binding.done.isEnabled = false
+                binding.done.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.color5
+                    )
+                )
+            }
+
+            else{
+                binding.done.isEnabled = true
+                binding.done.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.white
+                    )
+                )
+            }
+        }
     }
 
     private fun setClickListeners() {
@@ -55,10 +83,11 @@ class EditDevicePlaylistFragment : Fragment(), EditDevicePlaylistItemDragListene
                 binding.title.text.toString(),
                 editPlaylistSongsAdapter.list,
                 arguments?.getLong(AppConstants.Arguments.PLAYLIST_ID) ?: -1,
-                (arguments?.getString(AppConstants.Arguments.PLAYLIST_NAME) ?: "") != binding.title.text.toString()
+                (arguments?.getString(AppConstants.Arguments.PLAYLIST_NAME)
+                    ?: "") != binding.title.text.toString()
             ).observe(viewLifecycleOwner, {
-                Timber.d("editPlaylist %s" , it)
-                when (it.status){
+                Timber.d("editPlaylist %s", it)
+                when (it.status) {
                     Status.LOADING -> {
 
                     }
@@ -144,6 +173,7 @@ class EditDevicePlaylistFragment : Fragment(), EditDevicePlaylistItemDragListene
                     source.adapterPosition,
                     target.adapterPosition
                 )
+
                 return true
             }
 
@@ -178,6 +208,5 @@ class EditDevicePlaylistFragment : Fragment(), EditDevicePlaylistItemDragListene
             }
         })
     }
-
 
 }

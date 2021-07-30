@@ -11,7 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ir.mab.radioamin.databinding.FragmentDeviceSongsBinding
 import ir.mab.radioamin.ui.deviceonly.DeviceFilesBaseFragment
 import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomSheet
-import ir.mab.radioamin.ui.listener.DeviceFilesMoreOnClickListeners
+import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.vm.DeviceSongsViewModel
 import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.generic.Status

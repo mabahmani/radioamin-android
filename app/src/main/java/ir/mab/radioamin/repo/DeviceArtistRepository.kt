@@ -1,14 +1,8 @@
 package ir.mab.radioamin.repo
 
 import android.app.Application
-import android.content.ContentUris
-import android.database.Cursor
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.Build
 import android.provider.MediaStore
-import android.util.Size
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import ir.mab.radioamin.vo.DeviceArtist
@@ -21,23 +15,16 @@ import timber.log.Timber
 class DeviceArtistRepository(
     private val application: Application,
     private val dispatcherIO: CoroutineDispatcher = Dispatchers.IO
-) {
+) : DeviceFilesRepository(application) {
 
-    suspend fun getDeviceArtists(): LiveData<Resource<List<DeviceArtist>>>{
+    suspend fun getDeviceArtists(): LiveData<Resource<List<DeviceArtist>>> {
         return liveData(dispatcherIO) {
 
             val artists = mutableListOf<DeviceArtist>()
 
             emit(Resource.loading(null))
 
-            val collection =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    MediaStore.Audio.Artists.getContentUri(
-                        MediaStore.VOLUME_EXTERNAL
-                    )
-                } else {
-                    MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI
-                }
+            val collection = getArtistsUri()
 
             val projection = arrayOf(
                 MediaStore.Audio.Artists._ID,
@@ -70,7 +57,7 @@ class DeviceArtistRepository(
                                 id,
                                 name,
                                 numberOfTracks,
-                                getFirstArtistSongsAlbumArtBitmap(id)
+                                getThumbnailAlbumArt(getFirstArtistSongAlbumId(id))
                             )
                         )
 
@@ -84,21 +71,14 @@ class DeviceArtistRepository(
         }
     }
 
-    suspend fun getDeviceArtistSongs(artistId: Long): LiveData<Resource<List<DeviceSong>>>{
+    suspend fun getDeviceArtistSongs(artistId: Long): LiveData<Resource<List<DeviceSong>>> {
         return liveData(dispatcherIO) {
 
             val songs = mutableListOf<DeviceSong>()
 
             emit(Resource.loading(null))
 
-            val collection =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    MediaStore.Audio.Media.getContentUri(
-                        MediaStore.VOLUME_EXTERNAL
-                    )
-                } else {
-                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-                }
+            val collection = getSongsUri()
 
             val projection = arrayOf(
                 MediaStore.Audio.Media._ID,
@@ -126,7 +106,8 @@ class DeviceArtistRepository(
                     while (it != null && it.moveToNext()) {
 
                         val id = it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media._ID))
-                        val albumId = it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID))
+                        val albumId =
+                            it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID))
                         val name =
                             it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE))
                         val artist =
@@ -134,12 +115,18 @@ class DeviceArtistRepository(
                         val duration =
                             it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION))
 
-                        val contentUri: Uri = ContentUris.withAppendedId(
-                            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                            id
-                        )
+                        val contentUri: Uri = getSongUri(id)
 
-                        songs.add(DeviceSong(id, name, artist, duration, contentUri, getAlbumArtBitmap(id, albumId)))
+                        songs.add(
+                            DeviceSong(
+                                id,
+                                name,
+                                artist,
+                                duration,
+                                contentUri,
+                                getThumbnailAlbumArt(albumId)
+                            )
+                        )
 
                     }
 
@@ -151,60 +138,13 @@ class DeviceArtistRepository(
         }
     }
 
-    private fun getAlbumArtBitmap(songId: Long, albumId: Long): Bitmap? {
 
-        val contentUri: Uri
-        var bitmapResult: Bitmap? = null
+    private fun getFirstArtistSongAlbumId(artistId: Long): Long {
 
-        try {
-            val resolver = application.contentResolver
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                contentUri = ContentUris.withAppendedId(
-                    MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                    songId
-                )
-                bitmapResult = application.contentResolver.loadThumbnail(
-                    contentUri,
-                    Size(128, 128),
-                    null
-                )
-            } else {
-                contentUri = ContentUris.withAppendedId(
-                    Uri.parse("content://media/external/audio/albumart"),
-                    albumId
-                )
-                val readOnlyMode = "r"
-                resolver.openFileDescriptor(contentUri, readOnlyMode).use { pfd ->
-                    bitmapResult =
-                        BitmapFactory.decodeFileDescriptor(pfd!!.fileDescriptor)
-                }
-            }
-
-        } catch (ex: Exception) {
-            Timber.e(ex)
-        }
-
-        return bitmapResult
-    }
-
-    private fun getFirstArtistSongsAlbumArtBitmap(artistId: Long): Bitmap? {
-
-        var contentUri: Uri? = null
-        var bitmapResult: Bitmap? = null
-
-        val collection =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                MediaStore.Audio.Media.getContentUri(
-                    MediaStore.VOLUME_EXTERNAL
-                )
-            } else {
-                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-            }
+        val collection = getSongsUri()
 
         val projection = arrayOf(
-            MediaStore.Audio.Media._ID,
-            MediaStore.Audio.Media.ALBUM_ID,
+            MediaStore.Audio.Media.ALBUM_ID
         )
 
         val selection = "${MediaStore.Audio.Media.ARTIST_ID} = ?"
@@ -219,65 +159,18 @@ class DeviceArtistRepository(
                 selectionArgs,
                 null
             ).use {
-                if (it != null && it.count > 0) {
+                return if (it != null && it.count > 0) {
                     it.moveToFirst()
-                    val songId =
-                        it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media._ID))
-                    val albumId =
-                        it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID))
 
-                    try {
-                        val resolver = application.contentResolver
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            contentUri = ContentUris.withAppendedId(
-                                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                                songId
-                            )
-                            bitmapResult = application.contentResolver.loadThumbnail(
-                                contentUri!!,
-                                Size(128, 128),
-                                null
-                            )
-                        } else {
-                            contentUri = ContentUris.withAppendedId(
-                                Uri.parse("content://media/external/audio/albumart"),
-                                albumId
-                            )
-                            val readOnlyMode = "r"
-                            resolver.openFileDescriptor(contentUri!!, readOnlyMode).use { pfd ->
-                                bitmapResult =
-                                    BitmapFactory.decodeFileDescriptor(pfd!!.fileDescriptor)
-                            }
-                        }
-
-                    } catch (ex: Exception) {
-                        Timber.e(ex)
-                    }
-
+                    it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID))
+                } else {
+                    -1
                 }
             }
         } catch (ex: Exception) {
             Timber.e(ex)
+            return -1
         }
-
-        return bitmapResult
-    }
-
-    private fun queryMediaStore(
-        collection: Uri,
-        projection: Array<String>,
-        selection: String?,
-        selectionArgs: Array<String>?,
-        sortOrder: String?
-    ): Cursor? {
-        return application.contentResolver.query(
-            collection,
-            projection,
-            selection,
-            selectionArgs,
-            sortOrder
-        )
     }
 
 }

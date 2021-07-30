@@ -27,6 +27,15 @@ class DevicePlaylistsViewModel @Inject constructor(
         return result
     }
 
+    fun getDevicePlaylist(playlistId: Long): LiveData<Resource<DevicePlaylist>>{
+        var result: LiveData<Resource<DevicePlaylist>> = MutableLiveData()
+        viewModelScope.launch {
+            result = devicePlaylistRepository.getDevicePlaylist(playlistId)
+        }
+
+        return result
+    }
+
     fun getDevicePlaylistMembers(playlistId: Long): LiveData<Resource<List<DeviceSong>>>{
         var result: LiveData<Resource<List<DeviceSong>>> = MutableLiveData()
         viewModelScope.launch {
@@ -39,7 +48,7 @@ class DevicePlaylistsViewModel @Inject constructor(
     fun createPlaylist(title: String): LiveData<Resource<Uri>>{
         var result: LiveData<Resource<Uri>> = MutableLiveData()
         viewModelScope.launch {
-            result = devicePlaylistRepository.addNewPlaylist(title)
+            result = devicePlaylistRepository.createNewPlaylist(title)
         }
         return result
     }
@@ -47,7 +56,7 @@ class DevicePlaylistsViewModel @Inject constructor(
     fun addSongsToPlaylist(songs: List<DeviceSong>, playlistId: Long): LiveData<Resource<Boolean>> {
         var result: LiveData<Resource<Boolean>> = MutableLiveData()
         viewModelScope.launch {
-            result = devicePlaylistRepository.addNewSongsToPlaylist(songs, playlistId)
+            result = devicePlaylistRepository.addSongsToPlaylist(songs, playlistId)
         }
         return result
     }
@@ -58,5 +67,11 @@ class DevicePlaylistsViewModel @Inject constructor(
             result = devicePlaylistRepository.editPlaylist(newName, songs, playlistId, nameChanged)
         }
         return result
+    }
+
+    fun movePlaylistMember(playlistId: Long, from: Int, to: Int) {
+        viewModelScope.launch {
+            devicePlaylistRepository.movePlaylistMember(playlistId, from, to)
+        }
     }
 }

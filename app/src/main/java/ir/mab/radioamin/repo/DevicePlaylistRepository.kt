@@ -1,15 +1,9 @@
 package ir.mab.radioamin.repo
 
 import android.app.Application
-import android.content.ContentUris
 import android.content.ContentValues
-import android.database.Cursor
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
-import android.os.Build
 import android.provider.MediaStore
-import android.util.Size
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import ir.mab.radioamin.vo.DevicePlaylist
@@ -17,12 +11,13 @@ import ir.mab.radioamin.vo.DeviceSong
 import ir.mab.radioamin.vo.generic.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 
 class DevicePlaylistRepository(
     private val application: Application,
     private val dispatcherIO: CoroutineDispatcher = Dispatchers.IO
-) {
+) : DeviceFilesRepository(application) {
 
     suspend fun getDevicePlaylists(): LiveData<Resource<List<DevicePlaylist>>> {
         return liveData(dispatcherIO) {
@@ -31,14 +26,7 @@ class DevicePlaylistRepository(
 
             emit(Resource.loading(null))
 
-            val collection =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    MediaStore.Audio.Playlists.getContentUri(
-                        MediaStore.VOLUME_EXTERNAL
-                    )
-                } else {
-                    MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI
-                }
+            val collection = getPlaylistsUri()
 
             val projection = arrayOf(
                 MediaStore.Audio.Playlists._ID,
@@ -68,13 +56,68 @@ class DevicePlaylistRepository(
                                 id,
                                 name,
                                 getPlaylistMembersCount(id),
-                                getFirstPlaylistMembersAlbumArtBitmap(id)
+                                getThumbnailAlbumArt(
+                                    getFirstPlaylistMember(id)
+                                )
+                            )
+                        )
+                    }
+
+                    emit(Resource.success(playlists))
+                }
+            } catch (ex: Exception) {
+                emit(Resource.error(null, ex.toString(), null, null))
+            }
+        }
+    }
+
+    suspend fun getDevicePlaylist(playlistId: Long): LiveData<Resource<DevicePlaylist>> {
+        return liveData(dispatcherIO) {
+
+            emit(Resource.loading(null))
+
+            val collection = getPlaylistsUri()
+
+            val projection = arrayOf(
+                MediaStore.Audio.Playlists._ID,
+                MediaStore.Audio.Playlists.NAME
+            )
+
+            val selection = "${MediaStore.Audio.Playlists._ID} = ?"
+            val selectionArgs = arrayOf(playlistId.toString())
+
+            try {
+                queryMediaStore(
+                    collection,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null
+                ).use {
+
+                    if (it != null && it.count > 0) {
+
+                        it.moveToFirst()
+
+                        val id =
+                            it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists._ID))
+                        val name =
+                            it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists.NAME))
+
+
+                        emit(
+                            Resource.success(
+                                DevicePlaylist(
+                                    id,
+                                    name,
+                                    getPlaylistMembersCount(id),
+                                    getOriginalAlbumArt(getFirstPlaylistMember(id))
+                                )
                             )
                         )
 
                     }
 
-                    emit(Resource.success(playlists))
                 }
             } catch (ex: Exception) {
                 emit(Resource.error(null, ex.toString(), null, null))
@@ -86,14 +129,10 @@ class DevicePlaylistRepository(
 
         return liveData(dispatcherIO) {
             val songs = mutableListOf<DeviceSong>()
-            var bitmapResult: Bitmap? = null
+
             emit(Resource.loading(null))
 
-            val collection =
-                MediaStore.Audio.Playlists.Members.getContentUri(
-                    MediaStore.VOLUME_EXTERNAL,
-                    playlistId
-                )
+            val collection = getPlaylistMembersUri(playlistId)
 
             val projection = arrayOf(
                 MediaStore.Audio.Playlists.Members.AUDIO_ID,
@@ -126,31 +165,18 @@ class DevicePlaylistRepository(
                             it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.DURATION))
                         val albumId =
                             it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.ALBUM_ID))
-                        val contentUri: Uri = ContentUris.withAppendedId(
-                            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                            id
-                        )
+                        val contentUri: Uri = getSongUri(id)
 
-                        val resolver = application.contentResolver
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            bitmapResult = application.contentResolver.loadThumbnail(
+                        songs.add(
+                            DeviceSong(
+                                id,
+                                title,
+                                artist,
+                                duration,
                                 contentUri,
-                                Size(128, 128),
-                                null
+                                getThumbnailAlbumArt(albumId)
                             )
-                        } else {
-                            val albumUri = ContentUris.withAppendedId(
-                                Uri.parse("content://media/external/audio/albumart"),
-                                albumId
-                            )
-                            val readOnlyMode = "r"
-                            resolver.openFileDescriptor(albumUri, readOnlyMode).use { pfd ->
-                                bitmapResult =
-                                    BitmapFactory.decodeFileDescriptor(pfd!!.fileDescriptor)
-                            }
-                        }
-                        songs.add(DeviceSong(id, title, artist, duration, contentUri, bitmapResult))
+                        )
                     }
 
                     emit(Resource.success(songs))
@@ -174,70 +200,20 @@ class DevicePlaylistRepository(
 
             emit(Resource.loading(null))
 
-            val resolver = application.contentResolver
 
-            val playlistCollection =
-                MediaStore.Audio.Playlists.Members.getContentUri(
-                    MediaStore.VOLUME_EXTERNAL, playlistId
-                )
-
-            val selection = "${MediaStore.Audio.Playlists.Members.AUDIO_ID} = ?"
-
-            if (nameChanged){
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    try {
-                        val playlistUri = createNewPlaylist(newName)
-                        Timber.d("editPlaylist %s", playlistUri)
-                        addPlaylistMembers(playlistUri, songs)
-                        deleteOldPlaylist(playlistId)
-                        emit(Resource.success(true))
-                    }
-
-                    catch (ex: Exception){
-                        emit(Resource.error(null, ex.message.toString(), false, null))
-                    }
-                }
-
-                else{
-                    try {
-
-                        updatePlaylistName(newName, playlistId)
-
-                        songs.forEachIndexed { index, deviceSong ->
-                            val selectionArgs = arrayOf(deviceSong.id.toString())
-                            val updatedPlaylistDetails = ContentValues().apply {
-                                put(MediaStore.Audio.Playlists.Members.PLAY_ORDER, index + 1)
-                            }
-                            resolver.update(
-                                playlistCollection,
-                                updatedPlaylistDetails,
-                                selection,
-                                selectionArgs
-                            )
-                        }
-
-                        emit(Resource.success(true))
-                    } catch (ex: Exception) {
-                        emit(Resource.error(null, ex.message.toString(), false, null))
-                    }
-                }
-
-            }
-
-            else{
+            if (nameChanged) {
                 try {
-                    songs.forEachIndexed { index, deviceSong ->
-                        val selectionArgs = arrayOf(deviceSong.id.toString())
-                        val updatedPlaylistDetails = ContentValues().apply {
-                            put(MediaStore.Audio.Playlists.Members.PLAY_ORDER, index + 1)
-                        }
-                        resolver.update(
-                            playlistCollection,
-                            updatedPlaylistDetails,
-                            selection,
-                            selectionArgs
-                        )
-                    }
+                    updatePlaylistName(newName, playlistId)
+                    updatePlaylistOrders(songs, playlistId)
+
+                    emit(Resource.success(true))
+
+                } catch (ex: Exception) {
+                    emit(Resource.error(null, ex.message.toString(), false, null))
+                }
+            } else {
+                try {
+                    updatePlaylistOrders(songs, playlistId)
                     emit(Resource.success(true))
 
                 } catch (ex: Exception) {
@@ -250,29 +226,38 @@ class DevicePlaylistRepository(
 
     }
 
+    suspend fun movePlaylistMember(playlistId: Long, from: Int, to: Int) {
+        withContext(dispatcherIO) {
+            try {
+                val res = MediaStore.Audio.Playlists.Members.moveItem(
+                    application.contentResolver,
+                    playlistId,
+                    from,
+                    to
+                )
+                Timber.d("movePlaylistMember %s", res)
+            } catch (ex: Exception) {
+                Timber.e(ex)
+            }
+        }
+    }
+
     suspend fun deletePlaylist(playlistId: Long) {
         val resolver = application.contentResolver
 
-        val playlistCollection =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                MediaStore.Audio.Playlists.getContentUri(
-                    MediaStore.VOLUME_EXTERNAL
-                )
-            } else {
-                MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI
-            }
+        val playlistCollection = getPlaylistsUri()
 
         val selection = "${MediaStore.Audio.Playlists._ID} = ?"
         val selectionArgs = arrayOf(playlistId.toString())
 
-        val res = resolver.delete(
+        resolver.delete(
             playlistCollection,
             selection,
             selectionArgs
         )
     }
 
-    suspend fun addNewPlaylist(name: String): LiveData<Resource<Uri>> {
+    suspend fun createNewPlaylist(name: String): LiveData<Resource<Uri>> {
 
         return liveData(dispatcherIO) {
 
@@ -280,14 +265,7 @@ class DevicePlaylistRepository(
 
             val resolver = application.contentResolver
 
-            val playlistCollection =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    MediaStore.Audio.Playlists.getContentUri(
-                        MediaStore.VOLUME_EXTERNAL_PRIMARY
-                    )
-                } else {
-                    MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI
-                }
+            val playlistCollection = getPlaylistsUri()
 
             val newPlaylistDetails = ContentValues().apply {
                 put(MediaStore.Audio.Playlists.NAME, name)
@@ -302,7 +280,7 @@ class DevicePlaylistRepository(
         }
     }
 
-    suspend fun addNewSongsToPlaylist(
+    suspend fun addSongsToPlaylist(
         songs: List<DeviceSong>,
         playlistId: Long
     ): LiveData<Resource<Boolean>> {
@@ -312,20 +290,7 @@ class DevicePlaylistRepository(
 
             val resolver = application.contentResolver
 
-            val playlistCollection =
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                    MediaStore.Audio.Playlists.Members.getContentUri(
-                        MediaStore.VOLUME_EXTERNAL_PRIMARY,
-                        playlistId
-                    )
-                } else {
-                    MediaStore.Audio.Playlists.Members.getContentUri(
-                        MediaStore.VOLUME_EXTERNAL,
-                        playlistId
-                    )
-                }
-
-            Timber.d("playlistCollection %s", playlistCollection.toString())
+            val playlistCollection = getPlaylistMembersUri(playlistId)
 
             var lastPlayOrder = getPlaylistMembersCount(playlistId)
             val contentValuesList: Array<ContentValues?> = arrayOfNulls(songs.size)
@@ -336,8 +301,6 @@ class DevicePlaylistRepository(
                     put(MediaStore.Audio.Playlists.Members.PLAY_ORDER, lastPlayOrder++)
                 }
                 contentValuesList[index] = newSongDetails
-
-                Timber.d("addNewSongsToPlaylist %s", contentValuesList[index].toString())
             }
 
             try {
@@ -345,7 +308,6 @@ class DevicePlaylistRepository(
                 emit(Resource.success(true))
             } catch (ex: Exception) {
                 emit(Resource.error(null, ex.message.toString(), false, null))
-
             }
         }
     }
@@ -354,8 +316,7 @@ class DevicePlaylistRepository(
 
         var membersCount = 0
 
-        val collection =
-            MediaStore.Audio.Playlists.Members.getContentUri(MediaStore.VOLUME_EXTERNAL, playlistId)
+        val collection = getPlaylistMembersUri(playlistId)
 
         val projection = arrayOf(
             MediaStore.Audio.Playlists.Members._ID
@@ -379,13 +340,9 @@ class DevicePlaylistRepository(
         return membersCount
     }
 
-    private fun getFirstPlaylistMembersAlbumArtBitmap(playlistId: Long): Bitmap? {
+    private fun getFirstPlaylistMember(playlistId: Long): Long {
 
-        var contentUri: Uri? = null
-        var bitmapResult: Bitmap? = null
-
-        val collection =
-            MediaStore.Audio.Playlists.Members.getContentUri(MediaStore.VOLUME_EXTERNAL, playlistId)
+        val collection = getPlaylistMembersUri(playlistId)
 
         val projection = arrayOf(
             MediaStore.Audio.Playlists.Members.AUDIO_ID,
@@ -404,60 +361,21 @@ class DevicePlaylistRepository(
             ).use {
                 if (it != null && it.count > 0) {
                     it.moveToFirst()
-                    val id =
-                        it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.AUDIO_ID))
-                    val albumId =
-                        it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.ALBUM_ID))
 
-                    try {
-                        val resolver = application.contentResolver
-
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                            contentUri = ContentUris.withAppendedId(
-                                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                                id
-                            )
-                            bitmapResult = application.contentResolver.loadThumbnail(
-                                contentUri!!,
-                                Size(128, 128),
-                                null
-                            )
-                        } else {
-                            contentUri = ContentUris.withAppendedId(
-                                Uri.parse("content://media/external/audio/albumart"),
-                                albumId
-                            )
-                            val readOnlyMode = "r"
-                            resolver.openFileDescriptor(contentUri!!, readOnlyMode).use { pfd ->
-                                bitmapResult =
-                                    BitmapFactory.decodeFileDescriptor(pfd!!.fileDescriptor)
-                            }
-                        }
-
-                    } catch (ex: Exception) {
-                        Timber.e(ex)
-                    }
-
+                    return it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.ALBUM_ID))
                 }
+                return -1
             }
         } catch (ex: Exception) {
             Timber.e(ex)
+            return -1
         }
-
-        return bitmapResult
     }
 
     private fun updatePlaylistName(name: String, playlistId: Long) {
         val resolver = application.contentResolver
 
-        val playlistCollection =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                MediaStore.Audio.Playlists.getContentUri(
-                    MediaStore.VOLUME_EXTERNAL
-                )
-            } else {
-                MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI
-            }
+        val playlistCollection = getPlaylistsUri()
 
         val selection = "${MediaStore.Audio.Playlists._ID} = ?"
         val selectionArgs = arrayOf(playlistId.toString())
@@ -466,7 +384,7 @@ class DevicePlaylistRepository(
             put(MediaStore.Audio.Playlists.NAME, name)
         }
 
-        val res = resolver.update(
+        resolver.update(
             playlistCollection,
             updatedPlaylistDetails,
             selection,
@@ -474,92 +392,26 @@ class DevicePlaylistRepository(
         )
     }
 
-    private fun createNewPlaylist(name: String): Uri? {
-        val resolver = application.contentResolver
-
-        val playlistCollection =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                MediaStore.Audio.Playlists.getContentUri(
-                    MediaStore.VOLUME_EXTERNAL_PRIMARY
-                )
-            } else {
-                MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI
-            }
-
-        val newPlaylistDetails = ContentValues().apply {
-            put(MediaStore.Audio.Playlists.NAME, name)
-        }
-
-        val res = resolver.insert(playlistCollection, newPlaylistDetails)
-        Timber.d("createNewPlaylist %s", res)
-        return res
-    }
-
-    private fun deleteOldPlaylist(playlistId: Long) {
-        val resolver = application.contentResolver
-
-        val playlistCollection =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                MediaStore.Audio.Playlists.getContentUri(
-                    MediaStore.VOLUME_EXTERNAL_PRIMARY
-                )
-            } else {
-                MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI
-            }
-
-        val selection = "${MediaStore.Audio.Playlists._ID} = ?"
-        val selectionArgs = arrayOf(playlistId.toString())
-
-        val res = resolver.delete(
-            playlistCollection,
-            selection,
-            selectionArgs
-        )
-    }
-
-    private fun addPlaylistMembers(
-        uri: Uri?,
-        songs: List<DeviceSong>) {
+    private fun updatePlaylistOrders(songs: List<DeviceSong>, playlistId: Long) {
 
         val resolver = application.contentResolver
 
-        val contentValuesList: Array<ContentValues?> = arrayOfNulls(songs.size)
+        val playlistCollection = getPlaylistMembersUri(playlistId)
 
-        songs.forEachIndexed { index, song ->
-            val newSongDetails = ContentValues().apply {
-                put(MediaStore.Audio.Playlists.Members.AUDIO_ID, song.id)
+        val selection = "${MediaStore.Audio.Playlists.Members.AUDIO_ID} = ?"
+
+        songs.forEachIndexed { index, deviceSong ->
+            val selectionArgs = arrayOf(deviceSong.id.toString())
+            val updatedPlaylistDetails = ContentValues().apply {
                 put(MediaStore.Audio.Playlists.Members.PLAY_ORDER, index + 1)
             }
-            contentValuesList[index] = newSongDetails
-        }
-
-        Timber.d("addPlaylistMembersBefore %s", uri)
-
-        if (uri != null) {
-            Timber.d("addPlaylistMembers %s", uri)
-            try {
-                val res = resolver.bulkInsert(uri, contentValuesList)
-                Timber.d("addPlaylistMembers %s %s", uri,res)
-            }catch (ex: Exception){
-                Timber.d("addPlaylistMembers %s", ex.message.toString())
-            }
-
+            resolver.update(
+                playlistCollection,
+                updatedPlaylistDetails,
+                selection,
+                selectionArgs
+            )
         }
     }
 
-    private fun queryMediaStore(
-        collection: Uri,
-        projection: Array<String>,
-        selection: String?,
-        selectionArgs: Array<String>?,
-        sortOrder: String?
-    ): Cursor? {
-        return application.contentResolver.query(
-            collection,
-            projection,
-            selection,
-            selectionArgs,
-            sortOrder
-        )
-    }
 }

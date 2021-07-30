@@ -19,7 +19,7 @@ import ir.mab.radioamin.databinding.DialogCreatePlaylistBinding
 import ir.mab.radioamin.databinding.FragmentDevicePlaylistsBinding
 import ir.mab.radioamin.ui.deviceonly.DeviceFilesBaseFragment
 import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomSheet
-import ir.mab.radioamin.ui.listener.DeviceFilesMoreOnClickListeners
+import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.vm.DevicePlaylistsViewModel
 import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.generic.Status

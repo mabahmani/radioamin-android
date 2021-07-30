@@ -15,9 +15,10 @@ import ir.mab.radioamin.util.showPermissionEducational
 open class DeviceFilesBaseFragment : Fragment() {
     private val permissionGranted = MutableLiveData<Boolean>()
     private var requestPermissionLauncher: ActivityResultLauncher<String>? = null
+
     fun checkPermissions(): LiveData<Boolean> {
 
-        if (requestPermissionLauncher == null){
+        if (requestPermissionLauncher == null) {
             requestPermissionLauncher =
                 registerForActivityResult(ActivityResultContracts.RequestPermission()) {
                     permissionGranted.value = it

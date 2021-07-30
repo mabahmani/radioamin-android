@@ -17,12 +17,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.FragmentDevicePlaylistBinding
 import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomSheet
+import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.ui.deviceonly.song.DeviceSongsAdapter
-import ir.mab.radioamin.ui.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.vm.DevicePlaylistsViewModel
 import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.generic.Status
+import timber.log.Timber
 
 @AndroidEntryPoint
 class DevicePlaylistFragment: Fragment(), DeviceFilesMoreOnClickListeners {
@@ -45,6 +46,7 @@ class DevicePlaylistFragment: Fragment(), DeviceFilesMoreOnClickListeners {
         observeAppBarScroll()
         setBundleData()
         initList()
+        getDevicePlaylist()
         getDevicePlaylistMembers()
         setClickListener()
     }
@@ -112,6 +114,24 @@ class DevicePlaylistFragment: Fragment(), DeviceFilesMoreOnClickListeners {
         binding.list.adapter = deviceSongsAdapter
     }
 
+
+    private fun getDevicePlaylist() {
+        devicePlaylistsViewModel.getDevicePlaylist(arguments?.getLong(AppConstants.Arguments.PLAYLIST_ID)?:-1).observe(viewLifecycleOwner, {
+            Timber.d("getDevicePlaylist %s", it)
+            when(it.status){
+                Status.LOADING ->{
+                }
+
+                Status.SUCCESS ->{
+                    binding.playlistThumbnail = it.data?.thumbnail
+                }
+
+                Status.ERROR ->{
+                }
+            }
+        })
+    }
+
     private fun getDevicePlaylistMembers() {
         devicePlaylistsViewModel.getDevicePlaylistMembers(arguments?.getLong(AppConstants.Arguments.PLAYLIST_ID)?:-1).observe(viewLifecycleOwner,{
 
@@ -126,7 +146,6 @@ class DevicePlaylistFragment: Fragment(), DeviceFilesMoreOnClickListeners {
                     }
                     else{
                         binding.playlistMembersCount = it.data.size
-                        binding.playlistThumbnail = it.data[0].thumbnail
                         deviceSongsAdapter.list = it.data
                         deviceSongsAdapter.notifyDataSetChanged()
                     }

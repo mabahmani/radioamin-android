@@ -7,7 +7,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.ItemAlbumBinding
-import ir.mab.radioamin.ui.listener.DeviceFilesMoreOnClickListeners
+import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.vo.DeviceAlbum
 import ir.mab.radioamin.vo.DeviceFileType

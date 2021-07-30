@@ -6,7 +6,7 @@ import android.view.MotionEvent
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.mab.radioamin.databinding.ItemSongEditPlaylistBinding
-import ir.mab.radioamin.ui.listener.EditDevicePlaylistItemDragListeners
+import ir.mab.radioamin.ui.deviceonly.listener.EditDevicePlaylistItemDragListeners
 import ir.mab.radioamin.util.DateTimeFormatter
 import ir.mab.radioamin.vo.DeviceSong
 

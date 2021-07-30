@@ -7,7 +7,7 @@ import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.ActivityDeviceFilesOnlyBinding
 import ir.mab.radioamin.ui.BaseActivity
 
-class DeviceFilesOnlyActivity : BaseActivity() {
+class DeviceFilesActivity : BaseActivity() {
     lateinit var binding: ActivityDeviceFilesOnlyBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
