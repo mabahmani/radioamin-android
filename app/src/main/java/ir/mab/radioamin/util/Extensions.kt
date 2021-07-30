@@ -8,12 +8,22 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.snackbar.Snackbar
+import ir.mab.radioamin.BuildConfig
 import ir.mab.radioamin.R
 import ir.mab.radioamin.ui.deviceonly.DeviceFilesActivity
 
 
 fun Context.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+}
+
+fun Context.errorToast(message: String) {
+    if (BuildConfig.DEBUG){
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+    else{
+        Toast.makeText(this, getString(R.string.error_msg), Toast.LENGTH_LONG).show()
+    }
 }
 
 fun Activity.snackWithNavigateAction(
@@ -30,6 +40,14 @@ fun Activity.snackWithNavigateAction(
             }.show()
     }
 
+}
+
+fun Activity.snack(
+    message: String) {
+
+    if (this is DeviceFilesActivity) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG).show()
+    }
 }
 
 fun Activity.showPermissionEducational(

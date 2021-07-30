@@ -22,8 +22,7 @@ import ir.mab.radioamin.databinding.BottomsheetDeivceFilesOptionBinding
 import ir.mab.radioamin.databinding.DialogAddToPlaylistBinding
 import ir.mab.radioamin.databinding.DialogCreatePlaylistBinding
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionAddToPlaylistOnClickListener
-import ir.mab.radioamin.util.AppConstants
-import ir.mab.radioamin.util.snackWithNavigateAction
+import ir.mab.radioamin.util.*
 import ir.mab.radioamin.vm.DeviceAlbumsViewModel
 import ir.mab.radioamin.vm.DeviceArtistsViewModel
 import ir.mab.radioamin.vm.DevicePlaylistsViewModel
@@ -114,6 +113,7 @@ class DeviceFilesOptionBottomSheet(
                 }
 
                 Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
                     dialogAddToPlaylistBinding.showProgress = false
                 }
             }
@@ -173,10 +173,17 @@ class DeviceFilesOptionBottomSheet(
                 }
 
                 Status.SUCCESS -> {
+                    requireActivity().snack(
+                        getString(R.string.playlist_creation_msg).format(title)
+                    )
+
+                    requireContext().toast(getString(R.string.playlist_creation_msg).format(title))
+
                     dialog.dismiss()
                 }
 
                 Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
                     Timber.e(it.message)
                 }
             }
@@ -195,6 +202,7 @@ class DeviceFilesOptionBottomSheet(
                 }
 
                 Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
                 }
             }
         })
@@ -212,6 +220,7 @@ class DeviceFilesOptionBottomSheet(
                 }
 
                 Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
                 }
             }
         })
@@ -234,6 +243,7 @@ class DeviceFilesOptionBottomSheet(
                 }
 
                 Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
                 }
             }
         })
@@ -268,6 +278,7 @@ class DeviceFilesOptionBottomSheet(
                         }
 
                         Status.ERROR -> {
+                            requireContext().errorToast(it.message.toString())
                         }
                     }
                 })

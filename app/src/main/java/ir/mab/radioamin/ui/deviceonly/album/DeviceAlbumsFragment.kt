@@ -12,6 +12,7 @@ import ir.mab.radioamin.databinding.FragmentDeviceAlbumsBinding
 import ir.mab.radioamin.ui.deviceonly.DeviceFilesBaseFragment
 import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomSheet
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
+import ir.mab.radioamin.util.errorToast
 import ir.mab.radioamin.vm.DeviceAlbumsViewModel
 import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.generic.Status
@@ -78,6 +79,7 @@ class DeviceAlbumsFragment : DeviceFilesBaseFragment(), DeviceFilesMoreOnClickLi
                 }
 
                 Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
                     binding.showProgress = false
                     binding.refreshLayout.isRefreshing = false
                 }

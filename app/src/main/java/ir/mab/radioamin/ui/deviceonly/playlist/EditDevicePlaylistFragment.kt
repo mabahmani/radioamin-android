@@ -8,6 +8,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -21,6 +22,8 @@ import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.FragmentEditDevicePlaylistBinding
 import ir.mab.radioamin.ui.deviceonly.listener.EditDevicePlaylistItemDragListeners
 import ir.mab.radioamin.util.AppConstants
+import ir.mab.radioamin.util.errorToast
+import ir.mab.radioamin.util.snackWithNavigateAction
 import ir.mab.radioamin.vm.DevicePlaylistsViewModel
 import ir.mab.radioamin.vo.generic.Status
 import timber.log.Timber
@@ -62,9 +65,7 @@ class EditDevicePlaylistFragment : Fragment(), EditDevicePlaylistItemDragListene
                         R.color.color5
                     )
                 )
-            }
-
-            else{
+            } else {
                 binding.done.isEnabled = true
                 binding.done.setTextColor(
                     ContextCompat.getColor(
@@ -91,11 +92,24 @@ class EditDevicePlaylistFragment : Fragment(), EditDevicePlaylistItemDragListene
 
                     }
                     Status.SUCCESS -> {
+
                         findNavController().popBackStack(R.id.devicePlaylists, false)
+
+                        requireActivity().snackWithNavigateAction(
+                            getString(R.string.playlist_updated_successfully),
+                            R.id.devicePlaylist,
+                            bundleOf(
+                                AppConstants.Arguments.PLAYLIST_ID to arguments?.getLong(
+                                    AppConstants.Arguments.PLAYLIST_ID
+                                ),
+                                AppConstants.Arguments.PLAYLIST_NAME to binding.title.text.toString()
+
+                            )
+                        )
                     }
 
                     Status.ERROR -> {
-
+                        requireContext().errorToast(it.message.toString())
                     }
                 }
             })
@@ -201,6 +215,7 @@ class EditDevicePlaylistFragment : Fragment(), EditDevicePlaylistItemDragListene
                 }
 
                 Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
                     binding.showProgress = false
                 }
             }

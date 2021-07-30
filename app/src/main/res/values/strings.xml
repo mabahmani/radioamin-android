@@ -39,4 +39,7 @@
     <string name="view">View</string>
     <string name="added_to_playlist">Added to playlist</string>
     <string name="done">Done</string>
+    <string name="playlist_updated_successfully">Playlist updated successfully</string>
+    <string name="playlist_creation_msg">Playlist %s created successfully</string>
+    <string name="error_msg">An error occurred</string>
 </resources>
