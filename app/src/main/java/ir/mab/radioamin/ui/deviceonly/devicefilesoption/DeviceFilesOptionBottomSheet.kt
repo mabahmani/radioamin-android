@@ -24,7 +24,10 @@ import ir.mab.radioamin.databinding.DialogCreatePlaylistBinding
 import ir.mab.radioamin.databinding.DialogDeletePlaylistBinding
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionAddToPlaylistOnClickListener
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionsChangeListener
-import ir.mab.radioamin.util.*
+import ir.mab.radioamin.util.AppConstants
+import ir.mab.radioamin.util.errorToast
+import ir.mab.radioamin.util.snack
+import ir.mab.radioamin.util.snackWithNavigateAction
 import ir.mab.radioamin.vm.DeviceAlbumsViewModel
 import ir.mab.radioamin.vm.DeviceArtistsViewModel
 import ir.mab.radioamin.vm.DevicePlaylistsViewModel
@@ -123,7 +126,7 @@ class DeviceFilesOptionBottomSheet(
                             dialog.dismiss()
                             dismiss()
 
-                            requireActivity().snack(getString(R.string.playlist_delete_msg))
+                            requireActivity().snack(getString(R.string.playlist_delete_msg).format(title))
                         }
                     }
 
@@ -238,13 +241,17 @@ class DeviceFilesOptionBottomSheet(
                 }
 
                 Status.SUCCESS -> {
+
+                    if (deviceFilesOptionsChangeListener != null){
+                        deviceFilesOptionsChangeListener!!.onDeviceFilesChanged()
+                    }
+                    dialog.dismiss()
+                    dismiss()
+
                     requireActivity().snack(
                         getString(R.string.playlist_creation_msg).format(title)
                     )
 
-                    requireContext().toast(getString(R.string.playlist_creation_msg).format(title))
-
-                    dialog.dismiss()
                 }
 
                 Status.ERROR -> {
