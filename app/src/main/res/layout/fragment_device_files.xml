@@ -94,7 +94,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingVertical="8dp"
+                    >
 
                     <ir.mab.radioamin.ui.custom.NavigationItemWithIconAndTextCompoundView
                         android:id="@+id/playlistsParent"
@@ -162,6 +164,23 @@
                         app:nitIcon="@drawable/ic_user_music"
                         app:nitIconTint="@color/white"
                         app:nitTitle="@string/artists"
+                        app:nitTitleColor="@color/white" />
+
+                    <ir.mab.radioamin.ui.custom.NavigationItemWithIconAndTextCompoundView
+                        android:id="@+id/genresParent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:paddingStart="24dp"
+                        android:paddingTop="16dp"
+                        android:paddingEnd="24dp"
+                        android:paddingBottom="16dp"
+                        app:nitChevronTint="@color/white"
+                        app:nitIcon="@drawable/ic_guitars"
+                        app:nitIconTint="@color/white"
+                        app:nitTitle="@string/genres"
                         app:nitTitleColor="@color/white" />
 
                 </LinearLayout>

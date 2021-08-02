@@ -21,4 +21,8 @@
         <attr name="elIconTint" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="ProgressCompoundView">
+        <attr name="prBackgroundColor" format="color" />
+    </declare-styleable>
+
 </resources>

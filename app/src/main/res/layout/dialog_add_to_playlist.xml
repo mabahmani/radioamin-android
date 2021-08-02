@@ -80,9 +80,9 @@
 
         <ir.mab.radioamin.ui.custom.ProgressCompoundView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@id/dividerTop"
-            android:background="@color/color6"
+            app:prBackgroundColor="@color/color6"
             android:visibility="@{showProgress ? View.VISIBLE : View.GONE}" />
 
         <RelativeLayout

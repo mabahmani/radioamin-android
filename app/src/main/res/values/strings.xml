@@ -45,4 +45,5 @@
     <string name="delete_this_playlist">Delete this playlist?</string>
     <string name="delete">Delete</string>
     <string name="playlist_delete_msg">Playlist %s deleted successfully</string>
+    <string name="genres">Genres</string>
 </resources>
