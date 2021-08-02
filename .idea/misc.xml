@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/activity_device_files_only.xml" value="0.17685185185185184" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/fragment_device_album.xml" value="0.2" />
+        <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/fragment_device_albums.xml" value="0.17685185185185184" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/fragment_device_playlist.xml" value="0.17685185185185184" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/fragment_device_playlists.xml" value="0.17685185185185184" />
       </map>
