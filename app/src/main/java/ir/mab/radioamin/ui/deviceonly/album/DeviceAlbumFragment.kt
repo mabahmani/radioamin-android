@@ -31,7 +31,7 @@ class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentDeviceAlbumBinding.inflate(inflater)
         return binding.root
     }
@@ -166,7 +166,7 @@ class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners {
             id,
             title,
             subtitle,
-            thumbnail,
+            binding.albumThumbnail,
             type
         ).show(requireActivity().supportFragmentManager, null)
     }
