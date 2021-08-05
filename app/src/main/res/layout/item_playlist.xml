@@ -8,6 +8,10 @@
         <variable
             name="playlist"
             type="ir.mab.radioamin.vo.DevicePlaylist" />
+
+        <variable
+            name="thumbnail"
+            type="android.graphics.Bitmap" />
     </data>
 
     <RelativeLayout
@@ -47,8 +51,8 @@
                     android:id="@+id/cover"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:imageBitmap="@{playlist.thumbnail}"
-                    android:visibility="@{playlist.thumbnail == null ? View.GONE : View.VISIBLE}"
+                    app:imageBitmap="@{thumbnail}"
+                    android:visibility="@{thumbnail == null ? View.GONE : View.VISIBLE}"
                     />
 
             </androidx.cardview.widget.CardView>

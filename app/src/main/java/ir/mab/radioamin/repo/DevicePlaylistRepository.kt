@@ -56,9 +56,7 @@ class DevicePlaylistRepository(
                                 id,
                                 name,
                                 getPlaylistMembersCount(id),
-                                getThumbnailAlbumArt(
-                                    getFirstPlaylistMember(id)
-                                )
+                                getFirstPlaylistMemberAlbumId(id)
                             )
                         )
                     }
@@ -111,7 +109,7 @@ class DevicePlaylistRepository(
                                     id,
                                     name,
                                     getPlaylistMembersCount(id),
-                                    getOriginalAlbumArt(getFirstPlaylistMember(id))
+                                    getFirstPlaylistMemberAlbumId(id)
                                 )
                             )
                         )
@@ -170,12 +168,11 @@ class DevicePlaylistRepository(
                         songs.add(
                             DeviceSong(
                                 id,
+                                albumId,
                                 title,
                                 artist,
                                 duration,
-                                contentUri,
-                                getThumbnailAlbumArt(albumId)
-                            )
+                                contentUri)
                         )
                     }
 
@@ -354,7 +351,7 @@ class DevicePlaylistRepository(
         return membersCount
     }
 
-    private fun getFirstPlaylistMember(playlistId: Long): Long {
+    private fun getFirstPlaylistMemberAlbumId(playlistId: Long): Long {
 
         val collection = getPlaylistMembersUri(playlistId)
 

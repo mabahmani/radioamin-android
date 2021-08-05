@@ -9,6 +9,10 @@
         <variable
             name="album"
             type="ir.mab.radioamin.vo.DeviceAlbum" />
+
+        <variable
+            name="thumbnail"
+            type="android.graphics.Bitmap" />
     </data>
 
     <RelativeLayout
@@ -48,8 +52,8 @@
                     android:id="@+id/cover"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility="@{album.thumbnail == null ? View.GONE : View.VISIBLE}"
-                    app:imageBitmap="@{album.thumbnail}" />
+                    android:visibility="@{thumbnail == null ? View.GONE : View.VISIBLE}"
+                    app:imageBitmap="@{thumbnail}" />
 
             </androidx.cardview.widget.CardView>
 

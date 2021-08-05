@@ -17,6 +17,7 @@ import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomS
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.errorToast
+import ir.mab.radioamin.util.getOriginalAlbumArt
 import ir.mab.radioamin.vm.DeviceAlbumsViewModel
 import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.generic.Status
@@ -116,9 +117,7 @@ class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners {
 
                 Status.SUCCESS ->{
                     if (it.data != null){
-                        if(it.data.thumbnail != null){
-                            binding.albumThumbnail = it.data.thumbnail
-                        }
+                        binding.albumThumbnail = requireContext().getOriginalAlbumArt(it.data.id ?: -1)
                         binding.albumArtist = it.data.artist
                     }
 

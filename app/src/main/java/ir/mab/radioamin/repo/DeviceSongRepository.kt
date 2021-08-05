@@ -58,11 +58,11 @@ class DeviceSongRepository(
                         songs.add(
                             DeviceSong(
                                 id,
+                                albumId,
                                 name,
                                 artist,
                                 duration,
-                                contentUri,
-                                getThumbnailAlbumArt(albumId)
+                                contentUri
                             )
                         )
 

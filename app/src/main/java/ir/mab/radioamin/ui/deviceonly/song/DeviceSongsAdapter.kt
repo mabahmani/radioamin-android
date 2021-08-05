@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ir.mab.radioamin.databinding.ItemSongBinding
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.util.DateTimeFormatter
+import ir.mab.radioamin.util.getDeviceThumbnailAlbumArt
 import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.DeviceSong
 
@@ -14,7 +15,7 @@ class DeviceSongsAdapter(var list: List<DeviceSong>, var deviceFilesMoreOnClickL
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemSongBinding.inflate(LayoutInflater.from(parent.context)), deviceFilesMoreOnClickListeners)
+        return ViewHolder(ItemSongBinding.inflate(LayoutInflater.from(parent.context), parent, false), deviceFilesMoreOnClickListeners)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -36,6 +37,7 @@ class DeviceSongsAdapter(var list: List<DeviceSong>, var deviceFilesMoreOnClickL
         }
 
         fun bind(model: DeviceSong) {
+            binding.thumbnail = itemView.context.getDeviceThumbnailAlbumArt(model.albumId ?: -1)
             binding.song = model
             binding.duration = DateTimeFormatter.durationToHumanTime(model.duration?:0)
 
@@ -44,7 +46,7 @@ class DeviceSongsAdapter(var list: List<DeviceSong>, var deviceFilesMoreOnClickL
                     model.id?: -1,
                     binding.title.text.toString(),
                     binding.subtitle.text.toString(),
-                    model.thumbnail,
+                    binding.thumbnail,
                     DeviceFileType.SONG
                 )
             }

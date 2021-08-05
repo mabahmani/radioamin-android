@@ -9,6 +9,7 @@ import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.ItemAlbumBinding
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.util.AppConstants
+import ir.mab.radioamin.util.getDeviceThumbnailAlbumArt
 import ir.mab.radioamin.vo.DeviceAlbum
 import ir.mab.radioamin.vo.DeviceFileType
 
@@ -39,6 +40,8 @@ class DeviceAlbumsAdapter(var list: List<DeviceAlbum>, var deviceFilesMoreOnClic
         }
 
         fun bind(model: DeviceAlbum) {
+            binding.thumbnail = itemView.context.getDeviceThumbnailAlbumArt(model.id ?: -1)
+
             binding.album = model
 
             val bundle = bundleOf(AppConstants.Arguments.ALBUM_ID to model.id, AppConstants.Arguments.ALBUM_NAME to model.name)
@@ -49,7 +52,7 @@ class DeviceAlbumsAdapter(var list: List<DeviceAlbum>, var deviceFilesMoreOnClic
                     model.id?: -1,
                     binding.title.text.toString(),
                     binding.subtitle.text.toString(),
-                    model.thumbnail,
+                    binding.thumbnail,
                     DeviceFileType.ALBUM
                 )
             }

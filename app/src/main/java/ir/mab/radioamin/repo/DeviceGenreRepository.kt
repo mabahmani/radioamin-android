@@ -163,12 +163,11 @@ class DeviceGenreRepository(
                         songs.add(
                             DeviceSong(
                                 id,
+                                albumId,
                                 title,
                                 artist,
                                 duration,
-                                contentUri,
-                                getThumbnailAlbumArt(albumId)
-                            )
+                                contentUri)
                         )
                     }
 

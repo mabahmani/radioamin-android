@@ -55,9 +55,9 @@ class DeviceArtistRepository(
                         artists.add(
                             DeviceArtist(
                                 id,
+                                getFirstArtistSongAlbumId(id),
                                 name,
                                 numberOfTracks,
-                                getThumbnailAlbumArt(getFirstArtistSongAlbumId(id))
                             )
                         )
 
@@ -120,12 +120,11 @@ class DeviceArtistRepository(
                         songs.add(
                             DeviceSong(
                                 id,
+                                albumId,
                                 name,
                                 artist,
                                 duration,
-                                contentUri,
-                                getThumbnailAlbumArt(albumId)
-                            )
+                                contentUri)
                         )
 
                     }

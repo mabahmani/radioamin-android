@@ -23,10 +23,10 @@ import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionsChangeListener
 import ir.mab.radioamin.ui.deviceonly.song.DeviceSongsAdapter
 import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.errorToast
+import ir.mab.radioamin.util.getOriginalAlbumArt
 import ir.mab.radioamin.vm.DevicePlaylistsViewModel
 import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.generic.Status
-import timber.log.Timber
 
 @AndroidEntryPoint
 class DevicePlaylistFragment : Fragment(), DeviceFilesMoreOnClickListeners,
@@ -126,23 +126,23 @@ class DevicePlaylistFragment : Fragment(), DeviceFilesMoreOnClickListeners,
 
 
     private fun getDevicePlaylist() {
-        devicePlaylistsViewModel.getDevicePlaylist(
-            arguments?.getLong(AppConstants.Arguments.PLAYLIST_ID) ?: -1
-        ).observe(viewLifecycleOwner, {
-            Timber.d("getDevicePlaylist %s", it)
-            when (it.status) {
-                Status.LOADING -> {
-                }
-
-                Status.SUCCESS -> {
-                    binding.playlistThumbnail = it.data?.thumbnail
-                }
-
-                Status.ERROR -> {
-                    requireContext().errorToast(it.message.toString())
-                }
-            }
-        })
+//        devicePlaylistsViewModel.getDevicePlaylist(
+//            arguments?.getLong(AppConstants.Arguments.PLAYLIST_ID) ?: -1
+//        ).observe(viewLifecycleOwner, {
+//            Timber.d("getDevicePlaylist %s", it)
+//            when (it.status) {
+//                Status.LOADING -> {
+//                }
+//
+//                Status.SUCCESS -> {
+//                    binding.playlistThumbnail =
+//                }
+//
+//                Status.ERROR -> {
+//                    requireContext().errorToast(it.message.toString())
+//                }
+//            }
+//        })
     }
 
     private fun getDevicePlaylistMembers() {
@@ -159,6 +159,7 @@ class DevicePlaylistFragment : Fragment(), DeviceFilesMoreOnClickListeners,
                     if (it.data.isNullOrEmpty()) {
                         binding.playlistMembersCount = 0
                     } else {
+                        binding.playlistThumbnail = requireContext().getOriginalAlbumArt(it.data[0].albumId?: -1)
                         binding.playlistMembersCount = it.data.size
                         deviceSongsAdapter.list = it.data
                         deviceSongsAdapter.notifyDataSetChanged()

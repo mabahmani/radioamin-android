@@ -1,10 +1,8 @@
 package ir.mab.radioamin.vo
 
-import android.graphics.Bitmap
-
 data class DeviceArtist(
     val id: Long?,
+    val albumId: Long?,
     val name: String?,
-    val songCounts: Int?,
-    val thumbnail: Bitmap?
+    val songCounts: Int?
 )

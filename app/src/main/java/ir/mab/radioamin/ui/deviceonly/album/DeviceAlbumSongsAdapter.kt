@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ir.mab.radioamin.databinding.ItemAlbumSongBinding
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.util.DateTimeFormatter
+import ir.mab.radioamin.util.getDeviceThumbnailAlbumArt
 import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.DeviceSong
 
@@ -44,7 +45,7 @@ class DeviceAlbumSongsAdapter(var list: List<DeviceSong>, var deviceFilesMoreOnC
                     model.id?: -1,
                     binding.title.text.toString(),
                     binding.subtitle.text.toString(),
-                    model.thumbnail,
+                    itemView.context.getDeviceThumbnailAlbumArt(model.albumId?: -1),
                     DeviceFileType.SONG
                 )
             }

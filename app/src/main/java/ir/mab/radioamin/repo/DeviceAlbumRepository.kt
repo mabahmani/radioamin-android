@@ -49,7 +49,7 @@ class DeviceAlbumRepository(
                         val artist =
                             it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Albums.ARTIST))
 
-                        albums.add(DeviceAlbum(id, name, artist, getThumbnailAlbumArt(id)))
+                        albums.add(DeviceAlbum(id, name, artist))
 
                     }
 
@@ -99,7 +99,7 @@ class DeviceAlbumRepository(
                         val artist =
                             it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Albums.ARTIST))
 
-                        album = DeviceAlbum(id, name, artist, getOriginalAlbumArt(id))
+                        album = DeviceAlbum(id, name, artist)
                     }
 
                     emit(Resource.success(album))
@@ -151,7 +151,7 @@ class DeviceAlbumRepository(
                             it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION))
                         val contentUri: Uri = getSongUri(id)
 
-                        songs.add(DeviceSong(id, name, artist, duration, contentUri, null))
+                        songs.add(DeviceSong(id,albumId, name, artist, duration, contentUri))
 
                     }
 
