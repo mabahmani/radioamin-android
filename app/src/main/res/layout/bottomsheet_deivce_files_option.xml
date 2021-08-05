@@ -48,33 +48,55 @@
                     android:paddingTop="16dp"
                     android:paddingBottom="16dp">
 
-                    <androidx.cardview.widget.CardView
+                    <RelativeLayout
                         android:id="@+id/coverParent"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="24dp"
-                        app:cardBackgroundColor="@color/color10"
-                        app:cardCornerRadius="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="24dp"
+                        >
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/coverPlaceHolder"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:padding="12dp"
-                            app:deviceFilesBtsOptionPlaceHolder="@{type}"
-                            app:tint="@color/color6" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            app:cardBackgroundColor="@color/color10"
+                            app:cardCornerRadius="5dp"
+                            android:visibility="@{type != DeviceFileType.GENRE ? View.VISIBLE:View.GONE}"
+                            >
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/cover"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            app:imageBitmap="@{thumbnail}" />
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/coverPlaceHolder"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="12dp"
+                                app:deviceFilesBtsOptionPlaceHolder="@{type}"
+                                app:tint="@color/color6" />
 
-                    </androidx.cardview.widget.CardView>
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/cover"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                app:imageBitmap="@{thumbnail}"
+                                />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/prefixParent"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"
+                            android:text="-"
+                            android:visibility="@{type == DeviceFileType.GENRE ? View.VISIBLE:View.GONE}"
+                            />
+
+                    </RelativeLayout>
+
 
                     <LinearLayout
                         android:id="@+id/infoParent"

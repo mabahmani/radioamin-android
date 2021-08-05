@@ -12,10 +12,12 @@
     <string name="playlistMembersCountSingle">Playlist • %d song</string>
     <string name="playlistMembersCount">Playlist • %d songs</string>
     <string name="new_playlist">New Playlist</string>
+    <string name="new_genre">New Genre</string>
     <string name="shuffle">Shuffle</string>
     <string name="play">Play</string>
     <string name="songArtistDuration">%s • %s</string>
     <string name="empty_playlists_msg">Playlists on your device will show up here</string>
+    <string name="empty_genres_msg">Genres on your device will show up here</string>
     <string name="empty_albums_msg">Albums on your device will show up here</string>
     <string name="empty_songs_msg">Songs on your device will show up here</string>
     <string name="empty_artists_msg">Artists on your device will show up here</string>

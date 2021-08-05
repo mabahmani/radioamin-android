@@ -4,5 +4,6 @@ enum class DeviceFileType {
     PLAYLIST,
     ALBUM,
     SONG,
-    ARTIST
+    ARTIST,
+    GENRE
 }

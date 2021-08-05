@@ -42,6 +42,14 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
 
+        <action
+            android:id="@+id/action_deviceFilesFragment_to_deviceGenresFragment"
+            app:destination="@id/deviceGenres"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
 <!--            app:enterAnim="@animator/nav_default_enter_anim"-->
 <!--            app:exitAnim="@animator/nav_default_exit_anim"-->
 <!--            app:popEnterAnim="@animator/nav_default_pop_enter_anim"-->
@@ -146,4 +154,26 @@
         android:name="ir.mab.radioamin.ui.deviceonly.playlist.EditDevicePlaylistFragment"
         android:label="EditDevicePlaylist"
         tools:layout="@layout/fragment_edit_device_playlist" />
+
+    <fragment
+        android:id="@+id/deviceGenres"
+        android:name="ir.mab.radioamin.ui.deviceonly.genre.DeviceGenresFragment"
+        android:label="DeviceGenres"
+        tools:layout="@layout/fragment_device_genres">
+
+        <action
+            android:id="@+id/action_deviceGenresFragment_to_deviceGenreFragment"
+            app:destination="@id/deviceGenre"
+            app:enterAnim="@anim/slide_in_enter_micro"
+            app:exitAnim="@anim/slide_out_micro"
+            app:popEnterAnim="@anim/slide_in_enter_micro"
+            app:popExitAnim="@anim/slide_out_micro"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/deviceGenre"
+        android:name="ir.mab.radioamin.ui.deviceonly.genre.DeviceGenreFragment"
+        android:label="DeviceGenre"
+        tools:layout="@layout/fragment_device_genre" />
 </navigation>

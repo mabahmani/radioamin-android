@@ -9,5 +9,7 @@ object AppConstants {
         const val ALBUM_ID = "ALBUM_ID"
         const val ARTIST_ID = "ARTIST_ID"
         const val ARTIST_NAME = "ARTIST_NAME"
+        const val GENRE_ID = "GENRE_ID"
+        const val GENRE_NAME = "GENRE_NAME"
     }
 }

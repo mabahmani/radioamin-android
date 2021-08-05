@@ -211,4 +211,45 @@ open class DeviceFilesRepository(private val application: Application) {
             )
         }
     }
+
+
+    fun getGenresUri(): Uri {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            MediaStore.Audio.Genres.getContentUri(
+                MediaStore.VOLUME_EXTERNAL_PRIMARY
+            )
+        } else {
+            MediaStore.Audio.Genres.getContentUri(
+                MediaStore.VOLUME_EXTERNAL
+            )
+        }
+    }
+
+    fun getGenreUri(genreId: Long): Uri {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ContentUris.withAppendedId(
+                MediaStore.Audio.Genres.getContentUri(
+                    MediaStore.VOLUME_EXTERNAL_PRIMARY
+                ), genreId
+            )
+        } else {
+            ContentUris.withAppendedId(
+                MediaStore.Audio.Genres.getContentUri(
+                    MediaStore.VOLUME_EXTERNAL
+                ), genreId
+            )
+        }
+    }
+
+    fun getGenreMembersUri(genreId: Long): Uri {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            MediaStore.Audio.Genres.Members.getContentUri(
+                MediaStore.VOLUME_EXTERNAL_PRIMARY, genreId
+            )
+        } else {
+            MediaStore.Audio.Genres.Members.getContentUri(
+                MediaStore.VOLUME_EXTERNAL, genreId
+            )
+        }
+    }
 }
