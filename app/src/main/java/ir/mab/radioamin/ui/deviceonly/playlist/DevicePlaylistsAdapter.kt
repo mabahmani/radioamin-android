@@ -9,9 +9,12 @@ import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.ItemPlaylistBinding
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.util.AppConstants
-import ir.mab.radioamin.util.getDeviceThumbnailAlbumArt
+import ir.mab.radioamin.util.DeviceFilesImageLoader.getDevicePlaylistThumbnail
 import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.DevicePlaylist
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class DevicePlaylistsAdapter(var list: List<DevicePlaylist>, var deviceFilesMoreOnClickListeners: DeviceFilesMoreOnClickListeners) :
     RecyclerView.Adapter<DevicePlaylistsAdapter.ViewHolder>() {
@@ -37,7 +40,9 @@ class DevicePlaylistsAdapter(var list: List<DevicePlaylist>, var deviceFilesMore
         }
 
         fun bind(model: DevicePlaylist) {
-            binding.thumbnail = itemView.context.getDeviceThumbnailAlbumArt(model.albumId?: -1)
+            GlobalScope.launch(Dispatchers.IO){
+                binding.thumbnail = itemView.context.getDevicePlaylistThumbnail(model.id?: -1)
+            }
             binding.playlist = model
 
             val bundle = bundleOf(

@@ -8,8 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import ir.mab.radioamin.databinding.ItemSongEditPlaylistBinding
 import ir.mab.radioamin.ui.deviceonly.listener.EditDevicePlaylistItemDragListeners
 import ir.mab.radioamin.util.DateTimeFormatter
-import ir.mab.radioamin.util.getDeviceThumbnailAlbumArt
+import ir.mab.radioamin.util.DeviceFilesImageLoader.getDeviceAlbumThumbnail
 import ir.mab.radioamin.vo.DeviceSong
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class EditPlaylistSongsAdapter(var list: List<DeviceSong>, var editDevicePlaylistItemDragListeners: EditDevicePlaylistItemDragListeners) :
     RecyclerView.Adapter<EditPlaylistSongsAdapter.ViewHolder>() {
@@ -39,7 +42,9 @@ class EditPlaylistSongsAdapter(var list: List<DeviceSong>, var editDevicePlaylis
 
         @SuppressLint("ClickableViewAccessibility")
         fun bind(model: DeviceSong) {
-            binding.thumbnail = itemView.context.getDeviceThumbnailAlbumArt(model.albumId?: -1)
+            GlobalScope.launch(Dispatchers.IO){
+                binding.thumbnail = itemView.context.getDeviceAlbumThumbnail(model.albumId?: -1)
+            }
             binding.song = model
             binding.duration = DateTimeFormatter.durationToHumanTime(model.duration?:0)
 

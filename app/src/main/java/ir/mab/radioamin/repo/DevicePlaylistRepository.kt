@@ -55,8 +55,7 @@ class DevicePlaylistRepository(
                             DevicePlaylist(
                                 id,
                                 name,
-                                getPlaylistMembersCount(id),
-                                getFirstPlaylistMemberAlbumId(id)
+                                getPlaylistMembersCount(id)
                             )
                         )
                     }
@@ -108,8 +107,7 @@ class DevicePlaylistRepository(
                                 DevicePlaylist(
                                     id,
                                     name,
-                                    getPlaylistMembersCount(id),
-                                    getFirstPlaylistMemberAlbumId(id)
+                                    getPlaylistMembersCount(id)
                                 )
                             )
                         )
@@ -349,38 +347,6 @@ class DevicePlaylistRepository(
         }
 
         return membersCount
-    }
-
-    private fun getFirstPlaylistMemberAlbumId(playlistId: Long): Long {
-
-        val collection = getPlaylistMembersUri(playlistId)
-
-        val projection = arrayOf(
-            MediaStore.Audio.Playlists.Members.AUDIO_ID,
-            MediaStore.Audio.Playlists.Members.ALBUM_ID,
-        )
-
-        val sortOrder = "${MediaStore.Audio.Playlists.Members.PLAY_ORDER} ASC"
-
-        try {
-            queryMediaStore(
-                collection,
-                projection,
-                null,
-                null,
-                sortOrder
-            ).use {
-                if (it != null && it.count > 0) {
-                    it.moveToFirst()
-
-                    return it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.ALBUM_ID))
-                }
-                return -1
-            }
-        } catch (ex: Exception) {
-            Timber.e(ex)
-            return -1
-        }
     }
 
     private fun updatePlaylistName(name: String, playlistId: Long) {

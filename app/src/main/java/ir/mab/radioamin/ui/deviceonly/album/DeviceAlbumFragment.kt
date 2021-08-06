@@ -16,11 +16,14 @@ import ir.mab.radioamin.databinding.FragmentDeviceAlbumBinding
 import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomSheet
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.util.AppConstants
+import ir.mab.radioamin.util.DeviceFilesImageLoader.getOriginalAlbumArt
 import ir.mab.radioamin.util.errorToast
-import ir.mab.radioamin.util.getOriginalAlbumArt
 import ir.mab.radioamin.vm.DeviceAlbumsViewModel
 import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.generic.Status
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners {
@@ -117,7 +120,11 @@ class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners {
 
                 Status.SUCCESS ->{
                     if (it.data != null){
-                        binding.albumThumbnail = requireContext().getOriginalAlbumArt(it.data.id ?: -1)
+                        GlobalScope.launch(Dispatchers.IO){
+                            binding.albumThumbnail = requireContext().getOriginalAlbumArt(it.data.id ?: -1)
+                            deviceAlbumSongsAdapter.albumArt = binding.albumThumbnail
+
+                        }
                         binding.albumArtist = it.data.artist
                     }
 

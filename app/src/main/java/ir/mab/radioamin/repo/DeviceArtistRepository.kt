@@ -10,7 +10,6 @@ import ir.mab.radioamin.vo.DeviceSong
 import ir.mab.radioamin.vo.generic.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import timber.log.Timber
 
 class DeviceArtistRepository(
     application: Application,
@@ -55,7 +54,6 @@ class DeviceArtistRepository(
                         artists.add(
                             DeviceArtist(
                                 id,
-                                getFirstArtistSongAlbumId(id),
                                 name,
                                 numberOfTracks,
                             )
@@ -134,41 +132,6 @@ class DeviceArtistRepository(
             } catch (ex: Exception) {
                 emit(Resource.error(null, ex.toString(), null, null))
             }
-        }
-    }
-
-
-    private fun getFirstArtistSongAlbumId(artistId: Long): Long {
-
-        val collection = getSongsUri()
-
-        val projection = arrayOf(
-            MediaStore.Audio.Media.ALBUM_ID
-        )
-
-        val selection = "${MediaStore.Audio.Media.ARTIST_ID} = ?"
-
-        val selectionArgs = arrayOf(artistId.toString())
-
-        try {
-            queryMediaStore(
-                collection,
-                projection,
-                selection,
-                selectionArgs,
-                null
-            ).use {
-                return if (it != null && it.count > 0) {
-                    it.moveToFirst()
-
-                    it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID))
-                } else {
-                    -1
-                }
-            }
-        } catch (ex: Exception) {
-            Timber.e(ex)
-            return -1
         }
     }
 

@@ -1,25 +1,29 @@
 package ir.mab.radioamin.ui.deviceonly.album
 
+import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.mab.radioamin.databinding.ItemAlbumSongBinding
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.util.DateTimeFormatter
-import ir.mab.radioamin.util.getDeviceThumbnailAlbumArt
 import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.DeviceSong
 
-class DeviceAlbumSongsAdapter(var list: List<DeviceSong>, var deviceFilesMoreOnClickListeners: DeviceFilesMoreOnClickListeners) :
+class DeviceAlbumSongsAdapter(
+    var list: List<DeviceSong>,
+    var deviceFilesMoreOnClickListeners: DeviceFilesMoreOnClickListeners
+) :
     RecyclerView.Adapter<DeviceAlbumSongsAdapter.ViewHolder>() {
 
+    internal var albumArt:Bitmap? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(ItemAlbumSongBinding.inflate(LayoutInflater.from(parent.context)), deviceFilesMoreOnClickListeners)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(list[position])
+        holder.bind(list[position], albumArt)
     }
 
     override fun getItemCount(): Int {
@@ -36,7 +40,7 @@ class DeviceAlbumSongsAdapter(var list: List<DeviceSong>, var deviceFilesMoreOnC
             itemView.executePendingBindings()
         }
 
-        fun bind(model: DeviceSong) {
+        fun bind(model: DeviceSong, albumArt: Bitmap?) {
             binding.song = model
             binding.duration = DateTimeFormatter.durationToHumanTime(model.duration?:0)
 
@@ -45,7 +49,7 @@ class DeviceAlbumSongsAdapter(var list: List<DeviceSong>, var deviceFilesMoreOnC
                     model.id?: -1,
                     binding.title.text.toString(),
                     binding.subtitle.text.toString(),
-                    itemView.context.getDeviceThumbnailAlbumArt(model.albumId?: -1),
+                    albumArt,
                     DeviceFileType.SONG
                 )
             }
