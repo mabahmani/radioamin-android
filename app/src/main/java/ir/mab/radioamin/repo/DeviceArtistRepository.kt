@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import timber.log.Timber
 
 class DeviceArtistRepository(
-    private val application: Application,
+    application: Application,
     private val dispatcherIO: CoroutineDispatcher = Dispatchers.IO
 ) : DeviceFilesRepository(application) {
 

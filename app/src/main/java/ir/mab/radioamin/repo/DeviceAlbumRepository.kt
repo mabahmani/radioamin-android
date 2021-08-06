@@ -12,7 +12,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
 class DeviceAlbumRepository(
-    private val application: Application,
+    application: Application,
     private val dispatcherIO: CoroutineDispatcher = Dispatchers.IO
 ) : DeviceFilesRepository(application) {
 
@@ -64,7 +64,7 @@ class DeviceAlbumRepository(
     suspend fun getDeviceAlbum(albumId: Long): LiveData<Resource<DeviceAlbum>> {
         return liveData(dispatcherIO) {
 
-            var album: DeviceAlbum? = null;
+            var album: DeviceAlbum? = null
 
             emit(Resource.loading(null))
 
