@@ -28,7 +28,7 @@ class DeviceSongsFragment : DeviceFilesBaseFragment(), DeviceFilesMoreOnClickLis
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentDeviceSongsBinding.inflate(inflater)
         return binding.root
     }

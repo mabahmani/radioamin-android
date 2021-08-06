@@ -1,6 +1,5 @@
 package ir.mab.radioamin.vm
 
-import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -45,27 +44,4 @@ class DeviceGenresViewModel @Inject constructor(
         return result
     }
 
-    fun createGenre(title: String): LiveData<Resource<Uri>>{
-        var result: LiveData<Resource<Uri>> = MutableLiveData()
-        viewModelScope.launch {
-            result = deviceGenreRepository.createNewGenre(title)
-        }
-        return result
-    }
-
-    fun addSongsToGenre(songs: List<DeviceSong>, genreId: Long): LiveData<Resource<Boolean>> {
-        var result: LiveData<Resource<Boolean>> = MutableLiveData()
-        viewModelScope.launch {
-            result = deviceGenreRepository.addSongsToGenre(songs, genreId)
-        }
-        return result
-    }
-
-    fun updateGenreName(newName:String, genreId: Long): LiveData<Resource<Boolean>> {
-        var result: LiveData<Resource<Boolean>> = MutableLiveData()
-        viewModelScope.launch {
-            result = deviceGenreRepository.updateGenreName(newName, genreId)
-        }
-        return result
-    }
 }

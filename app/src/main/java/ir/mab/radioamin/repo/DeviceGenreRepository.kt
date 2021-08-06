@@ -1,7 +1,6 @@
 package ir.mab.radioamin.repo
 
 import android.app.Application
-import android.content.ContentValues
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.lifecycle.LiveData
@@ -180,88 +179,6 @@ class DeviceGenreRepository(
 
         }
 
-    }
-
-    suspend fun updateGenreName(name: String, genreId: Long): LiveData<Resource<Boolean>> {
-        return liveData(dispatcherIO) {
-            val resolver = application.contentResolver
-
-            val collection = getGenresUri()
-
-            val selection = "${MediaStore.Audio.Genres._ID} = ?"
-            val selectionArgs = arrayOf(genreId.toString())
-
-            val updatedGenreDetails = ContentValues().apply {
-                put(MediaStore.Audio.Genres.NAME, name)
-            }
-
-            try {
-                resolver.update(
-                    collection,
-                    updatedGenreDetails,
-                    selection,
-                    selectionArgs
-                )
-                emit(Resource.success(true))
-            } catch (ex: java.lang.Exception) {
-                emit(Resource.error(null, ex.message.toString(), false, null))
-            }
-
-        }
-
-    }
-
-    suspend fun createNewGenre(name: String): LiveData<Resource<Uri>> {
-
-        return liveData(dispatcherIO) {
-
-            emit(Resource.loading(null))
-
-            val resolver = application.contentResolver
-
-            val collection = getGenresUri()
-
-            val newGenreDetails = ContentValues().apply {
-                put(MediaStore.Audio.Genres.NAME, name)
-            }
-
-            try {
-                val result = resolver.insert(collection, newGenreDetails)
-                emit(Resource.success(result))
-            } catch (ex: java.lang.Exception) {
-                emit(Resource.error(null, ex.toString(), null, null))
-            }
-        }
-    }
-
-    suspend fun addSongsToGenre(
-        songs: List<DeviceSong>,
-        genreId: Long
-    ): LiveData<Resource<Boolean>> {
-
-        return liveData(dispatcherIO) {
-            emit(Resource.loading(null))
-
-            val resolver = application.contentResolver
-
-            val collection = getGenreMembersUri(genreId)
-
-            val contentValuesList: Array<ContentValues?> = arrayOfNulls(songs.size)
-
-            songs.forEachIndexed { index, song ->
-                val newSongDetails = ContentValues().apply {
-                    put(MediaStore.Audio.Genres.Members.AUDIO_ID, song.id)
-                }
-                contentValuesList[index] = newSongDetails
-            }
-
-            try {
-                resolver.bulkInsert(collection, contentValuesList)
-                emit(Resource.success(true))
-            } catch (ex: Exception) {
-                emit(Resource.error(null, ex.message.toString(), false, null))
-            }
-        }
     }
 
     private fun getGenreMembersCount(genreId: Long): Int {

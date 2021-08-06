@@ -69,66 +69,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <RelativeLayout
-                    android:id="@+id/newGenreParent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true"
-                        >
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/coverParent"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:layout_marginStart="24dp"
-                            android:layout_marginTop="12dp"
-                            android:layout_marginEnd="24dp"
-                            android:layout_marginBottom="12dp"
-                            app:cardBackgroundColor="@color/color6"
-                            app:cardCornerRadius="5dp"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:padding="16dp"
-                                app:srcCompat="@drawable/ic_plus"
-                                app:tint="@color/white" />
-
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            fontPath="fonts/OpenSans-SemiBold.ttf"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="16dp"
-                            android:text="@string/new_genre"
-                            android:textColor="@color/white"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintLeft_toRightOf="@+id/coverParent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-                </RelativeLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@id/newGenreParent"
                     android:overScrollMode="never" />
 
                 <ir.mab.radioamin.ui.custom.ProgressCompoundView

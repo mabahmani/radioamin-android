@@ -12,12 +12,21 @@ import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.DeviceGenre
 
-class DeviceGenresAdapter(var list: List<DeviceGenre>, var deviceFilesMoreOnClickListeners: DeviceFilesMoreOnClickListeners) :
+class DeviceGenresAdapter(
+    var list: List<DeviceGenre>,
+    var deviceFilesMoreOnClickListeners: DeviceFilesMoreOnClickListeners
+) :
     RecyclerView.Adapter<DeviceGenresAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemGenreBinding.inflate(LayoutInflater.from(parent.context), parent, false), deviceFilesMoreOnClickListeners)
+        return ViewHolder(
+            ItemGenreBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            ), deviceFilesMoreOnClickListeners
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -28,7 +37,10 @@ class DeviceGenresAdapter(var list: List<DeviceGenre>, var deviceFilesMoreOnClic
         return list.size
     }
 
-    class ViewHolder(itemView: ItemGenreBinding, var deviceFilesMoreOnClickListeners: DeviceFilesMoreOnClickListeners) : RecyclerView.ViewHolder(itemView.root) {
+    class ViewHolder(
+        itemView: ItemGenreBinding,
+        var deviceFilesMoreOnClickListeners: DeviceFilesMoreOnClickListeners
+    ) : RecyclerView.ViewHolder(itemView.root) {
         var binding: ItemGenreBinding = itemView
 
         init {
@@ -51,7 +63,7 @@ class DeviceGenresAdapter(var list: List<DeviceGenre>, var deviceFilesMoreOnClic
 
             binding.more.setOnClickListener {
                 deviceFilesMoreOnClickListeners.onShowOptions(
-                    model.id?: -1,
+                    model.id ?: -1,
                     binding.title.text.toString(),
                     binding.subtitle.text.toString(),
                     null,
