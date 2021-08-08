@@ -26,7 +26,6 @@ import ir.mab.radioamin.util.errorToast
 import ir.mab.radioamin.util.snackWithNavigateAction
 import ir.mab.radioamin.vm.DevicePlaylistsViewModel
 import ir.mab.radioamin.vo.generic.Status
-import timber.log.Timber
 import java.util.*
 
 @AndroidEntryPoint
@@ -86,7 +85,6 @@ class EditDevicePlaylistFragment : Fragment(), EditDevicePlaylistItemDragListene
                 (arguments?.getString(AppConstants.Arguments.PLAYLIST_NAME)
                     ?: "") != binding.title.text.toString()
             ).observe(viewLifecycleOwner, {
-                Timber.d("editPlaylist %s", it)
                 when (it.status) {
                     Status.LOADING -> {
 

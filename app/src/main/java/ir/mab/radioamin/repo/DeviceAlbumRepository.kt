@@ -68,7 +68,7 @@ class DeviceAlbumRepository(
 
             emit(Resource.loading(null))
 
-            val collection = getAlbumsUri()
+            val collection = getAlbumUri(albumId)
 
             val projection = arrayOf(
                 MediaStore.Audio.Albums._ID,
@@ -76,19 +76,14 @@ class DeviceAlbumRepository(
                 MediaStore.Audio.Albums.ARTIST
             )
 
-            val sortOrder = "${MediaStore.Audio.Albums.ALBUM} ASC"
-
-            val selection = "${MediaStore.Audio.Albums._ID} = ?"
-
-            val selectionArgs = arrayOf(albumId.toString())
 
             try {
                 queryMediaStore(
                     collection,
                     projection,
-                    selection,
-                    selectionArgs,
-                    sortOrder
+                    null,
+                    null,
+                    null
                 ).use {
 
                     while (it != null && it.moveToNext()) {

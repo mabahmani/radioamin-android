@@ -71,22 +71,19 @@ class DeviceGenreRepository(
 
             emit(Resource.loading(null))
 
-            val collection = getGenresUri()
+            val collection = getGenreUri(genreId)
 
             val projection = arrayOf(
                 MediaStore.Audio.Genres._ID,
                 MediaStore.Audio.Genres.NAME
             )
 
-            val selection = "${MediaStore.Audio.Genres._ID} = ?"
-            val selectionArgs = arrayOf(genreId.toString())
-
             try {
                 queryMediaStore(
                     collection,
                     projection,
-                    selection,
-                    selectionArgs,
+                    null,
+                    null,
                     null
                 ).use {
 

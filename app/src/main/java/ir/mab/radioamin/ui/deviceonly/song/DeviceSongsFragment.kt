@@ -16,7 +16,6 @@ import ir.mab.radioamin.util.errorToast
 import ir.mab.radioamin.vm.DeviceSongsViewModel
 import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.generic.Status
-import timber.log.Timber
 
 @AndroidEntryPoint
 class DeviceSongsFragment : DeviceFilesBaseFragment(), DeviceFilesMoreOnClickListeners {
@@ -69,7 +68,6 @@ class DeviceSongsFragment : DeviceFilesBaseFragment(), DeviceFilesMoreOnClickLis
                 }
 
                 Status.SUCCESS -> {
-                    Timber.d("getDeviceSongs %s", it.data)
                     if (it.data.isNullOrEmpty()) {
                         binding.showEmptyList = true
                     } else {

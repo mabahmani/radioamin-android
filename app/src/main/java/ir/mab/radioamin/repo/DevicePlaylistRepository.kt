@@ -73,22 +73,19 @@ class DevicePlaylistRepository(
 
             emit(Resource.loading(null))
 
-            val collection = getPlaylistsUri()
+            val collection = getPlaylistUri(playlistId)
 
             val projection = arrayOf(
                 MediaStore.Audio.Playlists._ID,
                 MediaStore.Audio.Playlists.NAME
             )
 
-            val selection = "${MediaStore.Audio.Playlists._ID} = ?"
-            val selectionArgs = arrayOf(playlistId.toString())
-
             try {
                 queryMediaStore(
                     collection,
                     projection,
-                    selection,
-                    selectionArgs,
+                    null,
+                    null,
                     null
                 ).use {
 
@@ -170,7 +167,8 @@ class DevicePlaylistRepository(
                                 title,
                                 artist,
                                 duration,
-                                contentUri)
+                                contentUri
+                            )
                         )
                     }
 
@@ -230,7 +228,6 @@ class DevicePlaylistRepository(
                     from,
                     to
                 )
-                Timber.d("movePlaylistMember %s", res)
             } catch (ex: Exception) {
                 Timber.e(ex)
             }
@@ -352,21 +349,19 @@ class DevicePlaylistRepository(
     private fun updatePlaylistName(name: String, playlistId: Long) {
         val resolver = application.contentResolver
 
-        val playlistCollection = getPlaylistsUri()
-
-        val selection = "${MediaStore.Audio.Playlists._ID} = ?"
-        val selectionArgs = arrayOf(playlistId.toString())
+        val playlistUri = getPlaylistUri(playlistId)
 
         val updatedPlaylistDetails = ContentValues().apply {
-            put(MediaStore.Audio.Playlists.NAME, name)
+            put(MediaStore.Audio.PlaylistsColumns.NAME, name)
         }
 
-        resolver.update(
-            playlistCollection,
+        val res = resolver.update(
+            playlistUri,
             updatedPlaylistDetails,
-            selection,
-            selectionArgs
+            null,
+            null
         )
+
     }
 
     private fun updatePlaylistOrders(songs: List<DeviceSong>, playlistId: Long) {

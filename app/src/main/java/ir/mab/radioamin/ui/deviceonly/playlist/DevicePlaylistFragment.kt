@@ -53,7 +53,6 @@ class DevicePlaylistFragment : Fragment(), DeviceFilesMoreOnClickListeners,
         observeAppBarScroll()
         setBundleData()
         initList()
-        getDevicePlaylist()
         getDevicePlaylistMembers()
         setClickListener()
     }
@@ -125,27 +124,6 @@ class DevicePlaylistFragment : Fragment(), DeviceFilesMoreOnClickListeners,
     private fun initList() {
         binding.list.layoutManager = LinearLayoutManager(requireContext())
         binding.list.adapter = deviceSongsAdapter
-    }
-
-
-    private fun getDevicePlaylist() {
-//        devicePlaylistsViewModel.getDevicePlaylist(
-//            arguments?.getLong(AppConstants.Arguments.PLAYLIST_ID) ?: -1
-//        ).observe(viewLifecycleOwner, {
-//            Timber.d("getDevicePlaylist %s", it)
-//            when (it.status) {
-//                Status.LOADING -> {
-//                }
-//
-//                Status.SUCCESS -> {
-//                    binding.playlistThumbnail =
-//                }
-//
-//                Status.ERROR -> {
-//                    requireContext().errorToast(it.message.toString())
-//                }
-//            }
-//        })
     }
 
     private fun getDevicePlaylistMembers() {

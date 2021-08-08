@@ -11,7 +11,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
 class DeviceSongRepository(
-    application: Application,
+    private val application: Application,
     private val dispatcherIO: CoroutineDispatcher = Dispatchers.IO
 ) : DeviceFilesRepository(application) {
 
@@ -28,7 +28,7 @@ class DeviceSongRepository(
                 MediaStore.Audio.Media.TITLE,
                 MediaStore.Audio.Media.DURATION,
                 MediaStore.Audio.Media.ARTIST,
-                MediaStore.Audio.Media.ALBUM_ID,
+                MediaStore.Audio.Media.ALBUM_ID
             )
 
             val sortOrder = "${MediaStore.Audio.Media.TITLE} ASC"

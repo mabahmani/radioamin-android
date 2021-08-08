@@ -325,7 +325,6 @@ class DeviceFilesOptionBottomSheet(
         if (!songs.isNullOrEmpty()) {
             devicePlaylistsViewModel.addSongsToPlaylist(songs, playlist.id ?: -1)
                 .observe(viewLifecycleOwner, {
-                    Timber.d("addSongsToPlaylist %s", it)
                     when (it.status) {
                         Status.LOADING -> {
 
