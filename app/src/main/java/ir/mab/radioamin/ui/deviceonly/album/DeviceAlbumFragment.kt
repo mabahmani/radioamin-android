@@ -25,7 +25,6 @@ import ir.mab.radioamin.vo.generic.Status
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners {
@@ -114,7 +113,6 @@ class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners {
 
     private fun getAlbum() {
         deviceAlbumsViewModel.getDeviceAlbum(arguments?.getLong(AppConstants.Arguments.ALBUM_ID)?:-1).observe(viewLifecycleOwner,{
-            Timber.d("getAlbum %s", it)
             when(it.status){
                 Status.LOADING ->{
                     binding.showProgress = true

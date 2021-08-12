@@ -13,7 +13,10 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.tag.FieldKey
+import org.jaudiotagger.tag.images.Artwork
+import org.jaudiotagger.tag.images.ArtworkFactory
 import java.io.File
+
 
 class DeviceSongRepository(
     private val application: Application,
@@ -159,6 +162,7 @@ class DeviceSongRepository(
 
             try {
                 val audioFileIO = AudioFileIO.read(File(path))
+
                 emit(
                     Resource.success(
                         DeviceSongTag(
@@ -181,12 +185,15 @@ class DeviceSongRepository(
 
     fun writeDeviceSongTags(
         path: String,
-        deviceSongTag: DeviceSongTag
+        deviceSongTag: DeviceSongTag,
+        coverArtUri: Uri?
     ): LiveData<Resource<Boolean>> {
         return liveData(dispatcherIO) {
             emit(Resource.loading(null))
 
             try {
+
+
                 val audioFileIO = AudioFileIO.read(File(path))
 
                 val tag = audioFileIO.tagOrCreateAndSetDefault
@@ -198,6 +205,11 @@ class DeviceSongRepository(
                 tag.setField(FieldKey.COUNTRY, deviceSongTag.country)
                 tag.setField(FieldKey.YEAR, deviceSongTag.year)
                 tag.setField(FieldKey.LYRICS, deviceSongTag.lyrics)
+
+                if (coverArtUri != null) {
+                    tag.deleteArtworkField()
+                    tag.setField(getArtworkFile(coverArtUri))
+                }
 
                 audioFileIO.commit()
 
@@ -211,6 +223,30 @@ class DeviceSongRepository(
                 emit(Resource.error(null, ex.message.toString(), false, null))
             }
         }
+    }
+
+    private fun getArtworkFile(uri: Uri): Artwork {
+
+        var path = ""
+
+        val projection = arrayOf(
+            MediaStore.Images.Media.DATA
+        )
+
+        queryMediaStore(
+            uri,
+            projection,
+            null,
+            null,
+            null
+        ).use {
+            if (it != null && it.count > 0) {
+                it.moveToFirst()
+                path = it.getString(it.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
+            }
+        }
+
+        return ArtworkFactory.createArtworkFromFile(File(path))
     }
 }
 

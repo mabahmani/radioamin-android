@@ -14,6 +14,7 @@ import ir.mab.radioamin.vo.DeviceFileType
 fun loadImage(view: AppCompatImageView, imageBitmap: Bitmap?) {
     if (imageBitmap != null) {
         Glide.with(view).load(imageBitmap).transition(DrawableTransitionOptions.withCrossFade())
+            .centerCrop()
             .into(view)
     }
 }

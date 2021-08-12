@@ -56,4 +56,5 @@
     <string name="year">Year</string>
     <string name="lyrics">Lyrics</string>
     <string name="song_info_updated">Song info updated successfully</string>
+    <string name="selece_song_cover">Select Song Cover</string>
 </resources>

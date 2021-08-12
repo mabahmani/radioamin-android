@@ -103,7 +103,6 @@ class DeviceFilesOptionBottomSheet(
 
         binding.editSongInfoParent.setOnClickListener {
             deviceSongsViewModel.getDeviceSong(id).observe(viewLifecycleOwner, {
-                Timber.d("%s", it)
                 when(it.status){
                     Status.LOADING -> {
 
@@ -112,6 +111,7 @@ class DeviceFilesOptionBottomSheet(
                     Status.SUCCESS -> {
                         val bundle = bundleOf(
                             AppConstants.Arguments.SONG_DATA to it.data?.data,
+                            AppConstants.Arguments.ALBUM_ID to it.data?.albumId,
                         )
                         findNavController().navigate(
                             R.id.action_global_editDeviceSongInfo,

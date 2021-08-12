@@ -1,5 +1,6 @@
 package ir.mab.radioamin.vm
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -44,10 +45,10 @@ class DeviceSongsViewModel @Inject constructor(
         return result
     }
 
-    fun writeDeviceSongTags(path: String, deviceSongTag: DeviceSongTag): LiveData<Resource<Boolean>>{
+    fun writeDeviceSongTags(path: String, deviceSongTag: DeviceSongTag, coverArtUri: Uri?): LiveData<Resource<Boolean>>{
         var result: LiveData<Resource<Boolean>> = MutableLiveData()
         viewModelScope.launch {
-            result = deviceSongRepository.writeDeviceSongTags(path, deviceSongTag)
+            result = deviceSongRepository.writeDeviceSongTags(path, deviceSongTag, coverArtUri)
         }
 
         return result
