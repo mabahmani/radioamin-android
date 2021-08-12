@@ -118,6 +118,7 @@ class DeviceAlbumRepository(
                 MediaStore.Audio.Media.TITLE,
                 MediaStore.Audio.Media.DURATION,
                 MediaStore.Audio.Media.ARTIST,
+                MediaStore.Audio.Media.DATA,
             )
 
             val sortOrder = "${MediaStore.Audio.Media.TITLE} ASC"
@@ -145,8 +146,9 @@ class DeviceAlbumRepository(
                         val duration =
                             it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION))
                         val contentUri: Uri = getSongUri(id)
+                        val data: String = it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA))
 
-                        songs.add(DeviceSong(id,albumId, name, artist, duration, contentUri))
+                        songs.add(DeviceSong(id, albumId, name, artist, duration, contentUri, data))
 
                     }
 

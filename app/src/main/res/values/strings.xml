@@ -48,4 +48,12 @@
     <string name="delete">Delete</string>
     <string name="playlist_delete_msg">Playlist %s deleted successfully</string>
     <string name="genres">Genres</string>
+    <string name="edit_song_info">Edit Song Info</string>
+    <string name="artist">Artist</string>
+    <string name="genre">Genre</string>
+    <string name="language">Language</string>
+    <string name="country">Country</string>
+    <string name="year">Year</string>
+    <string name="lyrics">Lyrics</string>
+    <string name="song_info_updated">Song info updated successfully</string>
 </resources>

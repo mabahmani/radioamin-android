@@ -132,7 +132,8 @@ class DevicePlaylistRepository(
                 MediaStore.Audio.Playlists.Members.TITLE,
                 MediaStore.Audio.Playlists.Members.ARTIST,
                 MediaStore.Audio.Playlists.Members.DURATION,
-                MediaStore.Audio.Playlists.Members.ALBUM_ID
+                MediaStore.Audio.Playlists.Members.ALBUM_ID,
+                MediaStore.Audio.Playlists.Members.DATA
             )
 
             val sortOrder = "${MediaStore.Audio.Playlists.Members.PLAY_ORDER} ASC"
@@ -159,6 +160,7 @@ class DevicePlaylistRepository(
                         val albumId =
                             it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.ALBUM_ID))
                         val contentUri: Uri = getSongUri(id)
+                        val data: String = it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.DATA))
 
                         songs.add(
                             DeviceSong(
@@ -167,7 +169,8 @@ class DevicePlaylistRepository(
                                 title,
                                 artist,
                                 duration,
-                                contentUri
+                                contentUri,
+                                data
                             )
                         )
                     }

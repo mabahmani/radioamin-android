@@ -129,7 +129,13 @@ class DeviceGenreRepository(
                 MediaStore.Audio.Genres.Members.TITLE,
                 MediaStore.Audio.Genres.Members.ARTIST,
                 MediaStore.Audio.Genres.Members.DURATION,
-                MediaStore.Audio.Genres.Members.ALBUM_ID)
+                MediaStore.Audio.Genres.Members.ALBUM_ID,
+                MediaStore.Audio.Genres.Members.DATA
+            )
+
+            val selection = "${MediaStore.Audio.Genres.Members.IS_MUSIC} = ?"
+
+            val selectionArgs = arrayOf("1")
 
             val sortOrder = "${MediaStore.Audio.Genres.Members.DEFAULT_SORT_ORDER} ASC"
 
@@ -137,8 +143,8 @@ class DeviceGenreRepository(
                 queryMediaStore(
                     collection,
                     projection,
-                    null,
-                    null,
+                    selection,
+                    selectionArgs,
                     sortOrder
                 ).use {
 
@@ -155,6 +161,7 @@ class DeviceGenreRepository(
                         val albumId =
                             it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Genres.Members.ALBUM_ID))
                         val contentUri: Uri = getSongUri(id)
+                        val data: String = it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Genres.Members.DATA))
 
                         songs.add(
                             DeviceSong(
@@ -163,7 +170,9 @@ class DeviceGenreRepository(
                                 title,
                                 artist,
                                 duration,
-                                contentUri)
+                                contentUri,
+                                data
+                            )
                         )
                     }
 
@@ -187,12 +196,16 @@ class DeviceGenreRepository(
         val projection = arrayOf(
             MediaStore.Audio.Genres.Members._ID)
 
+        val selection = "${MediaStore.Audio.Genres.Members.IS_MUSIC} = ?"
+
+        val selectionArgs = arrayOf("1")
+
         try {
             queryMediaStore(
                 collection,
                 projection,
-                null,
-                null,
+                selection,
+                selectionArgs,
                 null
             ).use {
                 if (it != null)

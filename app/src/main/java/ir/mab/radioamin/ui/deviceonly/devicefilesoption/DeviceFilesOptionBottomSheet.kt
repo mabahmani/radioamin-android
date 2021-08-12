@@ -28,9 +28,7 @@ import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.errorToast
 import ir.mab.radioamin.util.snack
 import ir.mab.radioamin.util.snackWithNavigateAction
-import ir.mab.radioamin.vm.DeviceAlbumsViewModel
-import ir.mab.radioamin.vm.DeviceArtistsViewModel
-import ir.mab.radioamin.vm.DevicePlaylistsViewModel
+import ir.mab.radioamin.vm.*
 import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.DevicePlaylist
 import ir.mab.radioamin.vo.DeviceSong
@@ -50,6 +48,8 @@ class DeviceFilesOptionBottomSheet(
     private val devicePlaylistsViewModel: DevicePlaylistsViewModel by viewModels()
     private val deviceAlbumsViewModel: DeviceAlbumsViewModel by viewModels()
     private val deviceArtistsViewModel: DeviceArtistsViewModel by viewModels()
+    private val deviceSongsViewModel: DeviceSongsViewModel by viewModels()
+    private val deviceGenresViewModel: DeviceGenresViewModel by viewModels()
     private lateinit var addToPlaylistDialog: AlertDialog
     private var  deviceFilesOptionsChangeListener: DeviceFilesOptionsChangeListener? = null
 
@@ -58,7 +58,8 @@ class DeviceFilesOptionBottomSheet(
         title: String,
         subtitle: String,
         thumbnail: Bitmap?,
-        type: DeviceFileType, deviceFilesOptionsChangeListener: DeviceFilesOptionsChangeListener
+        type: DeviceFileType,
+        deviceFilesOptionsChangeListener: DeviceFilesOptionsChangeListener
     ) : this(id, title, subtitle, thumbnail, type) {
         this.deviceFilesOptionsChangeListener = deviceFilesOptionsChangeListener
     }
@@ -100,6 +101,31 @@ class DeviceFilesOptionBottomSheet(
             showDeletePlaylistDialog()
         }
 
+        binding.editSongInfoParent.setOnClickListener {
+            deviceSongsViewModel.getDeviceSong(id).observe(viewLifecycleOwner, {
+                Timber.d("%s", it)
+                when(it.status){
+                    Status.LOADING -> {
+
+                    }
+
+                    Status.SUCCESS -> {
+                        val bundle = bundleOf(
+                            AppConstants.Arguments.SONG_DATA to it.data?.data,
+                        )
+                        findNavController().navigate(
+                            R.id.action_global_editDeviceSongInfo,
+                            bundle
+                        )
+                        dismiss()
+                    }
+
+                    Status.ERROR -> {
+                        requireContext().errorToast(it.message.toString())
+                    }
+                }
+            })
+        }
     }
 
     private fun showDeletePlaylistDialog() {
@@ -299,12 +325,30 @@ class DeviceFilesOptionBottomSheet(
     }
 
     private fun getDeviceSongsAndAddToPlaylist(id: Long, devicePlaylist: DevicePlaylist) {
-        val songs = mutableListOf(DeviceSong(id, null, null, null, null, null))
+        val songs = mutableListOf(DeviceSong(id, null, null, null, null, null, null))
         addSongsToPlaylist(songs, devicePlaylist)
     }
 
     private fun getDeviceArtistSongsAndAddToPlaylist(id: Long, devicePlaylist: DevicePlaylist) {
         deviceArtistsViewModel.getDeviceArtistSongs(id).observe(viewLifecycleOwner, {
+
+            when (it.status) {
+                Status.LOADING -> {
+                }
+
+                Status.SUCCESS -> {
+                    addSongsToPlaylist(it.data, devicePlaylist)
+                }
+
+                Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
+                }
+            }
+        })
+    }
+
+    private fun getDeviceGenreSongsAndAddToPlaylist(id: Long, devicePlaylist: DevicePlaylist) {
+        deviceGenresViewModel.getDeviceGenreMembers(id).observe(viewLifecycleOwner, {
 
             when (it.status) {
                 Status.LOADING -> {
@@ -369,6 +413,9 @@ class DeviceFilesOptionBottomSheet(
             }
             DeviceFileType.ARTIST -> {
                 getDeviceArtistSongsAndAddToPlaylist(id, devicePlaylist)
+            }
+            DeviceFileType.GENRE -> {
+                getDeviceGenreSongsAndAddToPlaylist(id, devicePlaylist)
             }
         }
     }

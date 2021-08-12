@@ -125,6 +125,7 @@
         android:name="ir.mab.radioamin.ui.deviceonly.song.DeviceSongsFragment"
         android:label="DeviceSongs"
         tools:layout="@layout/fragment_device_songs">
+
     </fragment>
 
     <fragment
@@ -176,4 +177,18 @@
         android:name="ir.mab.radioamin.ui.deviceonly.genre.DeviceGenreFragment"
         android:label="DeviceGenre"
         tools:layout="@layout/fragment_device_genre" />
+
+    <fragment
+        android:id="@+id/editDeviceSongInfo"
+        android:name="ir.mab.radioamin.ui.deviceonly.song.EditDeviceSongInfoFragment"
+        android:label="EditDeviceSongInfo"
+        tools:layout="@layout/fragment_edit_device_song_info" />
+    <action
+        android:id="@+id/action_global_editDeviceSongInfo"
+        app:destination="@id/editDeviceSongInfo"
+        app:enterAnim="@anim/slide_in_enter_micro"
+        app:exitAnim="@anim/slide_out_micro"
+        app:popEnterAnim="@anim/slide_in_enter_micro"
+        app:popExitAnim="@anim/slide_out_micro"
+        />
 </navigation>

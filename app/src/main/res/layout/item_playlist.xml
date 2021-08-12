@@ -72,7 +72,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/title"
                     fontPath="fonts/OpenSans-SemiBold.ttf"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{playlist.name}"
                     android:maxLines="2"
@@ -81,7 +81,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/subtitle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{playlist.memberCounts > 1 ? String.format(@string/songCount, playlist.memberCounts):String.format(@string/songCountSingle, playlist.memberCounts)}"
                     android:textColor="@color/color10" />

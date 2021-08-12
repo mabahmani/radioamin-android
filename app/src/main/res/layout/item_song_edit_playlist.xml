@@ -77,7 +77,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/title"
                     fontPath="fonts/OpenSans-SemiBold.ttf"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{song.name}"
                     android:textColor="@color/white"
@@ -87,7 +87,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/subtitle"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{String.format(@string/songArtistDuration, song.artistName, duration)}"
                     android:textColor="@color/color10"

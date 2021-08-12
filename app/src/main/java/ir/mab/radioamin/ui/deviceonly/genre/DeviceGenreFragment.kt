@@ -43,7 +43,7 @@ class DeviceGenreFragment : Fragment(), DeviceFilesMoreOnClickListeners {
     }
 
     private fun setToolbarTitle() {
-        binding.title = requireArguments().getString(AppConstants.Arguments.GENRE_NAME)
+        binding.title = requireArguments().getString(AppConstants.Arguments.GENRE_NAME,"")
     }
 
 

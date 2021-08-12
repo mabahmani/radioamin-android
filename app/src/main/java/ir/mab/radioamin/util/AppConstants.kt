@@ -11,5 +11,6 @@ object AppConstants {
         const val ARTIST_NAME = "ARTIST_NAME"
         const val GENRE_ID = "GENRE_ID"
         const val GENRE_NAME = "GENRE_NAME"
+        const val SONG_DATA = "SONG_DATA"
     }
 }
