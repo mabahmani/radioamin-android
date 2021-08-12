@@ -87,7 +87,8 @@ class EditDeviceSongInfoFragment: Fragment() {
 
                     Status.SUCCESS ->{
                         requireActivity().snack(getString(R.string.song_info_updated))
-                        findNavController().popBackStack(R.id.deviceFiles, false)
+                        //findNavController().popBackStack(R.id.deviceFiles, false)
+                        findNavController().popBackStack()
                     }
 
                     Status.ERROR ->{

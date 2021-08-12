@@ -9,6 +9,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +25,7 @@ import ir.mab.radioamin.vo.generic.Status
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @AndroidEntryPoint
 class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners {
@@ -112,7 +114,7 @@ class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners {
 
     private fun getAlbum() {
         deviceAlbumsViewModel.getDeviceAlbum(arguments?.getLong(AppConstants.Arguments.ALBUM_ID)?:-1).observe(viewLifecycleOwner,{
-
+            Timber.d("getAlbum %s", it)
             when(it.status){
                 Status.LOADING ->{
                     binding.showProgress = true
@@ -126,6 +128,10 @@ class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners {
 
                         }
                         binding.albumArtist = it.data.artist
+                    }
+
+                    else{
+                        findNavController().popBackStack()
                     }
 
                     binding.showProgress = false
