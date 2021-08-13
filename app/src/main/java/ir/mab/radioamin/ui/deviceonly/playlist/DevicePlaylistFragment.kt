@@ -42,7 +42,7 @@ class DevicePlaylistFragment : Fragment(), DeviceFilesMoreOnClickListeners,
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentDevicePlaylistBinding.inflate(inflater)
         return binding.root
     }
@@ -175,7 +175,8 @@ class DevicePlaylistFragment : Fragment(), DeviceFilesMoreOnClickListeners,
             title,
             subtitle,
             thumbnail,
-            type
+            type,
+            this
         ).show(requireActivity().supportFragmentManager, null)
     }
 

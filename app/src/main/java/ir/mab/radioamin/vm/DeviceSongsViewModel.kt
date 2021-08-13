@@ -53,4 +53,13 @@ class DeviceSongsViewModel @Inject constructor(
 
         return result
     }
+
+    fun deleteDeviceSong(songId: Long): LiveData<Resource<Boolean>>{
+        var result: LiveData<Resource<Boolean>> = MutableLiveData()
+        viewModelScope.launch {
+            result = deviceSongRepository.deleteDeviceSong(songId)
+        }
+
+        return result
+    }
 }

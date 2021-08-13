@@ -12,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ir.mab.radioamin.databinding.FragmentDeviceGenreBinding
 import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomSheet
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
+import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionsChangeListener
 import ir.mab.radioamin.ui.deviceonly.song.DeviceSongsAdapter
 import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.errorToast
@@ -20,7 +21,7 @@ import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.generic.Status
 
 @AndroidEntryPoint
-class DeviceGenreFragment : Fragment(), DeviceFilesMoreOnClickListeners {
+class DeviceGenreFragment : Fragment(), DeviceFilesMoreOnClickListeners, DeviceFilesOptionsChangeListener {
     private lateinit var binding: FragmentDeviceGenreBinding
     private val deviceGenreViewModel: DeviceGenresViewModel by viewModels()
     private var deviceSongsAdapter = DeviceSongsAdapter(mutableListOf(), this)
@@ -39,7 +40,7 @@ class DeviceGenreFragment : Fragment(), DeviceFilesMoreOnClickListeners {
         initRefreshLayout()
         initList()
         setToolbarTitle()
-        getDeviceArtistSongs()
+        getDeviceGenreSongs()
     }
 
     private fun setToolbarTitle() {
@@ -49,7 +50,7 @@ class DeviceGenreFragment : Fragment(), DeviceFilesMoreOnClickListeners {
 
     private fun initRefreshLayout() {
         binding.refreshLayout.setOnRefreshListener {
-            getDeviceArtistSongs()
+            getDeviceGenreSongs()
         }
     }
 
@@ -58,7 +59,7 @@ class DeviceGenreFragment : Fragment(), DeviceFilesMoreOnClickListeners {
         binding.list.adapter = deviceSongsAdapter
     }
 
-    private fun getDeviceArtistSongs() {
+    private fun getDeviceGenreSongs() {
         deviceGenreViewModel.getDeviceGenreMembers(
             requireArguments().getLong(
                 AppConstants.Arguments.GENRE_ID,
@@ -100,7 +101,12 @@ class DeviceGenreFragment : Fragment(), DeviceFilesMoreOnClickListeners {
             title,
             subtitle,
             thumbnail,
-            type
+            type,
+            this
         ).show(requireActivity().supportFragmentManager, null)
+    }
+
+    override fun onDeviceFilesChanged() {
+        getDeviceGenreSongs()
     }
 }

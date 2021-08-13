@@ -47,6 +47,7 @@
     <string name="delete_this_playlist">Delete this playlist?</string>
     <string name="delete">Delete</string>
     <string name="playlist_delete_msg">Playlist %s deleted successfully</string>
+    <string name="song_delete_msg">Song %s deleted successfully</string>
     <string name="genres">Genres</string>
     <string name="edit_song_info">Edit Song Info</string>
     <string name="artist">Artist</string>
@@ -57,4 +58,6 @@
     <string name="lyrics">Lyrics</string>
     <string name="song_info_updated">Song info updated successfully</string>
     <string name="selece_song_cover">Select Song Cover</string>
+    <string name="delete_song">Delete Song</string>
+    <string name="delete_this_song">Delete this song?</string>
 </resources>

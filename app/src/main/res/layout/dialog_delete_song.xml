@@ -19,12 +19,13 @@
             android:paddingTop="24dp"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
-            android:paddingBottom="16dp">
+            android:paddingBottom="16dp"
+            >
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/delete_this_playlist"
+                android:text="@string/delete_this_song"
                 android:textSize="20sp"
                 android:textColor="@color/white"
                 fontPath="fonts/OpenSans-ExtraBold.ttf" />
@@ -45,8 +46,8 @@
                     android:text="@string/cancel"
                     android:layout_gravity="center_horizontal"
                     android:textColor="@color/white"
-                    android:layout_marginRight="16dp"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     style="@style/Widget.MaterialComponents.Button.TextButton"
                     />
 

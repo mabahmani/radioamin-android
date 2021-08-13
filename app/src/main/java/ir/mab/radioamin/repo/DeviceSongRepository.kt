@@ -225,6 +225,22 @@ class DeviceSongRepository(
         }
     }
 
+    fun deleteDeviceSong(songId: Long): LiveData<Resource<Boolean>> {
+        return liveData(dispatcherIO) {
+
+            emit(Resource.loading(null))
+
+            try {
+                val contentUri = getSongUri(songId)
+                application.contentResolver.delete(contentUri, null, null)
+                emit(Resource.success(true))
+
+            } catch (ex: java.lang.Exception) {
+                emit(Resource.error(null, ex.message.toString(), false, null))
+            }
+        }
+    }
+
     private fun getArtworkFile(uri: Uri): Artwork {
 
         var path = ""

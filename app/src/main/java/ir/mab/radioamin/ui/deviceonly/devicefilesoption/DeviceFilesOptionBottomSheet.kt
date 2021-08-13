@@ -18,10 +18,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import ir.mab.radioamin.R
-import ir.mab.radioamin.databinding.BottomsheetDeivceFilesOptionBinding
-import ir.mab.radioamin.databinding.DialogAddToPlaylistBinding
-import ir.mab.radioamin.databinding.DialogCreatePlaylistBinding
-import ir.mab.radioamin.databinding.DialogDeletePlaylistBinding
+import ir.mab.radioamin.databinding.*
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionAddToPlaylistOnClickListener
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionsChangeListener
 import ir.mab.radioamin.util.AppConstants
@@ -101,6 +98,10 @@ class DeviceFilesOptionBottomSheet(
             showDeletePlaylistDialog()
         }
 
+        binding.deleteSongParent.setOnClickListener {
+            showDeleteSongDialog()
+        }
+
         binding.editSongInfoParent.setOnClickListener {
             deviceSongsViewModel.getDeviceSong(id).observe(viewLifecycleOwner, {
                 when(it.status){
@@ -164,6 +165,48 @@ class DeviceFilesOptionBottomSheet(
         }
 
         dialogDeletePlaylistBinding.negativeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+
+    }
+
+    private fun showDeleteSongDialog() {
+
+        val dialogDeleteSongBinding =
+            DialogDeleteSongBinding.inflate(LayoutInflater.from(requireContext()))
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setView(dialogDeleteSongBinding.root)
+            .show()
+
+        dialogDeleteSongBinding.positiveButton.setOnClickListener {
+            deviceSongsViewModel.deleteDeviceSong(id).observe(viewLifecycleOwner, {
+                when (it.status) {
+                    Status.LOADING -> {
+
+                    }
+
+                    Status.SUCCESS -> {
+                        if (it.data == true) {
+                            if (deviceFilesOptionsChangeListener != null){
+                                deviceFilesOptionsChangeListener!!.onDeviceFilesChanged()
+                            }
+                            dialog.dismiss()
+                            dismiss()
+
+                            requireActivity().snack(getString(R.string.song_delete_msg).format(title))
+                        }
+                    }
+
+                    Status.ERROR -> {
+                        requireContext().errorToast(it.message.toString())
+                    }
+                }
+            })
+        }
+
+        dialogDeleteSongBinding.negativeButton.setOnClickListener {
             dialog.dismiss()
         }
 

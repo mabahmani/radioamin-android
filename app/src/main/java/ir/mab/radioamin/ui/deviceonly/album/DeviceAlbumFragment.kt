@@ -16,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ir.mab.radioamin.databinding.FragmentDeviceAlbumBinding
 import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomSheet
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
+import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionsChangeListener
 import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.DeviceFilesImageLoader.getOriginalAlbumArt
 import ir.mab.radioamin.util.errorToast
@@ -27,7 +28,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners {
+class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners, DeviceFilesOptionsChangeListener {
     private lateinit var binding: FragmentDeviceAlbumBinding
     private val deviceAlbumsViewModel: DeviceAlbumsViewModel by viewModels()
     private var deviceAlbumSongsAdapter = DeviceAlbumSongsAdapter(mutableListOf(), this)
@@ -65,7 +66,7 @@ class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners {
     }
 
     private fun setBundleData() {
-        binding.albumName = arguments?.getString(AppConstants.Arguments.ALBUM_NAME)
+        binding.albumName = arguments?.getString(AppConstants.Arguments.ALBUM_NAME, "")
     }
 
     private fun observeAppBarScroll() {
@@ -177,8 +178,14 @@ class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners {
             title,
             subtitle,
             binding.albumThumbnail,
-            type
+            type,
+            this
         ).show(requireActivity().supportFragmentManager, null)
+    }
+
+    override fun onDeviceFilesChanged() {
+        getAlbum()
+        getAlbumSongs()
     }
 
 }

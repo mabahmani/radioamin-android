@@ -12,13 +12,14 @@ import ir.mab.radioamin.databinding.FragmentDeviceSongsBinding
 import ir.mab.radioamin.ui.deviceonly.DeviceFilesBaseFragment
 import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomSheet
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
+import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionsChangeListener
 import ir.mab.radioamin.util.errorToast
 import ir.mab.radioamin.vm.DeviceSongsViewModel
 import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.generic.Status
 
 @AndroidEntryPoint
-class DeviceSongsFragment : DeviceFilesBaseFragment(), DeviceFilesMoreOnClickListeners {
+class DeviceSongsFragment : DeviceFilesBaseFragment(), DeviceFilesMoreOnClickListeners, DeviceFilesOptionsChangeListener {
     private lateinit var binding: FragmentDeviceSongsBinding
     private val deviceSongsViewModel: DeviceSongsViewModel by viewModels()
     private var deviceSongsAdapter = DeviceSongsAdapter(mutableListOf(), this)
@@ -105,8 +106,13 @@ class DeviceSongsFragment : DeviceFilesBaseFragment(), DeviceFilesMoreOnClickLis
             title,
             subtitle,
             thumbnail,
-            type
+            type,
+            this
         ).show(requireActivity().supportFragmentManager, null)
+    }
+
+    override fun onDeviceFilesChanged() {
+        getDeviceSongs()
     }
 
 }

@@ -12,6 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ir.mab.radioamin.databinding.FragmentDeviceArtistBinding
 import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomSheet
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
+import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionsChangeListener
 import ir.mab.radioamin.ui.deviceonly.song.DeviceSongsAdapter
 import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.errorToast
@@ -20,7 +21,7 @@ import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.generic.Status
 
 @AndroidEntryPoint
-class DeviceArtistFragment : Fragment(), DeviceFilesMoreOnClickListeners {
+class DeviceArtistFragment : Fragment(), DeviceFilesMoreOnClickListeners, DeviceFilesOptionsChangeListener {
     private lateinit var binding: FragmentDeviceArtistBinding
     private val deviceArtistViewModel: DeviceArtistsViewModel by viewModels()
     private var deviceSongsAdapter = DeviceSongsAdapter(mutableListOf(), this)
@@ -43,7 +44,7 @@ class DeviceArtistFragment : Fragment(), DeviceFilesMoreOnClickListeners {
     }
 
     private fun setToolbarTitle() {
-        binding.title = requireArguments().getString(AppConstants.Arguments.ARTIST_NAME)
+        binding.title = requireArguments().getString(AppConstants.Arguments.ARTIST_NAME, "")
     }
 
 
@@ -100,7 +101,13 @@ class DeviceArtistFragment : Fragment(), DeviceFilesMoreOnClickListeners {
             title,
             subtitle,
             thumbnail,
-            type
+            type,
+            this
         ).show(requireActivity().supportFragmentManager, null)
     }
+
+    override fun onDeviceFilesChanged() {
+        getDeviceArtistSongs()
+    }
+
 }
