@@ -77,13 +77,15 @@
                     android:text="@{artist.name}"
                     android:maxLines="2"
                     android:ellipsize="end"
+                    android:textSize="12sp"
                     android:textColor="@color/white" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/subtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{artist.songCounts > 1 ? String.format(@string/songCount, artist.songCounts):String.format(@string/songCountSingle, artist.songCounts)}"
+                    android:textSize="12sp"
+                    android:text="@{String.format(@string/artistSongAlbumCount,artist.songCounts > 1 ? String.format(@string/songCount, artist.songCounts):String.format(@string/songCountSingle, artist.songCounts),artist.albumCounts > 1 ? String.format(@string/albumCount, artist.albumCounts):String.format(@string/albumCountSingle, artist.albumCounts))}"
                     android:textColor="@color/color10" />
 
             </LinearLayout>

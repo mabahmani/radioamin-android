@@ -128,6 +128,7 @@ class DeviceGenreRepository(
                 MediaStore.Audio.Genres.Members.AUDIO_ID,
                 MediaStore.Audio.Genres.Members.TITLE,
                 MediaStore.Audio.Genres.Members.ARTIST,
+                MediaStore.Audio.Genres.Members.ALBUM,
                 MediaStore.Audio.Genres.Members.DURATION,
                 MediaStore.Audio.Genres.Members.ALBUM_ID,
                 MediaStore.Audio.Genres.Members.DATA
@@ -150,16 +151,12 @@ class DeviceGenreRepository(
 
                     while (it != null && it.moveToNext()) {
 
-                        val id =
-                            it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Genres.Members.AUDIO_ID))
-                        val title =
-                            it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Genres.Members.TITLE))
-                        val artist =
-                            it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Genres.Members.ARTIST))
-                        val duration =
-                            it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Genres.Members.DURATION))
-                        val albumId =
-                            it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Genres.Members.ALBUM_ID))
+                        val id = it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Genres.Members.AUDIO_ID))
+                        val title = it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Genres.Members.TITLE))
+                        val artist = it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Genres.Members.ARTIST))
+                        val album = it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Genres.Members.ALBUM))
+                        val duration = it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Genres.Members.DURATION))
+                        val albumId = it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Genres.Members.ALBUM_ID))
                         val contentUri: Uri = getSongUri(id)
                         val data: String = it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Genres.Members.DATA))
 
@@ -169,6 +166,7 @@ class DeviceGenreRepository(
                                 albumId,
                                 title,
                                 artist,
+                                album,
                                 duration,
                                 contentUri,
                                 data

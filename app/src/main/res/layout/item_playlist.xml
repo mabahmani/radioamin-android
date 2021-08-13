@@ -77,14 +77,18 @@
                     android:text="@{playlist.name}"
                     android:maxLines="2"
                     android:ellipsize="end"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/subtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{playlist.memberCounts > 1 ? String.format(@string/songCount, playlist.memberCounts):String.format(@string/songCountSingle, playlist.memberCounts)}"
-                    android:textColor="@color/color10" />
+                    android:textColor="@color/color10"
+                    android:textSize="12sp"
+                    />
 
             </LinearLayout>
 

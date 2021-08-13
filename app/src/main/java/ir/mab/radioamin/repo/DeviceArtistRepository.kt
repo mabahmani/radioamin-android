@@ -29,6 +29,7 @@ class DeviceArtistRepository(
                 MediaStore.Audio.Artists._ID,
                 MediaStore.Audio.Artists.ARTIST,
                 MediaStore.Audio.Artists.NUMBER_OF_TRACKS,
+                MediaStore.Audio.Artists.NUMBER_OF_ALBUMS
             )
 
             val sortOrder = "${MediaStore.Audio.Artists.ARTIST} ASC"
@@ -50,12 +51,15 @@ class DeviceArtistRepository(
                             it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Artists.ARTIST))
                         val numberOfTracks =
                             it.getInt(it.getColumnIndexOrThrow(MediaStore.Audio.Artists.NUMBER_OF_TRACKS))
+                        val numberOfAlbums =
+                            it.getInt(it.getColumnIndexOrThrow(MediaStore.Audio.Artists.NUMBER_OF_ALBUMS))
 
                         artists.add(
                             DeviceArtist(
                                 id,
                                 name,
                                 numberOfTracks,
+                                numberOfAlbums
                             )
                         )
 
@@ -84,6 +88,7 @@ class DeviceArtistRepository(
                 MediaStore.Audio.Media.TITLE,
                 MediaStore.Audio.Media.DURATION,
                 MediaStore.Audio.Media.ARTIST,
+                MediaStore.Audio.Media.ALBUM,
                 MediaStore.Audio.Media.DATA,
             )
 
@@ -105,15 +110,11 @@ class DeviceArtistRepository(
                     while (it != null && it.moveToNext()) {
 
                         val id = it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media._ID))
-                        val albumId =
-                            it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID))
-                        val name =
-                            it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE))
-                        val artist =
-                            it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST))
-                        val duration =
-                            it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION))
-
+                        val albumId = it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID))
+                        val name = it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE))
+                        val artist = it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST))
+                        val album = it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM))
+                        val duration = it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION))
                         val contentUri: Uri = getSongUri(id)
                         val data: String = it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA))
 
@@ -123,6 +124,7 @@ class DeviceArtistRepository(
                                 albumId,
                                 name,
                                 artist,
+                                album,
                                 duration,
                                 contentUri,
                                 data

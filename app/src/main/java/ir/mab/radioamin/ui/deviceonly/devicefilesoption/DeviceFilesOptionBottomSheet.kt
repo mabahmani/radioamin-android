@@ -368,7 +368,7 @@ class DeviceFilesOptionBottomSheet(
     }
 
     private fun getDeviceSongsAndAddToPlaylist(id: Long, devicePlaylist: DevicePlaylist) {
-        val songs = mutableListOf(DeviceSong(id, null, null, null, null, null, null))
+        val songs = mutableListOf(DeviceSong(id, null, null, null, null, null, null, null))
         addSongsToPlaylist(songs, devicePlaylist)
     }
 

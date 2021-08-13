@@ -77,13 +77,15 @@
                     android:text="@{album.name}"
                     android:maxLines="2"
                     android:ellipsize="end"
+                    android:textSize="12sp"
                     android:textColor="@color/white" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/subtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{album.artist}"
+                    android:textSize="12sp"
+                    android:text="@{String.format(@string/albumArtistCount,album.artist,album.songCounts > 1 ? String.format(@string/songCount, album.songCounts):String.format(@string/songCountSingle, album.songCounts))}"
                     android:textColor="@color/color10" />
 
             </LinearLayout>

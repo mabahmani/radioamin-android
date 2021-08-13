@@ -133,6 +133,7 @@ class DevicePlaylistRepository(
                 MediaStore.Audio.Playlists.Members.ARTIST,
                 MediaStore.Audio.Playlists.Members.DURATION,
                 MediaStore.Audio.Playlists.Members.ALBUM_ID,
+                MediaStore.Audio.Playlists.Members.ALBUM,
                 MediaStore.Audio.Playlists.Members.DATA
             )
 
@@ -149,16 +150,12 @@ class DevicePlaylistRepository(
 
                     while (it != null && it.moveToNext()) {
 
-                        val id =
-                            it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.AUDIO_ID))
-                        val title =
-                            it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.TITLE))
-                        val artist =
-                            it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.ARTIST))
-                        val duration =
-                            it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.DURATION))
-                        val albumId =
-                            it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.ALBUM_ID))
+                        val id = it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.AUDIO_ID))
+                        val title = it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.TITLE))
+                        val artist = it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.ARTIST))
+                        val album = it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.ALBUM))
+                        val duration = it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.DURATION))
+                        val albumId = it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.ALBUM_ID))
                         val contentUri: Uri = getSongUri(id)
                         val data: String = it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Playlists.Members.DATA))
 
@@ -168,6 +165,7 @@ class DevicePlaylistRepository(
                                 albumId,
                                 title,
                                 artist,
+                                album,
                                 duration,
                                 contentUri,
                                 data

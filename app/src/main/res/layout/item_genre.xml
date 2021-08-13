@@ -59,12 +59,14 @@
                     android:text="@{genre.name}"
                     android:maxLines="2"
                     android:ellipsize="end"
+                    android:textSize="12sp"
                     android:textColor="@color/white" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/subtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="12sp"
                     android:text="@{genre.memberCounts > 1 ? String.format(@string/songCount, genre.memberCounts):String.format(@string/songCountSingle, genre.memberCounts)}"
                     android:textColor="@color/color10" />
 
