@@ -1,6 +1,7 @@
 package ir.mab.radioamin.di.module
 
 import android.app.Application
+import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,9 +33,10 @@ class RepoModule {
     @Provides
     fun provideDeviceSongRepository(
         application: Application,
+        sharedPreferences: SharedPreferences,
         @IoDispatcher coroutineDispatcher: CoroutineDispatcher
     ): DeviceSongRepository {
-        return DeviceSongRepository(application, coroutineDispatcher)
+        return DeviceSongRepository(application,sharedPreferences, coroutineDispatcher)
     }
 
     @Provides

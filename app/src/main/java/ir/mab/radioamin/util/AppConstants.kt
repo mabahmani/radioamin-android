@@ -2,6 +2,10 @@ package ir.mab.radioamin.util
 
 object AppConstants {
 
+    object PREFS{
+        const val SHARED_PREFS_NAME = "Radioamin_Prefs"
+        const val BLACK_LIST_FOLDERS = "BLACK_LIST_FOLDERS"
+    }
     object Arguments{
         const val PLAYLIST_ID = "PLAYLIST_ID"
         const val PLAYLIST_NAME = "PLAYLIST_NAME"

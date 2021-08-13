@@ -1,5 +1,6 @@
 package ir.mab.radioamin.ui.deviceonly.song
 
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,21 +9,26 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.FragmentDeviceSongsBinding
 import ir.mab.radioamin.ui.deviceonly.DeviceFilesBaseFragment
 import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomSheet
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionsChangeListener
+import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.errorToast
+import ir.mab.radioamin.util.snackWithNavigateAction
 import ir.mab.radioamin.vm.DeviceSongsViewModel
 import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.generic.Status
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class DeviceSongsFragment : DeviceFilesBaseFragment(), DeviceFilesMoreOnClickListeners, DeviceFilesOptionsChangeListener {
     private lateinit var binding: FragmentDeviceSongsBinding
     private val deviceSongsViewModel: DeviceSongsViewModel by viewModels()
     private var deviceSongsAdapter = DeviceSongsAdapter(mutableListOf(), this)
+    @Inject lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +45,16 @@ class DeviceSongsFragment : DeviceFilesBaseFragment(), DeviceFilesMoreOnClickLis
         initRefreshLayout()
         observePermissionsGranted()
         initList()
+    }
+
+    private fun notifySongsFilters() {
+        if (!sharedPreferences.getStringSet(AppConstants.PREFS.BLACK_LIST_FOLDERS, mutableSetOf()).isNullOrEmpty()){
+            requireActivity().snackWithNavigateAction(
+                getString(R.string.filtered_songs_notify_msg),
+                R.id.filterDeviceFolders,
+                null
+            )
+        }
     }
 
     private fun observePermissionsGranted() {
@@ -80,6 +96,8 @@ class DeviceSongsFragment : DeviceFilesBaseFragment(), DeviceFilesMoreOnClickLis
 
                     binding.showProgress = false
                     binding.refreshLayout.isRefreshing = false
+
+                    notifySongsFilters()
                 }
 
                 Status.ERROR -> {

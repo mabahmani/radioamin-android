@@ -65,4 +65,7 @@
     <string name="delete_song">Delete Song</string>
     <string name="delete_this_song">Delete this song?</string>
     <string name="scanning_media_files">Scanning media files...</string>
+    <string name="filter_folders">Filter Folders</string>
+    <string name="blacklist_folders_updated">Blacklist folders updated</string>
+    <string name="filtered_songs_notify_msg">Some of your songs are filtered</string>
 </resources>

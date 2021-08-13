@@ -59,5 +59,9 @@ class DeviceFilesFragment : Fragment() {
         binding.genresParent.setOnClickListener {
             it.findNavController().navigate(R.id.action_deviceFilesFragment_to_deviceGenresFragment)
         }
+
+        binding.filterDeviceFolders.setOnClickListener {
+            it.findNavController().navigate(R.id.action_deviceFilesFragment_to_filterDeviceFoldersFragment)
+        }
     }
 }

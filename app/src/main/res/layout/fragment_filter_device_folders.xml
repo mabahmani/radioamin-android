@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="handler"
+            type="ir.mab.radioamin.ui.deviceonly.song.DeviceSongsFragment.Handlers" />
+
+        <variable
+            name="showProgress"
+            type="boolean" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color1">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color1"
+            android:fitsSystemWindows="true"
+            app:elevation="0dp">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:contentScrim="@color/color1"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbarParent"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:contentInsetLeft="0dp"
+                    app:contentInsetStart="0dp"
+                    app:layout_collapseMode="none">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ir.mab.radioamin.ui.custom.SimpleToolbarWithBackIconAndTitleCompoundView
+                            android:id="@+id/toolbar"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toLeftOf="@+id/done"
+                            app:stBackIconTint="@color/white"
+                            app:stTitle="@string/filter_folders"
+                            app:stTitleColor="@color/white"
+
+                            />
+
+
+                        <Button
+                            android:id="@+id/done"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:text="@string/done"
+                            android:textColor="@color/white"
+                            app:layout_constraintRight_toRightOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never" />
+
+                <ir.mab.radioamin.ui.custom.ProgressCompoundView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:pcVisibility="@{showProgress ? View.VISIBLE: View.GONE}" />
+
+            </RelativeLayout>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

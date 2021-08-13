@@ -1,12 +1,15 @@
 package ir.mab.radioamin.repo
 
 import android.app.Application
+import android.content.SharedPreferences
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.vo.DeviceSong
+import ir.mab.radioamin.vo.DeviceSongFolder
 import ir.mab.radioamin.vo.DeviceSongTag
 import ir.mab.radioamin.vo.generic.Resource
 import kotlinx.coroutines.CoroutineDispatcher
@@ -20,6 +23,7 @@ import java.io.File
 
 class DeviceSongRepository(
     private val application: Application,
+    private val sharedPreferences: SharedPreferences,
     private val dispatcherIO: CoroutineDispatcher = Dispatchers.IO
 ) : DeviceFilesRepository(application) {
 
@@ -38,6 +42,7 @@ class DeviceSongRepository(
                 MediaStore.Audio.Media.ARTIST,
                 MediaStore.Audio.Media.ALBUM,
                 MediaStore.Audio.Media.ALBUM_ID,
+                MediaStore.Audio.Media.DISPLAY_NAME,
                 MediaStore.Audio.Media.DATA
             )
             val selection = "${MediaStore.Audio.Media.IS_MUSIC} = ?"
@@ -45,6 +50,8 @@ class DeviceSongRepository(
             val selectionArgs = arrayOf("1")
 
             val sortOrder = "${MediaStore.Audio.Media.TITLE} ASC"
+
+            val blackList = sharedPreferences.getStringSet(AppConstants.PREFS.BLACK_LIST_FOLDERS, mutableSetOf())
 
             try {
                 queryMediaStore(
@@ -71,22 +78,92 @@ class DeviceSongRepository(
                         val contentUri: Uri = getSongUri(id)
                         val data: String =
                             it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA))
+                        val displayName: String =
+                            it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME))
 
-                        songs.add(
-                            DeviceSong(
-                                id,
-                                albumId,
-                                name,
-                                artist,
-                                album,
-                                duration,
-                                contentUri,
-                                data
+                        val path = data.substringBeforeLast(displayName)
+
+                        if(blackList.isNullOrEmpty() || !blackList.contains(path)){
+                            songs.add(
+                                DeviceSong(
+                                    id,
+                                    albumId,
+                                    name,
+                                    artist,
+                                    album,
+                                    duration,
+                                    contentUri,
+                                    data
+                                )
                             )
-                        )
+                        }
                     }
 
                     emit(Resource.success(songs))
+                }
+            } catch (ex: Exception) {
+                emit(Resource.error(null, ex.toString(), null, null))
+            }
+        }
+    }
+
+    suspend fun getDeviceSongsFolders(): LiveData<Resource<List<DeviceSongFolder>>> {
+        return liveData(dispatcherIO) {
+
+            val folders = mutableListOf<DeviceSongFolder>()
+
+            emit(Resource.loading(null))
+
+            val collection = getSongsUri()
+
+            val projection = arrayOf(
+                MediaStore.Audio.Media.DISPLAY_NAME,
+                MediaStore.Audio.Media.DATA
+            )
+            val selection = "${MediaStore.Audio.Media.IS_MUSIC} = ?"
+
+            val selectionArgs = arrayOf("1")
+
+
+            try {
+                queryMediaStore(
+                    collection,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null
+                ).use {
+
+                    val blackList = sharedPreferences.getStringSet(AppConstants.PREFS.BLACK_LIST_FOLDERS, mutableSetOf())
+
+                    while (it != null && it.moveToNext()) {
+
+                        val data: String =
+                            it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA))
+                        val displayName: String =
+                            it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME))
+
+                        val path = data.substringBeforeLast(displayName)
+
+                        var add = true
+                        for (folder in folders){
+                            if (folder.path == path) {
+                                add = false
+                                break
+                            }
+                        }
+
+                        if (add){
+                            if (!blackList.isNullOrEmpty() && blackList.contains(path)){
+                                folders.add(DeviceSongFolder(path, false))
+                            }
+                            else{
+                                folders.add(DeviceSongFolder(path, true))
+                            }
+                        }
+                    }
+
+                    emit(Resource.success(folders))
                 }
             } catch (ex: Exception) {
                 emit(Resource.error(null, ex.toString(), null, null))

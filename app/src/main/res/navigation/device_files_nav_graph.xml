@@ -50,6 +50,14 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"/>
 
+        <action
+            android:id="@+id/action_deviceFilesFragment_to_filterDeviceFoldersFragment"
+            app:destination="@id/filterDeviceFolders"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
 <!--            app:enterAnim="@animator/nav_default_enter_anim"-->
 <!--            app:exitAnim="@animator/nav_default_exit_anim"-->
 <!--            app:popEnterAnim="@animator/nav_default_pop_enter_anim"-->
@@ -183,6 +191,13 @@
         android:name="ir.mab.radioamin.ui.deviceonly.song.EditDeviceSongInfoFragment"
         android:label="EditDeviceSongInfo"
         tools:layout="@layout/fragment_edit_device_song_info" />
+
+    <fragment
+        android:id="@+id/filterDeviceFolders"
+        android:name="ir.mab.radioamin.ui.deviceonly.FilterDeviceFoldersFragment"
+        android:label="FilterDeviceFolders"
+        tools:layout="@layout/fragment_filter_device_folders" />
+
     <action
         android:id="@+id/action_global_editDeviceSongInfo"
         app:destination="@id/editDeviceSongInfo"

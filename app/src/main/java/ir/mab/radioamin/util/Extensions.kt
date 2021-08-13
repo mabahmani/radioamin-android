@@ -28,7 +28,7 @@ fun Context.errorToast(message: String) {
 fun Activity.snackWithNavigateAction(
     message: String,
     destinationId: Int,
-    bundle: Bundle
+    bundle: Bundle?
 ) {
 
     if (this is DeviceFilesActivity) {

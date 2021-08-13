@@ -85,7 +85,7 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:background="?selectableItemBackground"
-                        android:onClick="@{handler.onClickNewPlaylist}">
+                        android:onClick="@{handler::onClickNewPlaylist}">
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/coverParent"

@@ -51,26 +51,22 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:srcCompat="@drawable/ic_music_logo" />
 
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_marginStart="17dp"
-                            android:layout_marginEnd="17dp"
-                            app:cardCornerRadius="16dp"
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/filterDeviceFolders"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:padding="12dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:background="?selectableItemBackgroundBorderless"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_filter_list"
+                            app:tint="@color/white"
+                            >
 
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:background="@drawable/ic_default_avatar" />
-
-                            <androidx.appcompat.widget.AppCompatImageView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent" />
-
-                        </androidx.cardview.widget.CardView>
+                        </androidx.appcompat.widget.AppCompatImageView>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
