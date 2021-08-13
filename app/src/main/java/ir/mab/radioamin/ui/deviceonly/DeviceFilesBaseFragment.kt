@@ -42,7 +42,9 @@ open class DeviceFilesBaseFragment : Fragment() {
                     if (it) {
                         requestPermissionLauncher!!.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     }
+
                     requireActivity().hidePermissionEducational()
+
                 }
             }
 
@@ -54,4 +56,8 @@ open class DeviceFilesBaseFragment : Fragment() {
         return permissionGranted
     }
 
+    override fun onPause() {
+        super.onPause()
+        requireActivity().hidePermissionEducational()
+    }
 }

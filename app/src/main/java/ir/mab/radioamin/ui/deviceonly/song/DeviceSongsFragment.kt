@@ -57,6 +57,7 @@ class DeviceSongsFragment : DeviceFilesBaseFragment(), DeviceFilesMoreOnClickLis
     }
 
     private fun initList() {
+        binding.showEmptyList = true
         binding.list.layoutManager = LinearLayoutManager(requireContext())
         binding.list.adapter = deviceSongsAdapter
     }

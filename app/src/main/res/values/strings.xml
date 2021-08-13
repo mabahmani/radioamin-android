@@ -64,4 +64,5 @@
     <string name="selece_song_cover">Select Song Cover</string>
     <string name="delete_song">Delete Song</string>
     <string name="delete_this_song">Delete this song?</string>
+    <string name="scanning_media_files">Scanning media files...</string>
 </resources>

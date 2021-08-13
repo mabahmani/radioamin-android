@@ -1,6 +1,8 @@
 package ir.mab.radioamin.ui.deviceonly
 
+import android.media.MediaScannerConnection
 import android.os.Bundle
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.FragmentDeviceFilesBinding
+import ir.mab.radioamin.util.toast
 
 class DeviceFilesFragment : Fragment() {
     lateinit var binding: FragmentDeviceFilesBinding
@@ -29,7 +32,12 @@ class DeviceFilesFragment : Fragment() {
     private fun setListeners() {
 
         binding.refreshLayout.setOnRefreshListener {
-            binding.refreshLayout.isRefreshing = false
+
+            requireContext().toast(getString(R.string.scanning_media_files))
+
+            MediaScannerConnection.scanFile(requireContext(), arrayOf(Environment.getExternalStorageDirectory().path), null) { s, uri ->
+                binding.refreshLayout.isRefreshing = false
+            }
         }
 
         binding.playlistsParent.setOnClickListener {

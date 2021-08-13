@@ -54,6 +54,7 @@ class DeviceAlbumsFragment : DeviceFilesBaseFragment(), DeviceFilesMoreOnClickLi
     }
 
     private fun initList() {
+        binding.showEmptyList = true
         binding.list.layoutManager = LinearLayoutManager(requireContext())
         binding.list.adapter = deviceAlbumsAdapter
     }
