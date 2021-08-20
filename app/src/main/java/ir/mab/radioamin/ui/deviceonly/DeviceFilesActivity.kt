@@ -13,5 +13,7 @@ class DeviceFilesActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_device_files_only)
         BottomSheetBehavior.from(binding.permissionBottomSheet).state = BottomSheetBehavior.STATE_HIDDEN
+
+        //binding.motionParent.setTransition(R.id.playerHidden, R.id.playerHidden)
     }
 }
