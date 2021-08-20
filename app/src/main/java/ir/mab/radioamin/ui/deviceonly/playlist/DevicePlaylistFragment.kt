@@ -20,6 +20,7 @@ import ir.mab.radioamin.databinding.FragmentDevicePlaylistBinding
 import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomSheet
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionsChangeListener
+import ir.mab.radioamin.ui.deviceonly.listener.DeviceSongsOnClickListeners
 import ir.mab.radioamin.ui.deviceonly.song.DeviceSongsAdapter
 import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.DeviceFilesImageLoader.getOriginalAlbumArt
@@ -33,10 +34,10 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class DevicePlaylistFragment : Fragment(), DeviceFilesMoreOnClickListeners,
-    DeviceFilesOptionsChangeListener {
+    DeviceFilesOptionsChangeListener, DeviceSongsOnClickListeners {
     private lateinit var binding: FragmentDevicePlaylistBinding
     private val devicePlaylistsViewModel: DevicePlaylistsViewModel by viewModels()
-    private var deviceSongsAdapter = DeviceSongsAdapter(mutableListOf(), this)
+    private var deviceSongsAdapter = DeviceSongsAdapter(mutableListOf(), this, this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -182,5 +183,9 @@ class DevicePlaylistFragment : Fragment(), DeviceFilesMoreOnClickListeners,
 
     override fun onDeviceFilesChanged() {
         findNavController().popBackStack()
+    }
+
+    override fun onSongClick(position: Int) {
+        TODO("Not yet implemented")
     }
 }

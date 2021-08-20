@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.mab.radioamin.databinding.ItemSongBinding
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
+import ir.mab.radioamin.ui.deviceonly.listener.DeviceSongsOnClickListeners
 import ir.mab.radioamin.util.DateTimeFormatter
 import ir.mab.radioamin.util.DeviceFilesImageLoader.getDeviceAlbumThumbnail
 import ir.mab.radioamin.vo.DeviceFileType
@@ -13,12 +14,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class DeviceSongsAdapter(var list: List<DeviceSong>, var deviceFilesMoreOnClickListeners: DeviceFilesMoreOnClickListeners) :
+class DeviceSongsAdapter(var list: List<DeviceSong>,
+                         var deviceFilesMoreOnClickListeners: DeviceFilesMoreOnClickListeners,
+                         var deviceSongsOnClickListeners: DeviceSongsOnClickListeners
+                         ) :
     RecyclerView.Adapter<DeviceSongsAdapter.ViewHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemSongBinding.inflate(LayoutInflater.from(parent.context), parent, false), deviceFilesMoreOnClickListeners)
+        return ViewHolder(ItemSongBinding.inflate(LayoutInflater.from(parent.context), parent, false), deviceFilesMoreOnClickListeners, deviceSongsOnClickListeners)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -31,7 +34,8 @@ class DeviceSongsAdapter(var list: List<DeviceSong>, var deviceFilesMoreOnClickL
 
     class ViewHolder(
         itemView: ItemSongBinding,
-        var deviceFilesMoreOnClickListeners: DeviceFilesMoreOnClickListeners
+        var deviceFilesMoreOnClickListeners: DeviceFilesMoreOnClickListeners,
+        var deviceSongsOnClickListeners: DeviceSongsOnClickListeners
     ) : RecyclerView.ViewHolder(itemView.root) {
         var binding: ItemSongBinding = itemView
 
@@ -60,6 +64,10 @@ class DeviceSongsAdapter(var list: List<DeviceSong>, var deviceFilesMoreOnClickL
                 //it.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                 binding.more.performClick()
                 true
+            }
+
+            binding.parent.setOnClickListener {
+                deviceSongsOnClickListeners.onSongClick(bindingAdapterPosition)
             }
         }
     }

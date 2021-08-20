@@ -15,7 +15,9 @@ import ir.mab.radioamin.ui.deviceonly.DeviceFilesBaseFragment
 import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomSheet
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionsChangeListener
+import ir.mab.radioamin.ui.deviceonly.listener.DeviceSongsOnClickListeners
 import ir.mab.radioamin.util.AppConstants
+import ir.mab.radioamin.util.DeviceFilesPlayer.setDeviceFilesPlayerPlaylist
 import ir.mab.radioamin.util.errorToast
 import ir.mab.radioamin.util.snackWithNavigateAction
 import ir.mab.radioamin.vm.DeviceSongsViewModel
@@ -24,10 +26,14 @@ import ir.mab.radioamin.vo.generic.Status
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DeviceSongsFragment : DeviceFilesBaseFragment(), DeviceFilesMoreOnClickListeners, DeviceFilesOptionsChangeListener {
+class DeviceSongsFragment : DeviceFilesBaseFragment(),
+    DeviceFilesMoreOnClickListeners,
+    DeviceFilesOptionsChangeListener,
+    DeviceSongsOnClickListeners
+{
     private lateinit var binding: FragmentDeviceSongsBinding
     private val deviceSongsViewModel: DeviceSongsViewModel by viewModels()
-    private var deviceSongsAdapter = DeviceSongsAdapter(mutableListOf(), this)
+    private var deviceSongsAdapter = DeviceSongsAdapter(mutableListOf(), this, this)
     @Inject lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
@@ -132,6 +138,10 @@ class DeviceSongsFragment : DeviceFilesBaseFragment(), DeviceFilesMoreOnClickLis
 
     override fun onDeviceFilesChanged() {
         getDeviceSongs()
+    }
+
+    override fun onSongClick(position: Int) {
+        requireActivity().setDeviceFilesPlayerPlaylist(deviceSongsAdapter.list)
     }
 
 }

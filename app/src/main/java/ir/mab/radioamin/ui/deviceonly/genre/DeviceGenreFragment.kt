@@ -13,6 +13,7 @@ import ir.mab.radioamin.databinding.FragmentDeviceGenreBinding
 import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomSheet
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionsChangeListener
+import ir.mab.radioamin.ui.deviceonly.listener.DeviceSongsOnClickListeners
 import ir.mab.radioamin.ui.deviceonly.song.DeviceSongsAdapter
 import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.errorToast
@@ -21,10 +22,11 @@ import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.generic.Status
 
 @AndroidEntryPoint
-class DeviceGenreFragment : Fragment(), DeviceFilesMoreOnClickListeners, DeviceFilesOptionsChangeListener {
+class DeviceGenreFragment : Fragment(), DeviceFilesMoreOnClickListeners, DeviceFilesOptionsChangeListener,
+    DeviceSongsOnClickListeners {
     private lateinit var binding: FragmentDeviceGenreBinding
     private val deviceGenreViewModel: DeviceGenresViewModel by viewModels()
-    private var deviceSongsAdapter = DeviceSongsAdapter(mutableListOf(), this)
+    private var deviceSongsAdapter = DeviceSongsAdapter(mutableListOf(), this, this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -108,5 +110,9 @@ class DeviceGenreFragment : Fragment(), DeviceFilesMoreOnClickListeners, DeviceF
 
     override fun onDeviceFilesChanged() {
         getDeviceGenreSongs()
+    }
+
+    override fun onSongClick(position: Int) {
+        TODO("Not yet implemented")
     }
 }

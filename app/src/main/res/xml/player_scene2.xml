@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        android:id="@+id/transition1"
+        motion:constraintSetStart="@id/playerCollapsed"
+        motion:constraintSetEnd="@id/playerExpanded">
+
+        <KeyFrameSet>
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="10"
+                motion:motionTarget="@id/headerParent" />
+
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="20"
+                motion:motionTarget="@id/playerControlParent" />
+
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="20"
+                motion:motionTarget="@id/seekbarParent" />
+
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="20"
+                motion:motionTarget="@id/songInfoParent" />
+
+        </KeyFrameSet>
+    </Transition>
+
+    <Transition
+        android:id="@+id/transition2"
+        motion:constraintSetStart="@id/playerExpanded"
+        motion:constraintSetEnd="@id/queueExpanded">
+
+        <OnSwipe
+            motion:touchAnchorId="@id/queueParent"
+            motion:dragDirection="dragUp"
+            motion:touchAnchorSide="top"
+            motion:touchRegionId="@id/queueParent"
+            >
+
+        </OnSwipe>
+
+        <KeyFrameSet>
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="10"
+                motion:motionTarget="@id/headerParent" />
+
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="20"
+                motion:motionTarget="@id/playerControlParent" />
+
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="20"
+                motion:motionTarget="@id/seekbarParent" />
+
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="20"
+                motion:motionTarget="@id/songInfoParent" />
+
+        </KeyFrameSet>
+    </Transition>
+
+
+
+
+    <ConstraintSet android:id="@+id/playerCollapsed">
+        <!--        <Constraint-->
+        <!--            android:id="@+id/targetView"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            motion:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            motion:layout_constraintLeft_toLeftOf="parent"-->
+        <!--            motion:layout_constraintRight_toRightOf="parent"-->
+
+        <!--            />-->
+
+        <!--        <Constraint-->
+        <!--            android:id="@+id/upNextView"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="32dp"-->
+        <!--            motion:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            motion:layout_constraintLeft_toLeftOf="parent"-->
+        <!--            motion:layout_constraintRight_toRightOf="parent"-->
+        <!--            />-->
+
+        <Constraint
+            android:id="@+id/playerParent"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            motion:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+            android:id="@+id/cover"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="0dp"
+            motion:layout_constraintBottom_toBottomOf="@id/playerParent"
+            motion:layout_constraintLeft_toLeftOf="@id/playerParent"
+            motion:layout_constraintRight_toLeftOf="@+id/miniInfoParent"
+            motion:layout_constraintTop_toTopOf="@id/playerParent" />
+
+        <Constraint android:id="@+id/headerParent">
+            <PropertySet android:visibility="invisible" />
+        </Constraint>
+
+        <Constraint android:id="@+id/songInfoParent">
+            <PropertySet android:visibility="invisible" />
+        </Constraint>
+
+        <Constraint android:id="@+id/seekbarParent">
+            <PropertySet android:visibility="invisible" />
+        </Constraint>
+
+        <Constraint android:id="@+id/playerControlParent">
+            <PropertySet android:visibility="invisible" />
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/miniInfoParent"
+            android:layout_marginLeft="16dp"
+            motion:layout_constraintBottom_toBottomOf="@id/cover"
+            motion:layout_constraintLeft_toRightOf="@id/cover"
+            motion:layout_constraintRight_toLeftOf="@id/miniPlayerControllerParent"
+            motion:layout_constraintTop_toTopOf="@id/cover">
+            <PropertySet android:visibility="visible" />
+        </Constraint>
+
+        <Constraint android:id="@+id/miniPlayerControllerParent">
+            <PropertySet android:visibility="visible" />
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/queueParent"
+            android:visibility="invisible" />
+
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/playerExpanded">
+        <!--        <Constraint-->
+        <!--            android:id="@+id/targetView"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            motion:layout_constraintTop_toTopOf="parent"-->
+        <!--            motion:layout_constraintLeft_toLeftOf="parent"-->
+        <!--            motion:layout_constraintRight_toRightOf="parent"-->
+        <!--            />-->
+
+        <!--    </ConstraintSet>-->
+
+        <!--    <ConstraintSet android:id="@+id/queueExpanded">-->
+        <!--        <Constraint-->
+        <!--            android:id="@+id/upNextView"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            motion:layout_constraintTop_toTopOf="parent"-->
+        <!--            motion:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            motion:layout_constraintLeft_toLeftOf="parent"-->
+        <!--            motion:layout_constraintRight_toRightOf="parent"-->
+        <!--            />-->
+
+        <Constraint
+            android:id="@+id/playerParent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toTopOf="@id/songInfoParent"
+            motion:layout_constraintLeft_toLeftOf="parent"
+            motion:layout_constraintRight_toRightOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/headerParent">
+
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/cover"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="24dp"
+            motion:layout_constraintBottom_toBottomOf="@id/playerParent"
+            motion:layout_constraintLeft_toLeftOf="parent"
+            motion:layout_constraintRight_toRightOf="parent"
+            motion:layout_constraintTop_toTopOf="@id/playerParent" />
+
+        <Constraint android:id="@id/headerParent">
+            <PropertySet android:visibility="visible" />
+        </Constraint>
+
+        <Constraint android:id="@+id/songInfoParent">
+            <PropertySet android:visibility="visible" />
+        </Constraint>
+
+        <Constraint android:id="@+id/seekbarParent">
+            <PropertySet android:visibility="visible" />
+        </Constraint>
+
+        <Constraint android:id="@+id/playerControlParent">
+            <PropertySet android:visibility="visible" />
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/miniInfoParent"
+            android:layout_marginLeft="16dp"
+            motion:layout_constraintBottom_toBottomOf="@id/cover"
+            motion:layout_constraintLeft_toRightOf="@id/cover"
+            motion:layout_constraintRight_toLeftOf="@id/miniPlayerControllerParent"
+            motion:layout_constraintTop_toTopOf="@id/cover">
+            <PropertySet android:visibility="invisible" />
+        </Constraint>
+
+        <Constraint android:id="@+id/miniPlayerControllerParent">
+            <PropertySet android:visibility="invisible" />
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/queueParent"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            motion:layout_constraintBottom_toBottomOf="parent" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/queueExpanded">
+        <Constraint
+            android:id="@+id/playerParent"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            motion:layout_constraintLeft_toLeftOf="parent"
+            motion:layout_constraintRight_toRightOf="parent"
+            motion:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+            android:id="@+id/queueParent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/playerParent"
+            motion:layout_constraintLeft_toLeftOf="parent"
+            motion:layout_constraintRight_toRightOf="parent" />
+
+
+        <Constraint
+            android:id="@+id/cover"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="0dp"
+            motion:layout_constraintBottom_toBottomOf="@id/playerParent"
+            motion:layout_constraintLeft_toLeftOf="@id/playerParent"
+            motion:layout_constraintRight_toLeftOf="@+id/miniInfoParent"
+            motion:layout_constraintTop_toTopOf="@id/playerParent" />
+
+        <Constraint
+            android:id="@+id/miniInfoParent"
+            android:layout_marginLeft="16dp"
+            motion:layout_constraintBottom_toBottomOf="@id/cover"
+            motion:layout_constraintLeft_toRightOf="@id/cover"
+            motion:layout_constraintRight_toLeftOf="@id/miniPlayerControllerParent"
+            motion:layout_constraintTop_toTopOf="@id/cover">
+            <PropertySet android:visibility="visible" />
+        </Constraint>
+
+        <Constraint android:id="@+id/headerParent">
+            <PropertySet android:visibility="invisible" />
+        </Constraint>
+        <Constraint android:id="@+id/miniPlayerControllerParent">
+            <PropertySet android:visibility="visible" />
+        </Constraint>
+
+        <Constraint android:id="@+id/songInfoParent">
+            <PropertySet android:visibility="invisible" />
+        </Constraint>
+
+        <Constraint android:id="@+id/seekbarParent">
+            <PropertySet android:visibility="invisible" />
+        </Constraint>
+
+        <Constraint android:id="@+id/playerControlParent">
+            <PropertySet android:visibility="invisible" />
+        </Constraint>
+
+    </ConstraintSet>
+
+
+</MotionScene>
