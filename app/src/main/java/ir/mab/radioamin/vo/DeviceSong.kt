@@ -9,6 +9,6 @@ data class DeviceSong(
     val artistName: String?,
     val albumName: String?,
     val duration: Long?,
-    val contentUri: Uri?,
+    val contentUri: Uri,
     val data: String?
 )

@@ -117,6 +117,9 @@ class DeviceSongsFragment : DeviceFilesBaseFragment(),
     }
 
     inner class Handlers {
+        fun shuffleOnClick(v: View){
+            requireActivity().setDeviceFilesPlayerPlaylist(deviceSongsAdapter.list.shuffled(), 0)
+        }
     }
 
     override fun onShowOptions(
@@ -141,7 +144,7 @@ class DeviceSongsFragment : DeviceFilesBaseFragment(),
     }
 
     override fun onSongClick(position: Int) {
-        requireActivity().setDeviceFilesPlayerPlaylist(deviceSongsAdapter.list)
+        requireActivity().setDeviceFilesPlayerPlaylist(deviceSongsAdapter.list, position)
     }
 
 }

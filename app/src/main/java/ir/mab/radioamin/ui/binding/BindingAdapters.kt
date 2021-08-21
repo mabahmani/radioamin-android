@@ -15,6 +15,7 @@ fun loadImage(view: AppCompatImageView, imageBitmap: Bitmap?) {
     if (imageBitmap != null) {
         Glide.with(view).load(imageBitmap).transition(DrawableTransitionOptions.withCrossFade())
             .centerCrop()
+            .dontTransform()
             .into(view)
     }
 }

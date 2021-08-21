@@ -5,38 +5,66 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.ActivityDeviceFilesOnlyBinding
 import ir.mab.radioamin.ui.BaseActivity
+import ir.mab.radioamin.util.DateTimeFormatter
+import ir.mab.radioamin.util.DeviceFilesImageLoader.getOriginalAlbumArt
+import ir.mab.radioamin.vo.DeviceSong
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.cancellable
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener{
+class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Player.Listener{
 
     lateinit var binding: ActivityDeviceFilesOnlyBinding
+    lateinit var playerBottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     @Inject lateinit var player: SimpleExoPlayer
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_device_files_only)
         BottomSheetBehavior.from(binding.permissionBottomSheet).state = BottomSheetBehavior.STATE_HIDDEN
-//        binding.motionParent.setTransition(R.id.playerHidden, R.id.playerHidden)
-//
-//        binding.motionParent.addTransitionListener(this)
+
+        setupPlayerBottomSheet()
+        setupPlayer();
+    }
+
+    private fun setupPlayer() {
+        player.addListener(this)
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private fun setupPlayerBottomSheet() {
+        playerBottomSheetBehavior = BottomSheetBehavior.from(binding.playerBottomSheet)
+        playerBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
 
         binding.motion.addTransitionListener(this)
         binding.motion.setTransition(R.id.transition1)
 
-        BottomSheetBehavior.from(binding.bottomSheet).addBottomSheetCallback(object :
+        playerBottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_DRAGGING){
                     binding.motion.setTransition(R.id.transition1)
+                }
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED){
+                    binding.navHostFragment.setPadding(0,0,0, playerBottomSheetBehavior.peekHeight)
+                }
+                if (newState == BottomSheetBehavior.STATE_HIDDEN){
+                    binding.navHostFragment.setPadding(0,0,0, 0)
+                    player.stop()
                 }
             }
 
@@ -46,13 +74,13 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener{
         })
 
         binding.queueParent.setOnTouchListener { _, motionEvent ->
-            BottomSheetBehavior.from(binding.bottomSheet).isDraggable =
+            playerBottomSheetBehavior.isDraggable =
                 motionEvent.action == MotionEvent.ACTION_MOVE
             false
         }
 
         binding.chevronDown.setOnClickListener {
-            BottomSheetBehavior.from(binding.bottomSheet).state = BottomSheetBehavior.STATE_COLLAPSED
+            playerBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
     }
 
@@ -63,11 +91,72 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener{
     }
 
     override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
-        BottomSheetBehavior.from(binding.bottomSheet).isDraggable = p1 != R.id.queueExpanded
+        playerBottomSheetBehavior.isDraggable = p1 != R.id.queueExpanded
     }
 
     override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
     }
 
+    override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+        super.onMediaItemTransition(mediaItem, reason)
+
+        Timber.d("onMediaItemTransition %s %s", mediaItem?.playbackProperties?.tag, reason)
+
+        if (mediaItem?.playbackProperties?.tag != null){
+            val song = mediaItem.playbackProperties!!.tag as DeviceSong
+
+            binding.song = song
+
+            binding.duration = DateTimeFormatter.millisToHumanTime(song.duration?:0)
+
+            binding.elapsedTime = DateTimeFormatter.millisToHumanTime(0)
+
+            GlobalScope.launch(Dispatchers.IO){
+                binding.thumbnail = getOriginalAlbumArt(song.albumId ?: -1)
+            }
+        }
+    }
+
+    override fun onPlaybackStateChanged(playbackState: Int) {
+        super.onPlaybackStateChanged(playbackState)
+
+    }
+    var job: Job? = null
+
+    override fun onIsPlayingChanged(isPlaying: Boolean) {
+        super.onIsPlayingChanged(isPlaying)
+
+        if (isPlaying){
+            binding.seekbarMaxProgress = player.duration.toInt()
+
+            job = CoroutineScope(Dispatchers.Main).launch {
+                tickerFlow(1000).collect {
+                    binding.elapsedTime = DateTimeFormatter.millisToHumanTime(player.currentPosition)
+                    binding.seekbarProgress = player.currentPosition.toInt()
+                }
+            }
+        }
+
+        else{
+            job?.cancel()
+        }
+    }
+
+    private fun tickerFlow(period: Long, initialDelay: Long = 0) = flow {
+        delay(initialDelay)
+        while (true) {
+            emit(Unit)
+            delay(period)
+        }
+    }.cancellable()
+
+    override fun onBackPressed() {
+        if (playerBottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED){
+            playerBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+        else{
+            super.onBackPressed()
+        }
+    }
 
 }

@@ -48,7 +48,7 @@ class DeviceSongsAdapter(var list: List<DeviceSong>,
                 binding.thumbnail = itemView.context.getDeviceAlbumThumbnail(model.albumId ?: -1)
             }
             binding.song = model
-            binding.duration = DateTimeFormatter.durationToHumanTime(model.duration?:0)
+            binding.duration = DateTimeFormatter.millisToHumanTime(model.duration?:0)
 
             binding.more.setOnClickListener {
                 deviceFilesMoreOnClickListeners.onShowOptions(

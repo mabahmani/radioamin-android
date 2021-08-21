@@ -2,23 +2,29 @@ package ir.mab.radioamin.util
 
 import android.app.Activity
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import ir.mab.radioamin.ui.deviceonly.DeviceFilesActivity
 import ir.mab.radioamin.vo.DeviceSong
 
 object DeviceFilesPlayer {
-    fun Activity.setDeviceFilesPlayerPlaylist(deviceSongs: List<DeviceSong>){
-        if (this is DeviceFilesActivity){
+    fun Activity.setDeviceFilesPlayerPlaylist(deviceSongs: List<DeviceSong>, startPosition: Int) {
+        if (this is DeviceFilesActivity) {
             player.clearMediaItems()
             player.stop()
 
-            for (song in deviceSongs){
-                player.addMediaItem(MediaItem.fromUri(song.contentUri!!))
+            for (song in deviceSongs) {
+                player.addMediaItem(
+                    MediaItem.Builder().setUri(song.contentUri).setMediaId(song.id.toString())
+                        .setTag(song).build()
+                )
             }
+
+            player.seekTo(startPosition, 0)
 
             player.prepare()
             player.play()
 
-            //binding.motionParent.transitionToState(R.id.playerExpanded)
+            playerBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
 
         }
     }

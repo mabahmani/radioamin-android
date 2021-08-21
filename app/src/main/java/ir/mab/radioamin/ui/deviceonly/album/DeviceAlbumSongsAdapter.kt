@@ -42,7 +42,7 @@ class DeviceAlbumSongsAdapter(
 
         fun bind(model: DeviceSong, albumArt: Bitmap?) {
             binding.song = model
-            binding.duration = DateTimeFormatter.durationToHumanTime(model.duration?:0)
+            binding.duration = DateTimeFormatter.millisToHumanTime(model.duration?:0)
 
             binding.more.setOnClickListener {
                 deviceFilesMoreOnClickListeners.onShowOptions(

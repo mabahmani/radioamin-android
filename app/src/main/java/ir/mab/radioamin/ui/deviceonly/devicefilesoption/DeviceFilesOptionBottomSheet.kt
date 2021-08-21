@@ -1,6 +1,7 @@
 package ir.mab.radioamin.ui.deviceonly.devicefilesoption
 
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -368,7 +369,7 @@ class DeviceFilesOptionBottomSheet(
     }
 
     private fun getDeviceSongsAndAddToPlaylist(id: Long, devicePlaylist: DevicePlaylist) {
-        val songs = mutableListOf(DeviceSong(id, null, null, null, null, null, null, null))
+        val songs = mutableListOf(DeviceSong(id, null, null, null, null, null, Uri.EMPTY, null))
         addSongsToPlaylist(songs, devicePlaylist)
     }
 

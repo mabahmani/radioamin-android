@@ -46,7 +46,7 @@ class EditPlaylistSongsAdapter(var list: List<DeviceSong>, var editDevicePlaylis
                 binding.thumbnail = itemView.context.getDeviceAlbumThumbnail(model.albumId?: -1)
             }
             binding.song = model
-            binding.duration = DateTimeFormatter.durationToHumanTime(model.duration?:0)
+            binding.duration = DateTimeFormatter.millisToHumanTime(model.duration?:0)
 
             binding.handler.setOnTouchListener { _, event ->
                 if (event.actionMasked ==

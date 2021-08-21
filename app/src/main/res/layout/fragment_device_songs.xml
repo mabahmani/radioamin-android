@@ -82,7 +82,9 @@
                         android:layout_height="wrap_content"
                         android:background="?selectableItemBackground"
                         android:clickable="true"
-                        android:focusable="true">
+                        android:focusable="true"
+                        android:onClick="@{handler::shuffleOnClick}"
+                        >
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/coverParent"
