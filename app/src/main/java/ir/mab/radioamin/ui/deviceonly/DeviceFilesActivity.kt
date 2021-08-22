@@ -22,7 +22,6 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -82,6 +81,34 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
         binding.chevronDown.setOnClickListener {
             playerBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
+
+        binding.playerParent.setOnClickListener {
+            playerBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        }
+
+        binding.play.setOnClickListener {
+            if (player.isPlaying)
+                player.pause()
+            else
+                player.play()
+        }
+
+        binding.miniPlay.setOnClickListener {
+            if (player.isPlaying)
+                player.pause()
+            else
+                player.play()
+        }
+
+        binding.next.setOnClickListener {
+            player.seekToNextWindow()
+        }
+        binding.miniNext.setOnClickListener {
+            player.seekToNextWindow()
+        }
+        binding.previous.setOnClickListener {
+            player.seekToPreviousWindow()
+        }
     }
 
     override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {
@@ -99,8 +126,6 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
 
     override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
         super.onMediaItemTransition(mediaItem, reason)
-
-        Timber.d("onMediaItemTransition %s %s", mediaItem?.playbackProperties?.tag, reason)
 
         if (mediaItem?.playbackProperties?.tag != null){
             val song = mediaItem.playbackProperties!!.tag as DeviceSong
@@ -127,6 +152,10 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
         super.onIsPlayingChanged(isPlaying)
 
         if (isPlaying){
+
+            binding.play.setImageResource(R.drawable.ic_pause)
+            binding.miniPlay.setImageResource(R.drawable.ic_pause)
+
             binding.seekbarMaxProgress = player.duration.toInt()
 
             job = CoroutineScope(Dispatchers.Main).launch {
@@ -138,6 +167,8 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
         }
 
         else{
+            binding.play.setImageResource(R.drawable.ic_play)
+            binding.miniPlay.setImageResource(R.drawable.ic_play)
             job?.cancel()
         }
     }

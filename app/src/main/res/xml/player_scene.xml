@@ -5,7 +5,31 @@
     <Transition
         android:id="@+id/transition1"
         motion:constraintSetEnd="@id/playerExpanded"
-        motion:constraintSetStart="@id/playerCollapsed"/>
+        motion:constraintSetStart="@id/playerCollapsed">
+
+        <KeyFrameSet>
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="10"
+                motion:motionTarget="@id/headerParent" />
+
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="20"
+                motion:motionTarget="@id/playerControlParent" />
+
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="20"
+                motion:motionTarget="@id/seekbarParent" />
+
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="20"
+                motion:motionTarget="@id/songInfoParent" />
+
+        </KeyFrameSet>
+    </Transition>
 
     <Transition
         android:id="@+id/transition2"
@@ -20,48 +44,49 @@
 
         </OnSwipe>
 
+
+        <KeyFrameSet>
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="10"
+                motion:motionTarget="@id/headerParent" />
+
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="20"
+                motion:motionTarget="@id/playerControlParent" />
+
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="20"
+                motion:motionTarget="@id/seekbarParent" />
+
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="20"
+                motion:motionTarget="@id/songInfoParent" />
+
+        </KeyFrameSet>
+
     </Transition>
 
-
-    <KeyFrameSet>
-        <KeyAttribute
-            android:alpha="0"
-            motion:framePosition="10"
-            motion:motionTarget="@id/headerParent" />
-
-        <KeyAttribute
-            android:alpha="0"
-            motion:framePosition="20"
-            motion:motionTarget="@id/playerControlParent" />
-
-        <KeyAttribute
-            android:alpha="0"
-            motion:framePosition="20"
-            motion:motionTarget="@id/seekbarParent" />
-
-        <KeyAttribute
-            android:alpha="0"
-            motion:framePosition="20"
-            motion:motionTarget="@id/songInfoParent" />
-
-    </KeyFrameSet>
 
     <ConstraintSet android:id="@+id/playerCollapsed">
 
         <Constraint
             android:id="@+id/playerParent"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="72dp"
             motion:layout_constraintTop_toTopOf="parent" />
 
         <Constraint
             android:id="@+id/cover"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginBottom="0dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="12dp"
             motion:layout_constraintBottom_toBottomOf="@id/playerParent"
             motion:layout_constraintLeft_toLeftOf="@id/playerParent"
             motion:layout_constraintRight_toLeftOf="@+id/miniInfoParent"
@@ -85,7 +110,6 @@
 
         <Constraint
             android:id="@+id/miniInfoParent"
-            android:layout_marginLeft="16dp"
             motion:layout_constraintBottom_toBottomOf="@id/cover"
             motion:layout_constraintLeft_toRightOf="@id/cover"
             motion:layout_constraintRight_toLeftOf="@id/miniPlayerControllerParent"
@@ -147,7 +171,6 @@
 
         <Constraint
             android:id="@+id/miniInfoParent"
-            android:layout_marginLeft="16dp"
             motion:layout_constraintBottom_toBottomOf="@id/cover"
             motion:layout_constraintLeft_toRightOf="@id/cover"
             motion:layout_constraintRight_toLeftOf="@id/miniPlayerControllerParent"
@@ -170,7 +193,7 @@
         <Constraint
             android:id="@+id/playerParent"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="72dp"
             motion:layout_constraintLeft_toLeftOf="parent"
             motion:layout_constraintRight_toRightOf="parent"
             motion:layout_constraintTop_toTopOf="parent" />
@@ -187,12 +210,12 @@
 
         <Constraint
             android:id="@+id/cover"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="0dp"
-            android:layout_marginRight="0dp"
-            android:layout_marginBottom="0dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="12dp"
             motion:layout_constraintBottom_toBottomOf="@id/playerParent"
             motion:layout_constraintLeft_toLeftOf="@id/playerParent"
             motion:layout_constraintRight_toLeftOf="@+id/miniInfoParent"
@@ -200,7 +223,6 @@
 
         <Constraint
             android:id="@+id/miniInfoParent"
-            android:layout_marginLeft="16dp"
             motion:layout_constraintBottom_toBottomOf="@id/cover"
             motion:layout_constraintLeft_toRightOf="@id/cover"
             motion:layout_constraintRight_toLeftOf="@id/miniPlayerControllerParent"
