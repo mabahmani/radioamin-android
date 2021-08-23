@@ -4,6 +4,7 @@
 
     <data>
 
+        <import type="android.view.View"/>
         <variable
             name="song"
             type="ir.mab.radioamin.vo.DeviceSong" />
@@ -161,8 +162,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:background="?selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:visibility="invisible"
@@ -199,18 +198,35 @@
                         app:tint="@color/white" />
                 </LinearLayout>
 
-                <androidx.appcompat.widget.AppCompatImageView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/cover"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_margin="24dp"
-                    android:background="@color/color10"
-                    app:imageBitmap="@{thumbnail}"
-                    android:scaleType="centerCrop"
+                    app:cardBackgroundColor="@color/color1"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="10dp"
                     app:layout_constraintBottom_toBottomOf="@id/playerParent"
                     app:layout_constraintLeft_toLeftOf="@id/playerParent"
                     app:layout_constraintRight_toRightOf="@id/playerParent"
-                    app:layout_constraintTop_toTopOf="@id/playerParent" />
+                    app:layout_constraintTop_toTopOf="@id/playerParent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:padding="16dp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/ic_music_note"
+                        app:tint="@color/color6" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:visibility="@{thumbnail == null ? View.GONE : View.VISIBLE}"
+                        app:imageBitmap="@{thumbnail}" />
+
+                </androidx.cardview.widget.CardView>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/songInfoParent"
@@ -232,6 +248,7 @@
                         android:text="@{song.name}"
                         android:textColor="@color/white"
                         android:textSize="24sp"
+                        android:paddingHorizontal="24dp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -241,6 +258,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="24dp"
+                        android:layout_marginHorizontal="24dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:text="@{song.artistName}"
                         android:textColor="@color/color10"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -337,7 +357,7 @@
                         app:layout_constraintRight_toLeftOf="@+id/guide1"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_shuffle"
-                        app:tint="@color/white" />
+                        app:tint="@color/color10" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/previous"
@@ -346,7 +366,7 @@
                         android:background="?selectableItemBackgroundBorderless"
                         android:clickable="true"
                         android:focusable="true"
-                        android:padding="16dp"
+                        android:padding="14dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/guide1"
                         app:layout_constraintRight_toLeftOf="@+id/guide2"
@@ -374,7 +394,7 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:background="?selectableItemBackgroundBorderless"
-                        android:padding="16dp"
+                        android:padding="14dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/guide3"
                         app:layout_constraintRight_toLeftOf="@+id/guide4"
@@ -393,7 +413,7 @@
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/ic_repeat"
-                        app:tint="@color/white" />
+                        app:tint="@color/color10" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

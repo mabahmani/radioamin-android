@@ -3,10 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/activity_device_files_only.xml" value="0.2" />
+        <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/activity_device_files_only.xml" value="0.1" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/activity_main.xml" value="0.25076923076923074" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/bottomsheet_deivce_files_option.xml" value="0.268" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/custom_progress_view.xml" value="0.17685185185185184" />
+        <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/custom_simple_toolbar_with_back_icon_and_title.xml" value="0.25076923076923074" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/dialog_add_to_playlist.xml" value="0.17685185185185184" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/dialog_delete_playlist.xml" value="0.22592592592592592" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/dialog_delete_song.xml" value="0.2546875" />

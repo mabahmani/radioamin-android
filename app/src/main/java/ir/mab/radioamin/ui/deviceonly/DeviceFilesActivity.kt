@@ -1,12 +1,18 @@
 package ir.mab.radioamin.ui.deviceonly
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import android.widget.SeekBar
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.animation.addListener
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -30,6 +36,8 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
     lateinit var binding: ActivityDeviceFilesOnlyBinding
     lateinit var playerBottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     @Inject lateinit var player: SimpleExoPlayer
+    @Inject lateinit var sharePreferences: SharedPreferences
+    private var stopUpdateSeekbar: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,6 +80,8 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
             }
         })
 
+        binding.songName.isSelected = true
+
         binding.queueParent.setOnTouchListener { _, motionEvent ->
             playerBottomSheetBehavior.isDraggable =
                 motionEvent.action == MotionEvent.ACTION_MOVE
@@ -79,6 +89,7 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
         }
 
         binding.chevronDown.setOnClickListener {
+            binding.motion.setTransition(R.id.transition1)
             playerBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
@@ -87,27 +98,100 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
         }
 
         binding.play.setOnClickListener {
-            if (player.isPlaying)
-                player.pause()
-            else
-                player.play()
+            togglePLayPause()
         }
 
         binding.miniPlay.setOnClickListener {
-            if (player.isPlaying)
-                player.pause()
-            else
-                player.play()
+            togglePLayPause()
         }
 
         binding.next.setOnClickListener {
-            player.seekToNextWindow()
+            player.seekToNext()
+            player.play()
         }
         binding.miniNext.setOnClickListener {
-            player.seekToNextWindow()
+            player.seekToNext()
+            player.play()
         }
         binding.previous.setOnClickListener {
-            player.seekToPreviousWindow()
+            player.seekToPrevious()
+            player.play()
+        }
+
+        binding.shuffle.setOnClickListener {
+            if (player.shuffleModeEnabled){
+                binding.shuffle.setImageResource(R.drawable.ic_shuffle)
+                binding.shuffle.setColorFilter(ContextCompat.getColor(this, R.color.color10))
+                player.shuffleModeEnabled = false
+            }
+            else{
+                binding.shuffle.setImageResource(R.drawable.ic_shuffle_bold)
+                binding.shuffle.setColorFilter(ContextCompat.getColor(this, R.color.white))
+                player.shuffleModeEnabled = true
+
+            }
+        }
+
+        binding.repeat.setOnClickListener {
+            when(player.repeatMode){
+                ExoPlayer.REPEAT_MODE_OFF -> {
+                    binding.repeat.setImageResource(R.drawable.ic_repeat_1_bold)
+                    binding.repeat.setColorFilter(ContextCompat.getColor(this, R.color.white))
+                    player.repeatMode = ExoPlayer.REPEAT_MODE_ONE
+                }
+                ExoPlayer.REPEAT_MODE_ONE -> {
+                    binding.repeat.setImageResource(R.drawable.ic_repeat_bold)
+                    binding.repeat.setColorFilter(ContextCompat.getColor(this, R.color.white))
+                    player.repeatMode = ExoPlayer.REPEAT_MODE_ALL
+                }
+                ExoPlayer.REPEAT_MODE_ALL -> {
+                    binding.repeat.setImageResource(R.drawable.ic_repeat)
+                    binding.repeat.setColorFilter(ContextCompat.getColor(this, R.color.color10))
+                    player.repeatMode = ExoPlayer.REPEAT_MODE_OFF
+                }
+            }
+
+        }
+
+        binding.seekbar.setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(view: SeekBar?, progress: Int, fromUser: Boolean) {
+                if(fromUser){
+                    binding.elapsedTime = DateTimeFormatter.millisToHumanTime(progress.toLong())
+                }
+            }
+
+            override fun onStartTrackingTouch(view: SeekBar?) {
+                stopUpdateSeekbar = true
+            }
+
+            override fun onStopTrackingTouch(view: SeekBar?) {
+                stopUpdateSeekbar = false
+                if (view != null){
+                    player.seekTo(view.progress.toLong())
+                }
+            }
+        })
+
+    }
+
+    private fun togglePLayPause() {
+        if (player.isPlaying) {
+            val fadeOut = ValueAnimator.ofFloat(1f,0f)
+            fadeOut.duration = 750
+            fadeOut.addUpdateListener {
+                player.volume = it.animatedValue as Float
+            }
+            fadeOut.addListener(onEnd = {player.pause()})
+            fadeOut.start()
+        }
+        else{
+            val fadeIn = ValueAnimator.ofFloat(0f,1f)
+            fadeIn.duration = 750
+            fadeIn.addUpdateListener {
+                player.volume = it.animatedValue as Float
+            }
+            fadeIn.addListener(onStart = {player.play()})
+            fadeIn.start()
         }
     }
 
@@ -152,7 +236,7 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
         super.onIsPlayingChanged(isPlaying)
 
         if (isPlaying){
-
+            player.volume = 1f
             binding.play.setImageResource(R.drawable.ic_pause)
             binding.miniPlay.setImageResource(R.drawable.ic_pause)
 
@@ -160,8 +244,10 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
 
             job = CoroutineScope(Dispatchers.Main).launch {
                 tickerFlow(1000).collect {
-                    binding.elapsedTime = DateTimeFormatter.millisToHumanTime(player.currentPosition)
-                    binding.seekbarProgress = player.currentPosition.toInt()
+                    if (!stopUpdateSeekbar){
+                        binding.seekbarProgress = player.currentPosition.toInt()
+                        binding.elapsedTime = DateTimeFormatter.millisToHumanTime(player.currentPosition)
+                    }
                 }
             }
         }

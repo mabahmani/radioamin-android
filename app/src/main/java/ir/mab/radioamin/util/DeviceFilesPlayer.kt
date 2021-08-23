@@ -19,7 +19,8 @@ object DeviceFilesPlayer {
                 )
             }
 
-            player.seekTo(startPosition, 0)
+            player.volume = 1f
+            player.seekToDefaultPosition(startPosition)
 
             player.prepare()
             player.play()
