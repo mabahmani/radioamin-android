@@ -10,6 +10,7 @@ object DeviceFilesPlayer {
     fun Activity.setDeviceFilesPlayerPlaylist(deviceSongs: List<DeviceSong>, startPosition: Int) {
         if (this is DeviceFilesActivity) {
             player.clearMediaItems()
+            queuePlaylistSongs.clear()
             player.stop()
 
             for (song in deviceSongs) {
@@ -17,7 +18,10 @@ object DeviceFilesPlayer {
                     MediaItem.Builder().setUri(song.contentUri).setMediaId(song.id.toString())
                         .setTag(song).build()
                 )
+                queuePlaylistSongs.add(song)
             }
+
+            playerQueueSongsAdapter.notifyDataSetChanged()
 
             player.volume = 1f
             player.seekToDefaultPosition(startPosition)

@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
-        <import type="android.view.View"/>
+        <import type="android.view.View" />
+
         <variable
             name="song"
             type="ir.mab.radioamin.vo.DeviceSong" />
@@ -83,7 +85,7 @@
 
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/more"
+                        android:id="@+id/close"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:layout_margin="16dp"
@@ -94,7 +96,7 @@
                         app:layout_constraintBottom_toBottomOf="@id/headerParent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="@id/headerParent"
-                        app:srcCompat="@drawable/ic_ellipsis_vertical"
+                        app:srcCompat="@drawable/ic_xmark"
                         app:tint="@color/color10" />
 
                     <androidx.appcompat.widget.AppCompatImageView
@@ -138,11 +140,11 @@
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/miniSongName"
+                        fontPath="fonts/OpenSans-SemiBold.ttf"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        fontPath="fonts/OpenSans-SemiBold.ttf"
-                        android:maxLines="2"
                         android:ellipsize="end"
+                        android:maxLines="2"
                         android:text="@{song.name}"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
@@ -161,12 +163,12 @@
                     android:id="@+id/miniPlayerControllerParent"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
                     android:background="?selectableItemBackground"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:visibility="invisible"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginLeft="8dp"
                     app:layout_constraintBottom_toBottomOf="@id/cover"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@id/cover">
@@ -175,12 +177,12 @@
                         android:id="@+id/miniPlay"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
                         android:background="?selectableItemBackgroundBorderless"
                         android:clickable="true"
                         android:focusable="true"
                         android:padding="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginLeft="8dp"
                         app:srcCompat="@drawable/ic_play"
                         app:tint="@color/white" />
 
@@ -188,12 +190,12 @@
                         android:id="@+id/miniNext"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
                         android:background="?selectableItemBackgroundBorderless"
                         android:clickable="true"
                         android:focusable="true"
                         android:padding="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginLeft="8dp"
                         app:srcCompat="@drawable/ic_forward_step"
                         app:tint="@color/white" />
                 </LinearLayout>
@@ -214,8 +216,8 @@
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:padding="16dp"
                         android:layout_gravity="center"
+                        android:padding="16dp"
                         app:srcCompat="@drawable/ic_music_note"
                         app:tint="@color/color6" />
 
@@ -244,11 +246,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
                         android:ellipsize="marquee"
+                        android:paddingHorizontal="24dp"
                         android:singleLine="true"
                         android:text="@{song.name}"
                         android:textColor="@color/white"
                         android:textSize="24sp"
-                        android:paddingHorizontal="24dp"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -257,8 +259,8 @@
                         android:id="@+id/artistName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="24dp"
                         android:layout_marginHorizontal="24dp"
+                        android:layout_marginBottom="24dp"
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:text="@{song.artistName}"
@@ -279,9 +281,11 @@
                         android:id="@+id/seekbar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:progress="@{seekbarProgress}"
                         android:max="@{seekbarMaxProgress}"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:progress="@{seekbarProgress}"
+                        android:progressBackgroundTint="@color/color8"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:targetApi="lollipop" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/elapsedTimeText"
@@ -417,32 +421,66 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/queueParent"
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:background="@color/color6"
+                    android:layout_height="64dp"
+                    app:cardUseCompatPadding="false"
+                    android:padding="0dp"
+                    app:cardBackgroundColor="@color/color6"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_card_custom_corners"
                     app:layout_constraintBottom_toBottomOf="parent">
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/queueText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="52dp"
-                        android:gravity="center"
-                        android:text="@string/up_next"
-                        android:textColor="@color/white"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/queueList"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:background="@color/color6"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/queueText" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        android:layout_height="match_parent"
+                        >
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/queueHandlerView"
+                            android:layout_width="32dp"
+                            android:layout_height="3dp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:layout_marginTop="4dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:cardBackgroundColor="@color/color10"
+                            app:cardCornerRadius="14dp"
+                            />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/queueText"
+                            fontPath="fonts/OpenSans-SemiBold.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:gravity="top|center_horizontal"
+                            android:text="@string/up_next"
+                            android:textColor="@color/white"
+                            android:layout_marginTop="10dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/queueHandlerView"
+                            />
+
+                        <View
+                            android:id="@+id/queueDivider"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/color4"
+                            app:layout_constraintTop_toBottomOf="@+id/queueText" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/queueList"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:background="@color/color6"
+                            android:layout_marginTop="8dp"
+                            android:overScrollMode="never"
+                            app:layout_constraintTop_toBottomOf="@id/queueDivider"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
 
             </androidx.constraintlayout.motion.widget.MotionLayout>
 

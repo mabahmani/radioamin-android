@@ -12,6 +12,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.animation.addListener
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -21,6 +23,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.ActivityDeviceFilesOnlyBinding
 import ir.mab.radioamin.ui.BaseActivity
+import ir.mab.radioamin.ui.deviceonly.listener.PlayerQueueItemDragListeners
+import ir.mab.radioamin.ui.deviceonly.player.PlayerQueueSongsAdapter
 import ir.mab.radioamin.util.DateTimeFormatter
 import ir.mab.radioamin.util.DeviceFilesImageLoader.getOriginalAlbumArt
 import ir.mab.radioamin.vo.DeviceSong
@@ -31,13 +35,15 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Player.Listener{
+class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Player.Listener, PlayerQueueItemDragListeners{
 
     lateinit var binding: ActivityDeviceFilesOnlyBinding
     lateinit var playerBottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     @Inject lateinit var player: SimpleExoPlayer
     @Inject lateinit var sharePreferences: SharedPreferences
     private var stopUpdateSeekbar: Boolean = false
+    var queuePlaylistSongs = mutableListOf<DeviceSong>()
+    lateinit var playerQueueSongsAdapter: PlayerQueueSongsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +51,7 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
         BottomSheetBehavior.from(binding.permissionBottomSheet).state = BottomSheetBehavior.STATE_HIDDEN
 
         setupPlayerBottomSheet()
-        setupPlayer();
+        setupPlayer()
     }
 
     private fun setupPlayer() {
@@ -54,11 +60,14 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setupPlayerBottomSheet() {
+
+        playerQueueSongsAdapter = PlayerQueueSongsAdapter(queuePlaylistSongs, this)
+
         playerBottomSheetBehavior = BottomSheetBehavior.from(binding.playerBottomSheet)
         playerBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-
         binding.motion.addTransitionListener(this)
         binding.motion.setTransition(R.id.transition1)
+
 
         playerBottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
@@ -82,6 +91,9 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
 
         binding.songName.isSelected = true
 
+        binding.queueList.layoutManager = LinearLayoutManager(this)
+        binding.queueList.adapter = playerQueueSongsAdapter
+
         binding.queueParent.setOnTouchListener { _, motionEvent ->
             playerBottomSheetBehavior.isDraggable =
                 motionEvent.action == MotionEvent.ACTION_MOVE
@@ -91,6 +103,10 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
         binding.chevronDown.setOnClickListener {
             binding.motion.setTransition(R.id.transition1)
             playerBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+
+        binding.close.setOnClickListener {
+            playerBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
         }
 
         binding.playerParent.setOnClickListener {
@@ -274,6 +290,9 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
         else{
             super.onBackPressed()
         }
+    }
+
+    override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
     }
 
 }

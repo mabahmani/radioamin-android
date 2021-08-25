@@ -185,7 +185,7 @@
         <Constraint
             android:id="@+id/queueParent"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="64dp"
             motion:layout_constraintBottom_toBottomOf="parent" />
     </ConstraintSet>
 
