@@ -3,28 +3,45 @@ package ir.mab.radioamin.ui.deviceonly.player
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.mab.radioamin.databinding.ItemPlayerQueueBinding
-import ir.mab.radioamin.ui.deviceonly.listener.PlayerQueueItemDragListeners
+import ir.mab.radioamin.ui.deviceonly.listener.PlayerQueueItemListeners
 import ir.mab.radioamin.util.DateTimeFormatter
 import ir.mab.radioamin.util.DeviceFilesImageLoader.getDeviceAlbumThumbnail
 import ir.mab.radioamin.vo.DeviceSong
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
-class PlayerQueueSongsAdapter(var list: List<DeviceSong>, var playerQueueItemDragListeners: PlayerQueueItemDragListeners) :
+class PlayerQueueSongsAdapter(var list: List<DeviceSong>, var playerQueueItemListeners: PlayerQueueItemListeners) :
     RecyclerView.Adapter<PlayerQueueSongsAdapter.ViewHolder>() {
 
+    var currentMediaPosition = -1
+    var isPlaying = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemPlayerQueueBinding.inflate(LayoutInflater.from(parent.context), parent, false), playerQueueItemDragListeners)
+        return ViewHolder(ItemPlayerQueueBinding.inflate(LayoutInflater.from(parent.context), parent, false), playerQueueItemListeners)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(list[position])
+
+        if (currentMediaPosition == position){
+            holder.binding.equalizer.visibility = View.VISIBLE
+
+            if (isPlaying){
+                holder.binding.equalizer.playAnimation()
+            }
+            else{
+                holder.binding.equalizer.pauseAnimation()
+            }
+        }
+
+        else{
+            holder.binding.equalizer.visibility = View.GONE
+        }
     }
 
     override fun getItemCount(): Int {
@@ -33,7 +50,7 @@ class PlayerQueueSongsAdapter(var list: List<DeviceSong>, var playerQueueItemDra
 
     class ViewHolder(
         itemView:ItemPlayerQueueBinding,
-        var editDevicePlaylistItemDragListeners: PlayerQueueItemDragListeners
+        var editDevicePlaylistItemListeners: PlayerQueueItemListeners
     ) : RecyclerView.ViewHolder(itemView.root) {
         var binding: ItemPlayerQueueBinding = itemView
 
@@ -49,13 +66,16 @@ class PlayerQueueSongsAdapter(var list: List<DeviceSong>, var playerQueueItemDra
             binding.song = model
             binding.duration = DateTimeFormatter.millisToHumanTime(model.duration?:0)
 
-            Timber.d("bind %s %s", model, bindingAdapterPosition)
             binding.handler.setOnTouchListener { _, event ->
                 if (event.actionMasked ==
                     MotionEvent.ACTION_DOWN) {
-                    editDevicePlaylistItemDragListeners.onStartDrag(this)
+                    editDevicePlaylistItemListeners.onStartDrag(this)
                 }
                 false
+            }
+
+            binding.parent.setOnClickListener {
+                editDevicePlaylistItemListeners.onClick(bindingAdapterPosition)
             }
         }
     }

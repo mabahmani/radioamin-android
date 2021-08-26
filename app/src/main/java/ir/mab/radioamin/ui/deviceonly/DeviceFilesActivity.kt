@@ -12,6 +12,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.animation.addListener
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.exoplayer2.ExoPlayer
@@ -23,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.ActivityDeviceFilesOnlyBinding
 import ir.mab.radioamin.ui.BaseActivity
-import ir.mab.radioamin.ui.deviceonly.listener.PlayerQueueItemDragListeners
+import ir.mab.radioamin.ui.deviceonly.listener.PlayerQueueItemListeners
 import ir.mab.radioamin.ui.deviceonly.player.PlayerQueueSongsAdapter
 import ir.mab.radioamin.util.DateTimeFormatter
 import ir.mab.radioamin.util.DeviceFilesImageLoader.getOriginalAlbumArt
@@ -32,26 +33,72 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
+import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Player.Listener, PlayerQueueItemDragListeners{
+class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Player.Listener,
+    PlayerQueueItemListeners {
 
     lateinit var binding: ActivityDeviceFilesOnlyBinding
     lateinit var playerBottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
-    @Inject lateinit var player: SimpleExoPlayer
-    @Inject lateinit var sharePreferences: SharedPreferences
+    @Inject
+    lateinit var player: SimpleExoPlayer
+    @Inject
+    lateinit var sharePreferences: SharedPreferences
     private var stopUpdateSeekbar: Boolean = false
     var queuePlaylistSongs = mutableListOf<DeviceSong>()
     lateinit var playerQueueSongsAdapter: PlayerQueueSongsAdapter
+    private lateinit var playerQueueItemTouchHelper: ItemTouchHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_device_files_only)
-        BottomSheetBehavior.from(binding.permissionBottomSheet).state = BottomSheetBehavior.STATE_HIDDEN
+        BottomSheetBehavior.from(binding.permissionBottomSheet).state =
+            BottomSheetBehavior.STATE_HIDDEN
 
         setupPlayerBottomSheet()
+        setupQueueList()
         setupPlayer()
+    }
+
+    private fun setupQueueList() {
+        playerQueueSongsAdapter = PlayerQueueSongsAdapter(queuePlaylistSongs, this)
+
+        binding.queueList.layoutManager = LinearLayoutManager(this)
+        binding.queueList.adapter = playerQueueSongsAdapter
+
+        binding.queueList.isNestedScrollingEnabled = false
+
+        val itemTouchHelperCallback = object :
+            ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                source: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                Collections.swap(
+                    playerQueueSongsAdapter.list,
+                    source.bindingAdapterPosition,
+                    target.bindingAdapterPosition
+                )
+                playerQueueSongsAdapter.notifyItemMoved(
+                    source.bindingAdapterPosition,
+                    target.bindingAdapterPosition
+                )
+
+                player.moveMediaItem(source.bindingAdapterPosition, target.bindingAdapterPosition)
+
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
+            }
+        }
+
+        playerQueueItemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+        playerQueueItemTouchHelper.attachToRecyclerView(binding.queueList)
     }
 
     private fun setupPlayer() {
@@ -61,7 +108,6 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
     @SuppressLint("ClickableViewAccessibility")
     private fun setupPlayerBottomSheet() {
 
-        playerQueueSongsAdapter = PlayerQueueSongsAdapter(queuePlaylistSongs, this)
 
         playerBottomSheetBehavior = BottomSheetBehavior.from(binding.playerBottomSheet)
         playerBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
@@ -72,14 +118,19 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
         playerBottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (newState == BottomSheetBehavior.STATE_DRAGGING){
+                if (newState == BottomSheetBehavior.STATE_DRAGGING) {
                     binding.motion.setTransition(R.id.transition1)
                 }
-                if (newState == BottomSheetBehavior.STATE_COLLAPSED){
-                    binding.navHostFragment.setPadding(0,0,0, playerBottomSheetBehavior.peekHeight)
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    binding.navHostFragment.setPadding(
+                        0,
+                        0,
+                        0,
+                        playerBottomSheetBehavior.peekHeight
+                    )
                 }
-                if (newState == BottomSheetBehavior.STATE_HIDDEN){
-                    binding.navHostFragment.setPadding(0,0,0, 0)
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    binding.navHostFragment.setPadding(0, 0, 0, 0)
                     player.stop()
                 }
             }
@@ -91,8 +142,6 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
 
         binding.songName.isSelected = true
 
-        binding.queueList.layoutManager = LinearLayoutManager(this)
-        binding.queueList.adapter = playerQueueSongsAdapter
 
         binding.queueParent.setOnTouchListener { _, motionEvent ->
             playerBottomSheetBehavior.isDraggable =
@@ -135,12 +184,11 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
         }
 
         binding.shuffle.setOnClickListener {
-            if (player.shuffleModeEnabled){
+            if (player.shuffleModeEnabled) {
                 binding.shuffle.setImageResource(R.drawable.ic_shuffle)
                 binding.shuffle.setColorFilter(ContextCompat.getColor(this, R.color.color10))
                 player.shuffleModeEnabled = false
-            }
-            else{
+            } else {
                 binding.shuffle.setImageResource(R.drawable.ic_shuffle_bold)
                 binding.shuffle.setColorFilter(ContextCompat.getColor(this, R.color.white))
                 player.shuffleModeEnabled = true
@@ -149,7 +197,7 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
         }
 
         binding.repeat.setOnClickListener {
-            when(player.repeatMode){
+            when (player.repeatMode) {
                 ExoPlayer.REPEAT_MODE_OFF -> {
                     binding.repeat.setImageResource(R.drawable.ic_repeat_1_bold)
                     binding.repeat.setColorFilter(ContextCompat.getColor(this, R.color.white))
@@ -169,9 +217,9 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
 
         }
 
-        binding.seekbar.setOnSeekBarChangeListener(object :SeekBar.OnSeekBarChangeListener{
+        binding.seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(view: SeekBar?, progress: Int, fromUser: Boolean) {
-                if(fromUser){
+                if (fromUser) {
                     binding.elapsedTime = DateTimeFormatter.millisToHumanTime(progress.toLong())
                 }
             }
@@ -182,7 +230,7 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
 
             override fun onStopTrackingTouch(view: SeekBar?) {
                 stopUpdateSeekbar = false
-                if (view != null){
+                if (view != null) {
                     player.seekTo(view.progress.toLong())
                 }
             }
@@ -192,21 +240,20 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
 
     private fun togglePLayPause() {
         if (player.isPlaying) {
-            val fadeOut = ValueAnimator.ofFloat(1f,0f)
+            val fadeOut = ValueAnimator.ofFloat(1f, 0f)
             fadeOut.duration = 750
             fadeOut.addUpdateListener {
                 player.volume = it.animatedValue as Float
             }
-            fadeOut.addListener(onEnd = {player.pause()})
+            fadeOut.addListener(onEnd = { player.pause() })
             fadeOut.start()
-        }
-        else{
-            val fadeIn = ValueAnimator.ofFloat(0f,1f)
+        } else {
+            val fadeIn = ValueAnimator.ofFloat(0f, 1f)
             fadeIn.duration = 750
             fadeIn.addUpdateListener {
                 player.volume = it.animatedValue as Float
             }
-            fadeIn.addListener(onStart = {player.play()})
+            fadeIn.addListener(onStart = { player.play() })
             fadeIn.start()
         }
     }
@@ -219,6 +266,10 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
 
     override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
         playerBottomSheetBehavior.isDraggable = p1 != R.id.queueExpanded
+
+        binding.queueList.post {
+            binding.queueList.scrollToPosition(player.currentWindowIndex)
+        }
     }
 
     override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {
@@ -227,31 +278,34 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
     override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
         super.onMediaItemTransition(mediaItem, reason)
 
-        if (mediaItem?.playbackProperties?.tag != null){
+        if (mediaItem?.playbackProperties?.tag != null) {
             val song = mediaItem.playbackProperties!!.tag as DeviceSong
 
             binding.song = song
 
-            binding.duration = DateTimeFormatter.millisToHumanTime(song.duration?:0)
+            binding.duration = DateTimeFormatter.millisToHumanTime(song.duration ?: 0)
 
             binding.elapsedTime = DateTimeFormatter.millisToHumanTime(0)
 
-            GlobalScope.launch(Dispatchers.IO){
+            GlobalScope.launch(Dispatchers.IO) {
                 binding.thumbnail = getOriginalAlbumArt(song.albumId ?: -1)
             }
+
+            binding.queueList.post {
+                binding.queueList.scrollToPosition(player.currentWindowIndex)
+            }
+
+            playerQueueSongsAdapter.currentMediaPosition = player.currentWindowIndex
+            playerQueueSongsAdapter.notifyDataSetChanged()
         }
     }
 
-    override fun onPlaybackStateChanged(playbackState: Int) {
-        super.onPlaybackStateChanged(playbackState)
-
-    }
     var job: Job? = null
 
     override fun onIsPlayingChanged(isPlaying: Boolean) {
         super.onIsPlayingChanged(isPlaying)
 
-        if (isPlaying){
+        if (isPlaying) {
             player.volume = 1f
             binding.play.setImageResource(R.drawable.ic_pause)
             binding.miniPlay.setImageResource(R.drawable.ic_pause)
@@ -260,19 +314,22 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
 
             job = CoroutineScope(Dispatchers.Main).launch {
                 tickerFlow(1000).collect {
-                    if (!stopUpdateSeekbar){
+                    if (!stopUpdateSeekbar) {
                         binding.seekbarProgress = player.currentPosition.toInt()
-                        binding.elapsedTime = DateTimeFormatter.millisToHumanTime(player.currentPosition)
+                        binding.elapsedTime =
+                            DateTimeFormatter.millisToHumanTime(player.currentPosition)
                     }
                 }
             }
-        }
 
-        else{
+        } else {
             binding.play.setImageResource(R.drawable.ic_play)
             binding.miniPlay.setImageResource(R.drawable.ic_play)
             job?.cancel()
         }
+        playerQueueSongsAdapter.isPlaying = isPlaying
+        playerQueueSongsAdapter.notifyDataSetChanged()
+
     }
 
     private fun tickerFlow(period: Long, initialDelay: Long = 0) = flow {
@@ -284,12 +341,15 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
     }.cancellable()
 
     override fun onBackPressed() {
-        if (playerBottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED){
+        if (playerBottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
             playerBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-        }
-        else{
+        } else {
             super.onBackPressed()
         }
+    }
+
+    override fun onClick(position: Int) {
+        player.seekToDefaultPosition(position)
     }
 
     override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
