@@ -86,6 +86,29 @@ object DeviceFilesImageLoader {
         return bitmap
     }
 
+    fun Context.getOriginalAlbumArtSync(albumId: Long): Bitmap? {
+        val contentResolver = this.contentResolver
+        var bitmap: Bitmap?
+        try {
+            val albumUri = ContentUris.withAppendedId(
+                Uri.parse(ALBUM_ART_URI),
+                albumId
+            )
+
+            contentResolver.openFileDescriptor(
+                albumUri,
+                READ_ONLY_MODE
+            ).use { pfd ->
+
+                bitmap = BitmapFactory.decodeFileDescriptor(pfd!!.fileDescriptor)
+            }
+        } catch (ex: Exception) {
+            Timber.e(ex)
+            bitmap = null
+        }
+        return bitmap
+    }
+
     suspend fun Context.getDeviceArtistThumbnail(artistId: Long): Bitmap? {
 
         var thumbnail: Bitmap? = null

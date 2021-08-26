@@ -1,8 +1,10 @@
 package ir.mab.radioamin.util
 
 import android.app.Activity
+import android.content.Intent
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import ir.mab.radioamin.service.MediaPlayerService
 import ir.mab.radioamin.ui.deviceonly.DeviceFilesActivity
 import ir.mab.radioamin.vo.DeviceSong
 
@@ -30,6 +32,10 @@ object DeviceFilesPlayer {
             player.play()
 
             playerBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+
+            Intent(this, MediaPlayerService::class.java).run{
+                startService(this)
+            }
 
         }
     }

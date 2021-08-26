@@ -2,7 +2,9 @@ package ir.mab.radioamin.ui.deviceonly
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
+import android.app.PendingIntent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
@@ -10,6 +12,7 @@ import android.widget.SeekBar
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.animation.addListener
+import androidx.core.app.NotificationCompat.PRIORITY_MAX
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -19,6 +22,7 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import ir.mab.radioamin.R
@@ -26,8 +30,10 @@ import ir.mab.radioamin.databinding.ActivityDeviceFilesOnlyBinding
 import ir.mab.radioamin.ui.BaseActivity
 import ir.mab.radioamin.ui.deviceonly.listener.PlayerQueueItemListeners
 import ir.mab.radioamin.ui.deviceonly.player.PlayerQueueSongsAdapter
+import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.DateTimeFormatter
 import ir.mab.radioamin.util.DeviceFilesImageLoader.getOriginalAlbumArt
+import ir.mab.radioamin.util.DeviceFilesImageLoader.getOriginalAlbumArtSync
 import ir.mab.radioamin.vo.DeviceSong
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.cancellable
@@ -36,9 +42,11 @@ import kotlinx.coroutines.flow.flow
 import java.util.*
 import javax.inject.Inject
 
+
 @AndroidEntryPoint
 class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Player.Listener,
-    PlayerQueueItemListeners {
+    PlayerQueueItemListeners,            PlayerNotificationManager.MediaDescriptionAdapter
+{
 
     lateinit var binding: ActivityDeviceFilesOnlyBinding
     lateinit var playerBottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
@@ -46,6 +54,7 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
     lateinit var player: SimpleExoPlayer
     @Inject
     lateinit var sharePreferences: SharedPreferences
+    private lateinit var playerNotificationManager: PlayerNotificationManager
     private var stopUpdateSeekbar: Boolean = false
     var queuePlaylistSongs = mutableListOf<DeviceSong>()
     lateinit var playerQueueSongsAdapter: PlayerQueueSongsAdapter
@@ -54,12 +63,33 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_device_files_only)
+
         BottomSheetBehavior.from(binding.permissionBottomSheet).state =
             BottomSheetBehavior.STATE_HIDDEN
 
         setupPlayerBottomSheet()
         setupQueueList()
         setupPlayer()
+        setupPlayerNotificationManager()
+    }
+
+    private fun setupPlayerNotificationManager() {
+
+        playerNotificationManager = PlayerNotificationManager.Builder(this,
+            AppConstants.Notifications.PLAYER_NOTIFICATION_ID,
+            AppConstants.Notifications.PLAYER_NOTIFICATION_CHANNEL_ID)
+            .setChannelNameResourceId(R.string.app_name)
+            .setChannelDescriptionResourceId(R.string.app_name)
+            .setMediaDescriptionAdapter(this)
+            //.setSmallIconResourceId(R.drawable.ic_small_logo)
+            .build()
+
+        playerNotificationManager.setSmallIcon(R.drawable.ic_small_logo)
+        playerNotificationManager.setPriority(PRIORITY_MAX)
+        playerNotificationManager.setUseFastForwardAction(false)
+        playerNotificationManager.setUseRewindAction(false)
+        playerNotificationManager.setPlayer(player)
+
     }
 
     private fun setupQueueList() {
@@ -171,15 +201,15 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
         }
 
         binding.next.setOnClickListener {
-            player.seekToNext()
+            player.seekToDefaultPosition(player.currentWindowIndex + 1)
             player.play()
         }
         binding.miniNext.setOnClickListener {
-            player.seekToNext()
+            player.seekToDefaultPosition(player.currentWindowIndex + 1)
             player.play()
         }
         binding.previous.setOnClickListener {
-            player.seekToPrevious()
+            player.seekToDefaultPosition(player.currentWindowIndex - 1)
             player.play()
         }
 
@@ -291,10 +321,6 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
                 binding.thumbnail = getOriginalAlbumArt(song.albumId ?: -1)
             }
 
-            binding.queueList.post {
-                binding.queueList.scrollToPosition(player.currentWindowIndex)
-            }
-
             playerQueueSongsAdapter.currentMediaPosition = player.currentWindowIndex
             playerQueueSongsAdapter.notifyDataSetChanged()
         }
@@ -306,6 +332,11 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
         super.onIsPlayingChanged(isPlaying)
 
         if (isPlaying) {
+
+            if (BottomSheetBehavior.from(binding.playerBottomSheet).state == BottomSheetBehavior.STATE_HIDDEN)
+                BottomSheetBehavior.from(binding.playerBottomSheet).state =
+                    BottomSheetBehavior.STATE_COLLAPSED
+
             player.volume = 1f
             binding.play.setImageResource(R.drawable.ic_pause)
             binding.miniPlay.setImageResource(R.drawable.ic_pause)
@@ -328,7 +359,7 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
             job?.cancel()
         }
         playerQueueSongsAdapter.isPlaying = isPlaying
-        playerQueueSongsAdapter.notifyDataSetChanged()
+        playerQueueSongsAdapter.notifyItemChanged(player.currentWindowIndex)
 
     }
 
@@ -350,9 +381,35 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
 
     override fun onClick(position: Int) {
         player.seekToDefaultPosition(position)
+        player.play()
     }
 
     override fun onStartDrag(viewHolder: RecyclerView.ViewHolder) {
     }
 
+    override fun getCurrentContentTitle(player: Player): CharSequence {
+        return (player.currentMediaItem?.playbackProperties?.tag as DeviceSong).name.toString()
+    }
+
+    override fun createCurrentContentIntent(player: Player): PendingIntent? {
+        //return PendingIntent.getActivity(this,0, Intent(this,DeviceFilesActivity::class.java),FLAG_UPDATE_CURRENT)
+        return null
+    }
+
+    override fun getCurrentContentText(player: Player): CharSequence? {
+        return (player.currentMediaItem?.playbackProperties?.tag as DeviceSong).artistName.toString()
+    }
+
+    override fun getCurrentLargeIcon(
+        player: Player,
+        callback: PlayerNotificationManager.BitmapCallback
+    ): Bitmap? {
+        return getOriginalAlbumArtSync((player.currentMediaItem?.playbackProperties?.tag as DeviceSong).albumId?: -1)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        playerNotificationManager.setPlayer(null)
+        player.release()
+    }
 }

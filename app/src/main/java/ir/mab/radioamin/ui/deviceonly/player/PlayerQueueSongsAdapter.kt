@@ -19,6 +19,7 @@ class PlayerQueueSongsAdapter(var list: List<DeviceSong>, var playerQueueItemLis
     RecyclerView.Adapter<PlayerQueueSongsAdapter.ViewHolder>() {
 
     var currentMediaPosition = -1
+    var preMediaPosition = -1
     var isPlaying = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,6 +40,9 @@ class PlayerQueueSongsAdapter(var list: List<DeviceSong>, var playerQueueItemLis
             }
         }
 
+        else if (preMediaPosition == position){
+            holder.binding.equalizer.visibility = View.GONE
+        }
         else{
             holder.binding.equalizer.visibility = View.GONE
         }

@@ -17,4 +17,9 @@ object AppConstants {
         const val GENRE_NAME = "GENRE_NAME"
         const val SONG_DATA = "SONG_DATA"
     }
+    object Notifications{
+        const val PLAYER_NOTIFICATION_ID = 1001
+        const val PLAYER_NOTIFICATION_CHANNEL_ID = "RadioaminDeviceFilesPlayerNotificationChannel"
+
+    }
 }

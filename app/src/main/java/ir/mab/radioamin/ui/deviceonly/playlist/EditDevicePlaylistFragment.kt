@@ -176,12 +176,12 @@ class EditDevicePlaylistFragment : Fragment(), EditDevicePlaylistItemDragListene
             ): Boolean {
                 Collections.swap(
                     editPlaylistSongsAdapter.list,
-                    source.adapterPosition,
-                    target.adapterPosition
+                    source.bindingAdapterPosition,
+                    target.bindingAdapterPosition
                 )
                 editPlaylistSongsAdapter.notifyItemMoved(
-                    source.adapterPosition,
-                    target.adapterPosition
+                    source.bindingAdapterPosition,
+                    target.bindingAdapterPosition
                 )
 
                 return true
