@@ -70,11 +70,12 @@
                 android:layout_height="match_parent">
 
                 <RelativeLayout
-                    android:id="@+id/newPlaylistParent"
+                    android:id="@+id/shuffleParent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/shuffle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="?selectableItemBackground"
@@ -126,7 +127,7 @@
                     android:id="@+id/list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@id/newPlaylistParent"
+                    android:layout_below="@id/shuffleParent"
                     android:overScrollMode="never" />
 
                 <ir.mab.radioamin.ui.custom.ProgressCompoundView

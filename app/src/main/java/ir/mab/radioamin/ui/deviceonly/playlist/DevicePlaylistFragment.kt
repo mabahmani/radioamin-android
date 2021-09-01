@@ -24,6 +24,7 @@ import ir.mab.radioamin.ui.deviceonly.listener.DeviceSongsOnClickListeners
 import ir.mab.radioamin.ui.deviceonly.song.DeviceSongsAdapter
 import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.DeviceFilesImageLoader.getOriginalAlbumArt
+import ir.mab.radioamin.util.DeviceFilesPlayer.setDeviceFilesPlayerPlaylist
 import ir.mab.radioamin.util.errorToast
 import ir.mab.radioamin.vm.DevicePlaylistsViewModel
 import ir.mab.radioamin.vo.DeviceFileType
@@ -77,6 +78,16 @@ class DevicePlaylistFragment : Fragment(), DeviceFilesMoreOnClickListeners,
             )
             it.findNavController()
                 .navigate(R.id.action_devicePlaylistFragment_to_editDevicePlaylistFragment, bundle)
+        }
+
+        binding.playButton.setOnClickListener {
+            if(!deviceSongsAdapter.list.isNullOrEmpty())
+                requireActivity().setDeviceFilesPlayerPlaylist(deviceSongsAdapter.list, 0)
+        }
+
+        binding.shuffleButton.setOnClickListener {
+            if(!deviceSongsAdapter.list.isNullOrEmpty())
+                requireActivity().setDeviceFilesPlayerPlaylist(deviceSongsAdapter.list.shuffled(), 0)
         }
     }
 
@@ -159,11 +170,6 @@ class DevicePlaylistFragment : Fragment(), DeviceFilesMoreOnClickListeners,
         })
     }
 
-
-    inner class Handlers {
-
-    }
-
     override fun onShowOptions(
         id: Long,
         title: String,
@@ -186,6 +192,7 @@ class DevicePlaylistFragment : Fragment(), DeviceFilesMoreOnClickListeners,
     }
 
     override fun onSongClick(position: Int) {
-        TODO("Not yet implemented")
+        if(!deviceSongsAdapter.list.isNullOrEmpty())
+            requireActivity().setDeviceFilesPlayerPlaylist(deviceSongsAdapter.list, position)
     }
 }

@@ -204,15 +204,15 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
         }
 
         binding.next.setOnClickListener {
-            player.seekToDefaultPosition(player.currentWindowIndex + 1)
+            player.seekToNext()
             player.play()
         }
         binding.miniNext.setOnClickListener {
-            player.seekToDefaultPosition(player.currentWindowIndex + 1)
+            player.seekToNext()
             player.play()
         }
         binding.previous.setOnClickListener {
-            player.seekToDefaultPosition(player.currentWindowIndex - 1)
+            player.seekToPrevious()
             player.play()
         }
 

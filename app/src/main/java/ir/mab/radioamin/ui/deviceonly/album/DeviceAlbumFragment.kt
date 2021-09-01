@@ -17,8 +17,10 @@ import ir.mab.radioamin.databinding.FragmentDeviceAlbumBinding
 import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomSheet
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionsChangeListener
+import ir.mab.radioamin.ui.deviceonly.listener.DeviceSongsOnClickListeners
 import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.DeviceFilesImageLoader.getOriginalAlbumArt
+import ir.mab.radioamin.util.DeviceFilesPlayer.setDeviceFilesPlayerPlaylist
 import ir.mab.radioamin.util.errorToast
 import ir.mab.radioamin.vm.DeviceAlbumsViewModel
 import ir.mab.radioamin.vo.DeviceFileType
@@ -28,10 +30,11 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners, DeviceFilesOptionsChangeListener {
+class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners, DeviceFilesOptionsChangeListener,
+    DeviceSongsOnClickListeners {
     private lateinit var binding: FragmentDeviceAlbumBinding
     private val deviceAlbumsViewModel: DeviceAlbumsViewModel by viewModels()
-    private var deviceAlbumSongsAdapter = DeviceAlbumSongsAdapter(mutableListOf(), this)
+    private var deviceAlbumSongsAdapter = DeviceAlbumSongsAdapter(mutableListOf(), this, this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,10 +53,10 @@ class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners, DeviceFi
         initList()
         getAlbum()
         getAlbumSongs()
-        setMoreClickListener()
+        setClickListener()
     }
 
-    private fun setMoreClickListener() {
+    private fun setClickListener() {
         binding.more.setOnClickListener {
             DeviceFilesOptionBottomSheet(
                 arguments?.getLong(AppConstants.Arguments.ALBUM_ID)?: -1,
@@ -62,6 +65,16 @@ class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners, DeviceFi
                 binding.albumThumbnail,
                 DeviceFileType.ALBUM
             ).show(requireActivity().supportFragmentManager, null)
+        }
+
+        binding.playButton.setOnClickListener {
+            if(!deviceAlbumSongsAdapter.list.isNullOrEmpty())
+                requireActivity().setDeviceFilesPlayerPlaylist(deviceAlbumSongsAdapter.list, 0)
+        }
+
+        binding.shuffleButton.setOnClickListener {
+            if(!deviceAlbumSongsAdapter.list.isNullOrEmpty())
+                requireActivity().setDeviceFilesPlayerPlaylist(deviceAlbumSongsAdapter.list.shuffled(), 0)
         }
     }
 
@@ -186,6 +199,11 @@ class DeviceAlbumFragment: Fragment(), DeviceFilesMoreOnClickListeners, DeviceFi
     override fun onDeviceFilesChanged() {
         getAlbum()
         getAlbumSongs()
+    }
+
+    override fun onSongClick(position: Int) {
+        if(!deviceAlbumSongsAdapter.list.isNullOrEmpty())
+            requireActivity().setDeviceFilesPlayerPlaylist(deviceAlbumSongsAdapter.list, position)
     }
 
 }

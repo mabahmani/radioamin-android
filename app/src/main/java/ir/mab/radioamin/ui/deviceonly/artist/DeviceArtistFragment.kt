@@ -16,6 +16,7 @@ import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionsChangeListener
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceSongsOnClickListeners
 import ir.mab.radioamin.ui.deviceonly.song.DeviceSongsAdapter
 import ir.mab.radioamin.util.AppConstants
+import ir.mab.radioamin.util.DeviceFilesPlayer.setDeviceFilesPlayerPlaylist
 import ir.mab.radioamin.util.errorToast
 import ir.mab.radioamin.vm.DeviceArtistsViewModel
 import ir.mab.radioamin.vo.DeviceFileType
@@ -42,6 +43,14 @@ class DeviceArtistFragment : Fragment(), DeviceFilesMoreOnClickListeners, Device
         initList()
         setToolbarTitle()
         getDeviceArtistSongs()
+        setClickListeners()
+    }
+
+    private fun setClickListeners() {
+        binding.shuffle.setOnClickListener {
+            if(!deviceSongsAdapter.list.isNullOrEmpty())
+                requireActivity().setDeviceFilesPlayerPlaylist(deviceSongsAdapter.list.shuffled(), 0)
+        }
     }
 
     private fun setToolbarTitle() {
@@ -112,7 +121,8 @@ class DeviceArtistFragment : Fragment(), DeviceFilesMoreOnClickListeners, Device
     }
 
     override fun onSongClick(position: Int) {
-        TODO("Not yet implemented")
+        if(!deviceSongsAdapter.list.isNullOrEmpty())
+            requireActivity().setDeviceFilesPlayerPlaylist(deviceSongsAdapter.list, position)
     }
 
 }

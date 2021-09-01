@@ -6,20 +6,26 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.mab.radioamin.databinding.ItemAlbumSongBinding
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
+import ir.mab.radioamin.ui.deviceonly.listener.DeviceSongsOnClickListeners
 import ir.mab.radioamin.util.DateTimeFormatter
 import ir.mab.radioamin.vo.DeviceFileType
 import ir.mab.radioamin.vo.DeviceSong
 
 class DeviceAlbumSongsAdapter(
     var list: List<DeviceSong>,
-    var deviceFilesMoreOnClickListeners: DeviceFilesMoreOnClickListeners
+    var deviceFilesMoreOnClickListeners: DeviceFilesMoreOnClickListeners,
+    var deviceSongsOnClickListeners: DeviceSongsOnClickListeners
+
 ) :
     RecyclerView.Adapter<DeviceAlbumSongsAdapter.ViewHolder>() {
 
     internal var albumArt:Bitmap? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemAlbumSongBinding.inflate(LayoutInflater.from(parent.context)), deviceFilesMoreOnClickListeners)
+        return ViewHolder(ItemAlbumSongBinding.inflate(LayoutInflater.from(parent.context)),
+            deviceFilesMoreOnClickListeners
+            ,deviceSongsOnClickListeners
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -32,7 +38,8 @@ class DeviceAlbumSongsAdapter(
 
     class ViewHolder(
         itemView: ItemAlbumSongBinding,
-        var deviceFilesMoreOnClickListeners: DeviceFilesMoreOnClickListeners
+        var deviceFilesMoreOnClickListeners: DeviceFilesMoreOnClickListeners,
+        var deviceSongsOnClickListeners: DeviceSongsOnClickListeners
     ) : RecyclerView.ViewHolder(itemView.root) {
         var binding: ItemAlbumSongBinding = itemView
 
@@ -58,6 +65,10 @@ class DeviceAlbumSongsAdapter(
                 //it.performHapticFeedback(HapticFeedbackConstants.CONFIRM)
                 binding.more.performClick()
                 true
+            }
+
+            binding.parent.setOnClickListener {
+                deviceSongsOnClickListeners.onSongClick(bindingAdapterPosition)
             }
         }
     }
