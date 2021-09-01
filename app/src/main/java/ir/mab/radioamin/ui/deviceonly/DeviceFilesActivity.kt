@@ -162,6 +162,9 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
                 if (newState == BottomSheetBehavior.STATE_HIDDEN) {
                     binding.navHostFragment.setPadding(0, 0, 0, 0)
                     player.stop()
+                    player.clearMediaItems()
+                    queuePlaylistSongs.clear()
+                    playerNotificationManager.setPlayer(null)
                 }
             }
 
