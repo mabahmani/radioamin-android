@@ -17,18 +17,30 @@
         android:theme="@style/AppTheme"
         android:requestLegacyExternalStorage="true"
         tools:ignore="AllowBackup">
-        <activity android:name=".ui.deviceonly.DeviceFilesActivity"/>
-        <activity android:name=".ui.BaseActivity" />
+        <activity android:name=".ui.deviceonly.DeviceFilesActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".ui.BaseActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.splash.SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.main.MainActivity" />
+        <activity android:name=".ui.main.MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            />
 
         <service
             android:name=".service.MediaPlayerService"
