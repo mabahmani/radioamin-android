@@ -154,7 +154,8 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:paddingTop="4dp"
-                    android:paddingBottom="4dp">
+                    android:paddingBottom="4dp"
+                    android:visibility="@{type != DeviceFileType.SONG ? View.VISIBLE : View.GONE}">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/shuffleIcon"
@@ -178,6 +179,114 @@
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@+id/shuffleIcon"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/playNextParent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/playNextIcon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="24dp"
+                        android:padding="11dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_forward_step"
+                        app:tint="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="24dp"
+                        android:text="@string/play_next"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@+id/playNextIcon"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/addToQueueParent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/addToQueueIcon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="24dp"
+                        android:padding="11dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_list_music"
+                        app:tint="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="24dp"
+                        android:text="@string/add_to_queue"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@+id/addToQueueIcon"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/addToPlaylistParent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/addToPlaylistIcon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="24dp"
+                        android:padding="11dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_plus"
+                        app:tint="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginEnd="24dp"
+                        android:text="@string/add_to_playlist"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@+id/addToPlaylistIcon"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -252,114 +361,6 @@
                         android:textColor="@color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@+id/deletePlaylistIcon"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/addToPlaylistParent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/addToPlaylistIcon"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:padding="11dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_plus"
-                        app:tint="@color/white" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:text="@string/add_to_playlist"
-                        android:textColor="@color/white"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toRightOf="@+id/addToPlaylistIcon"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/playNextParent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/playNextIcon"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:padding="11dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_forward_step"
-                        app:tint="@color/white" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:text="@string/play_next"
-                        android:textColor="@color/white"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toRightOf="@+id/playNextIcon"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/addToQueueParent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp">
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/addToQueueIcon"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:padding="11dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_list_music"
-                        app:tint="@color/white" />
-
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:text="@string/add_to_queue"
-                        android:textColor="@color/white"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toRightOf="@+id/addToQueueIcon"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,6 +23,9 @@ import ir.mab.radioamin.databinding.*
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionAddToPlaylistOnClickListener
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionsChangeListener
 import ir.mab.radioamin.util.AppConstants
+import ir.mab.radioamin.util.DeviceFilesPlayer.addDeviceFilesToPlayNext
+import ir.mab.radioamin.util.DeviceFilesPlayer.addDeviceFilesToPlayerQueue
+import ir.mab.radioamin.util.DeviceFilesPlayer.setDeviceFilesPlayerPlaylist
 import ir.mab.radioamin.util.errorToast
 import ir.mab.radioamin.util.snack
 import ir.mab.radioamin.util.snackWithNavigateAction
@@ -104,30 +107,413 @@ class DeviceFilesOptionBottomSheet(
         }
 
         binding.editSongInfoParent.setOnClickListener {
-            deviceSongsViewModel.getDeviceSong(id).observe(viewLifecycleOwner, {
-                when(it.status){
-                    Status.LOADING -> {
-
-                    }
-
-                    Status.SUCCESS -> {
-                        val bundle = bundleOf(
-                            AppConstants.Arguments.SONG_DATA to it.data?.data,
-                            AppConstants.Arguments.ALBUM_ID to it.data?.albumId,
-                        )
-                        findNavController().navigate(
-                            R.id.action_global_editDeviceSongInfo,
-                            bundle
-                        )
-                        dismiss()
-                    }
-
-                    Status.ERROR -> {
-                        requireContext().errorToast(it.message.toString())
-                    }
-                }
-            })
+            getDeviceSongAndNavigateToEditFragment()
         }
+
+        binding.shuffleParent.setOnClickListener {
+            shuffleCollection()
+        }
+
+        binding.addToQueueParent.setOnClickListener {
+            addCollectionToQueue()
+        }
+
+        binding.playNextParent.setOnClickListener {
+            addCollectionToPlayNext()
+        }
+    }
+
+    private fun addCollectionToPlayNext() {
+        when(type){
+            DeviceFileType.PLAYLIST ->{
+                getDevicePlaylistSongsAndPlayNext()
+            }
+
+            DeviceFileType.ALBUM ->{
+                getDeviceAlbumSongsAndPlayNext()
+            }
+
+            DeviceFileType.ARTIST ->{
+                getDeviceArtistSongsAndPlayNext()
+            }
+
+            DeviceFileType.GENRE ->{
+                getDeviceGenreSongsAndPlayNext()
+            }
+
+            DeviceFileType.SONG ->{
+                getDeviceSongAndPlayNext()
+            }
+        }
+    }
+
+    private fun getDevicePlaylistSongsAndPlayNext() {
+        devicePlaylistsViewModel.getDevicePlaylistMembers(id).observe(viewLifecycleOwner, {
+
+            when (it.status) {
+                Status.LOADING -> {
+                }
+
+                Status.SUCCESS -> {
+                    if (!it.data.isNullOrEmpty())
+                        requireActivity().addDeviceFilesToPlayNext(it.data)
+                    dismiss()
+                }
+
+                Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
+                }
+            }
+
+        })
+    }
+
+    private fun getDeviceAlbumSongsAndPlayNext() {
+        deviceAlbumsViewModel.getDeviceAlbumSongs(id).observe(viewLifecycleOwner, {
+
+            when (it.status) {
+                Status.LOADING -> {
+                }
+
+                Status.SUCCESS -> {
+                    if (!it.data.isNullOrEmpty())
+                        requireActivity().addDeviceFilesToPlayNext(it.data)
+                    dismiss()
+                }
+
+                Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
+                }
+            }
+
+        })
+    }
+
+    private fun getDeviceArtistSongsAndPlayNext() {
+        deviceArtistsViewModel.getDeviceArtistSongs(id).observe(viewLifecycleOwner, {
+
+            when (it.status) {
+                Status.LOADING -> {
+                }
+
+                Status.SUCCESS -> {
+                    if (!it.data.isNullOrEmpty())
+                        requireActivity().addDeviceFilesToPlayNext(it.data)
+                    dismiss()
+                }
+
+                Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
+                }
+            }
+
+        })
+    }
+
+    private fun getDeviceGenreSongsAndPlayNext() {
+        deviceGenresViewModel.getDeviceGenreMembers(id).observe(viewLifecycleOwner, {
+
+            when (it.status) {
+                Status.LOADING -> {
+                }
+
+                Status.SUCCESS -> {
+                    if (!it.data.isNullOrEmpty())
+                        requireActivity().addDeviceFilesToPlayNext(it.data)
+                    dismiss()
+                }
+
+                Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
+                }
+            }
+
+        })
+    }
+
+    private fun getDeviceSongAndPlayNext() {
+        deviceSongsViewModel.getDeviceSong(id).observe(viewLifecycleOwner, {
+
+            when (it.status) {
+                Status.LOADING -> {
+                }
+
+                Status.SUCCESS -> {
+                    if (it.data != null)
+                        requireActivity().addDeviceFilesToPlayNext(mutableListOf(it.data))
+                    dismiss()
+                }
+
+                Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
+                }
+            }
+
+        })
+    }
+
+    private fun addCollectionToQueue() {
+        when(type){
+            DeviceFileType.PLAYLIST ->{
+                getDevicePlaylistSongsAndAddToQueue()
+            }
+
+            DeviceFileType.ALBUM ->{
+                getDeviceAlbumSongsAndAddToQueue()
+            }
+
+            DeviceFileType.ARTIST ->{
+                getDeviceArtistSongsAndAddToQueue()
+            }
+
+            DeviceFileType.GENRE ->{
+                getDeviceGenreSongsAndAddToQueue()
+            }
+
+            DeviceFileType.SONG ->{
+                getDeviceSongAndAddToQueue()
+            }
+        }
+    }
+
+    private fun getDevicePlaylistSongsAndAddToQueue() {
+        devicePlaylistsViewModel.getDevicePlaylistMembers(id).observe(viewLifecycleOwner, {
+
+            when (it.status) {
+                Status.LOADING -> {
+                }
+
+                Status.SUCCESS -> {
+                    if (!it.data.isNullOrEmpty())
+                        requireActivity().addDeviceFilesToPlayerQueue(it.data)
+                    dismiss()
+                }
+
+                Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
+                }
+            }
+
+        })
+    }
+
+    private fun getDeviceAlbumSongsAndAddToQueue() {
+        deviceAlbumsViewModel.getDeviceAlbumSongs(id).observe(viewLifecycleOwner, {
+
+            when (it.status) {
+                Status.LOADING -> {
+                }
+
+                Status.SUCCESS -> {
+                    if (!it.data.isNullOrEmpty())
+                        requireActivity().addDeviceFilesToPlayerQueue(it.data)
+                    dismiss()
+                }
+
+                Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
+                }
+            }
+
+        })
+    }
+
+    private fun getDeviceArtistSongsAndAddToQueue() {
+        deviceArtistsViewModel.getDeviceArtistSongs(id).observe(viewLifecycleOwner, {
+
+            when (it.status) {
+                Status.LOADING -> {
+                }
+
+                Status.SUCCESS -> {
+                    if (!it.data.isNullOrEmpty())
+                        requireActivity().addDeviceFilesToPlayerQueue(it.data)
+                    dismiss()
+                }
+
+                Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
+                }
+            }
+
+        })
+    }
+
+    private fun getDeviceGenreSongsAndAddToQueue() {
+        deviceGenresViewModel.getDeviceGenreMembers(id).observe(viewLifecycleOwner, {
+
+            when (it.status) {
+                Status.LOADING -> {
+                }
+
+                Status.SUCCESS -> {
+                    if (!it.data.isNullOrEmpty())
+                        requireActivity().addDeviceFilesToPlayerQueue(it.data)
+                    dismiss()
+                }
+
+                Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
+                }
+            }
+
+        })
+    }
+
+    private fun getDeviceSongAndAddToQueue() {
+        deviceSongsViewModel.getDeviceSong(id).observe(viewLifecycleOwner, {
+
+            when (it.status) {
+                Status.LOADING -> {
+                }
+
+                Status.SUCCESS -> {
+                    if (it.data != null)
+                        requireActivity().addDeviceFilesToPlayerQueue(mutableListOf(it.data))
+                    dismiss()
+                }
+
+                Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
+                }
+            }
+
+        })
+    }
+
+    private fun shuffleCollection() {
+        when(type){
+            DeviceFileType.PLAYLIST ->{
+                getDevicePlaylistSongsAndShuffle()
+            }
+
+            DeviceFileType.ALBUM ->{
+                getDeviceAlbumSongsAndShuffle()
+            }
+
+            DeviceFileType.ARTIST ->{
+                getDeviceArtistSongsAndShuffle()
+            }
+
+            DeviceFileType.GENRE ->{
+                getDeviceGenreSongsAndShuffle()
+            }
+
+            DeviceFileType.SONG ->{
+
+            }
+        }
+    }
+
+    private fun getDevicePlaylistSongsAndShuffle() {
+        devicePlaylistsViewModel.getDevicePlaylistMembers(id).observe(viewLifecycleOwner, {
+
+            when (it.status) {
+                Status.LOADING -> {
+                }
+
+                Status.SUCCESS -> {
+                    if (!it.data.isNullOrEmpty())
+                        requireActivity().setDeviceFilesPlayerPlaylist(it.data.shuffled(),0)
+                    dismiss()
+                }
+
+                Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
+                }
+            }
+
+        })
+    }
+
+    private fun getDeviceAlbumSongsAndShuffle() {
+        deviceAlbumsViewModel.getDeviceAlbumSongs(id).observe(viewLifecycleOwner, {
+
+            when (it.status) {
+                Status.LOADING -> {
+                }
+
+                Status.SUCCESS -> {
+                    if (!it.data.isNullOrEmpty())
+                        requireActivity().setDeviceFilesPlayerPlaylist(it.data.shuffled(),0)
+                    dismiss()
+                }
+
+                Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
+                }
+            }
+
+        })
+    }
+
+    private fun getDeviceArtistSongsAndShuffle() {
+        deviceArtistsViewModel.getDeviceArtistSongs(id).observe(viewLifecycleOwner, {
+
+            when (it.status) {
+                Status.LOADING -> {
+                }
+
+                Status.SUCCESS -> {
+                    if (!it.data.isNullOrEmpty())
+                        requireActivity().setDeviceFilesPlayerPlaylist(it.data.shuffled(),0)
+                    dismiss()
+                }
+
+                Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
+                }
+            }
+
+        })
+    }
+
+    private fun getDeviceGenreSongsAndShuffle() {
+        deviceGenresViewModel.getDeviceGenreMembers(id).observe(viewLifecycleOwner, {
+
+            when (it.status) {
+                Status.LOADING -> {
+                }
+
+                Status.SUCCESS -> {
+                    if (!it.data.isNullOrEmpty())
+                        requireActivity().setDeviceFilesPlayerPlaylist(it.data.shuffled(),0)
+                    dismiss()
+                }
+
+                Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
+                }
+            }
+
+        })
+    }
+
+    private fun getDeviceSongAndNavigateToEditFragment() {
+        deviceSongsViewModel.getDeviceSong(id).observe(viewLifecycleOwner, {
+            when(it.status){
+                Status.LOADING -> {
+
+                }
+
+                Status.SUCCESS -> {
+                    val bundle = bundleOf(
+                        AppConstants.Arguments.SONG_DATA to it.data?.data,
+                        AppConstants.Arguments.ALBUM_ID to it.data?.albumId,
+                    )
+                    findNavController().navigate(
+                        R.id.action_global_editDeviceSongInfo,
+                        bundle
+                    )
+                    dismiss()
+                }
+
+                Status.ERROR -> {
+                    requireContext().errorToast(it.message.toString())
+                }
+            }
+        })
+
     }
 
     private fun showDeletePlaylistDialog() {
