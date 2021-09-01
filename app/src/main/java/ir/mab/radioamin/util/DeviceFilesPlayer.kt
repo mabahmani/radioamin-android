@@ -72,6 +72,9 @@ object DeviceFilesPlayer {
 
             var addIndex = player.currentWindowIndex
 
+            if (addIndex == 0)
+                addIndex = -1
+
             for (song in deviceSongs) {
                 addIndex ++
                 player.addMediaItem(

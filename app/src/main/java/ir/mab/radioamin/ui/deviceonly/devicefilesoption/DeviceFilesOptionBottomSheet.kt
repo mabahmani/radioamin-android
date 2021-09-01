@@ -155,8 +155,10 @@ class DeviceFilesOptionBottomSheet(
                 }
 
                 Status.SUCCESS -> {
-                    if (!it.data.isNullOrEmpty())
+                    if (!it.data.isNullOrEmpty()) {
                         requireActivity().addDeviceFilesToPlayNext(it.data)
+                        requireActivity().snack(getString(R.string.playlist_play_next))
+                    }
                     dismiss()
                 }
 
@@ -176,8 +178,11 @@ class DeviceFilesOptionBottomSheet(
                 }
 
                 Status.SUCCESS -> {
-                    if (!it.data.isNullOrEmpty())
+                    if (!it.data.isNullOrEmpty()){
                         requireActivity().addDeviceFilesToPlayNext(it.data)
+                        requireActivity().snack(getString(R.string.album_play_next))
+                    }
+
                     dismiss()
                 }
 
@@ -197,8 +202,10 @@ class DeviceFilesOptionBottomSheet(
                 }
 
                 Status.SUCCESS -> {
-                    if (!it.data.isNullOrEmpty())
+                    if (!it.data.isNullOrEmpty()){
                         requireActivity().addDeviceFilesToPlayNext(it.data)
+                        requireActivity().snack(getString(R.string.artist_play_next))
+                    }
                     dismiss()
                 }
 
@@ -218,8 +225,10 @@ class DeviceFilesOptionBottomSheet(
                 }
 
                 Status.SUCCESS -> {
-                    if (!it.data.isNullOrEmpty())
+                    if (!it.data.isNullOrEmpty()){
                         requireActivity().addDeviceFilesToPlayNext(it.data)
+                        requireActivity().snack(getString(R.string.genre_play_next))
+                    }
                     dismiss()
                 }
 
@@ -239,8 +248,10 @@ class DeviceFilesOptionBottomSheet(
                 }
 
                 Status.SUCCESS -> {
-                    if (it.data != null)
+                    if (it.data != null){
                         requireActivity().addDeviceFilesToPlayNext(mutableListOf(it.data))
+                        requireActivity().snack(getString(R.string.song_play_next))
+                    }
                     dismiss()
                 }
 
@@ -284,8 +295,10 @@ class DeviceFilesOptionBottomSheet(
                 }
 
                 Status.SUCCESS -> {
-                    if (!it.data.isNullOrEmpty())
+                    if (!it.data.isNullOrEmpty()){
                         requireActivity().addDeviceFilesToPlayerQueue(it.data)
+                        requireActivity().snack(getString(R.string.playlist_add_to_queue))
+                    }
                     dismiss()
                 }
 
@@ -305,8 +318,10 @@ class DeviceFilesOptionBottomSheet(
                 }
 
                 Status.SUCCESS -> {
-                    if (!it.data.isNullOrEmpty())
+                    if (!it.data.isNullOrEmpty()){
                         requireActivity().addDeviceFilesToPlayerQueue(it.data)
+                        requireActivity().snack(getString(R.string.album_add_to_queue))
+                    }
                     dismiss()
                 }
 
@@ -326,8 +341,10 @@ class DeviceFilesOptionBottomSheet(
                 }
 
                 Status.SUCCESS -> {
-                    if (!it.data.isNullOrEmpty())
+                    if (!it.data.isNullOrEmpty()){
                         requireActivity().addDeviceFilesToPlayerQueue(it.data)
+                        requireActivity().snack(getString(R.string.artist_add_to_queue))
+                    }
                     dismiss()
                 }
 
@@ -347,8 +364,10 @@ class DeviceFilesOptionBottomSheet(
                 }
 
                 Status.SUCCESS -> {
-                    if (!it.data.isNullOrEmpty())
+                    if (!it.data.isNullOrEmpty()){
                         requireActivity().addDeviceFilesToPlayerQueue(it.data)
+                        requireActivity().snack(getString(R.string.genre_add_to_queue))
+                    }
                     dismiss()
                 }
 
@@ -368,8 +387,10 @@ class DeviceFilesOptionBottomSheet(
                 }
 
                 Status.SUCCESS -> {
-                    if (it.data != null)
+                    if (it.data != null) {
                         requireActivity().addDeviceFilesToPlayerQueue(mutableListOf(it.data))
+                        requireActivity().snack(getString(R.string.song_add_to_queue))
+                    }
                     dismiss()
                 }
 

@@ -60,8 +60,8 @@
                         >
 
                         <androidx.cardview.widget.CardView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
                             app:cardBackgroundColor="@color/color10"
                             app:cardCornerRadius="5dp"
                             android:visibility="@{type != DeviceFileType.GENRE ? View.VISIBLE:View.GONE}"
@@ -80,6 +80,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 app:imageBitmap="@{thumbnail}"
+                                android:scaleType="centerCrop"
                                 />
 
                         </androidx.cardview.widget.CardView>

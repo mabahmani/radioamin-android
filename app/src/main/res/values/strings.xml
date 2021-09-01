@@ -69,4 +69,14 @@
     <string name="blacklist_folders_updated">Blacklist folders updated</string>
     <string name="filtered_songs_notify_msg">Some of your songs are filtered</string>
     <string name="up_next">UP NEXT</string>
+    <string name="playlist_play_next">Playlist will play next</string>
+    <string name="album_play_next">Album will play next</string>
+    <string name="song_play_next">Song will play next</string>
+    <string name="artist_play_next">Artist Songs will play next</string>
+    <string name="genre_play_next">Genre Songs will play next</string>
+    <string name="playlist_add_to_queue">Playlist added to queue</string>
+    <string name="album_add_to_queue">Album added to queue</string>
+    <string name="song_add_to_queue">Song added to queue</string>
+    <string name="artist_add_to_queue">Artist added to queue</string>
+    <string name="genre_add_to_queue">Genre added to queue</string>
 </resources>
