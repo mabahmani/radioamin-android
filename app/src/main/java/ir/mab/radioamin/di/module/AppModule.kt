@@ -36,6 +36,7 @@ class AppModule {
             .build()
         val player = SimpleExoPlayer.Builder(application).build()
         player.setAudioAttributes(audioAttributes, true)
+        player.setHandleAudioBecomingNoisy(true)
         return player
     }
 }

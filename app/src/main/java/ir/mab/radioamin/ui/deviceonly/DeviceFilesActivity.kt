@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.support.v4.media.session.MediaSessionCompat
 import android.view.MotionEvent
 import android.view.View
 import android.widget.SeekBar
@@ -22,6 +23,7 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
@@ -74,7 +76,6 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
     }
 
     private fun setupPlayerNotificationManager() {
-
         playerNotificationManager = PlayerNotificationManager.Builder(this,
             AppConstants.Notifications.PLAYER_NOTIFICATION_ID,
             AppConstants.Notifications.PLAYER_NOTIFICATION_CHANNEL_ID)
@@ -132,6 +133,10 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
     }
 
     private fun setupPlayer() {
+        val mediaSessionCompat = MediaSessionCompat(this, packageName)
+        val mediaSessionConnector = MediaSessionConnector(mediaSessionCompat)
+        mediaSessionConnector.setPlayer(player)
+        mediaSessionCompat.isActive = true
         player.addListener(this)
     }
 
