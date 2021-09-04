@@ -76,15 +76,20 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
     }
 
     private fun setupPlayerNotificationManager() {
+        val mediaSessionCompat = MediaSessionCompat(this, packageName)
+        val mediaSessionConnector = MediaSessionConnector(mediaSessionCompat)
+        mediaSessionConnector.setPlayer(player)
+        mediaSessionCompat.isActive = true
+
         playerNotificationManager = PlayerNotificationManager.Builder(this,
             AppConstants.Notifications.PLAYER_NOTIFICATION_ID,
             AppConstants.Notifications.PLAYER_NOTIFICATION_CHANNEL_ID)
             .setChannelNameResourceId(R.string.app_name)
             .setChannelDescriptionResourceId(R.string.app_name)
             .setMediaDescriptionAdapter(this)
-            //.setSmallIconResourceId(R.drawable.ic_small_logo)
             .build()
 
+        playerNotificationManager.setMediaSessionToken(mediaSessionCompat.sessionToken)
         playerNotificationManager.setSmallIcon(R.drawable.ic_small_logo)
         playerNotificationManager.setPriority(PRIORITY_MAX)
         playerNotificationManager.setUseFastForwardAction(false)
@@ -133,10 +138,6 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
     }
 
     private fun setupPlayer() {
-        val mediaSessionCompat = MediaSessionCompat(this, packageName)
-        val mediaSessionConnector = MediaSessionConnector(mediaSessionCompat)
-        mediaSessionConnector.setPlayer(player)
-        mediaSessionCompat.isActive = true
         player.addListener(this)
     }
 
@@ -169,7 +170,6 @@ class DeviceFilesActivity : BaseActivity(), MotionLayout.TransitionListener, Pla
                     player.stop()
                     player.clearMediaItems()
                     queuePlaylistSongs.clear()
-                    playerNotificationManager.setPlayer(null)
                 }
             }
 

@@ -42,12 +42,6 @@
             android:screenOrientation="portrait"
             />
 
-        <service
-            android:name=".service.MediaPlayerService"
-            android:enabled="true"
-            android:exported="false"
-            />
-
     </application>
 
 </manifest>
