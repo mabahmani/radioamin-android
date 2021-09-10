@@ -36,7 +36,7 @@ import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.DateTimeFormatter
 import ir.mab.radioamin.util.DeviceFilesImageLoader.getOriginalAlbumArt
 import ir.mab.radioamin.util.DeviceFilesImageLoader.getOriginalAlbumArtSync
-import ir.mab.radioamin.vo.DeviceSong
+import ir.mab.radioamin.vo.devicefiles.DeviceSong
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.collect

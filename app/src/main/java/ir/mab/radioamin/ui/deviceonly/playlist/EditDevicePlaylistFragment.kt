@@ -24,7 +24,7 @@ import ir.mab.radioamin.ui.deviceonly.listener.EditDevicePlaylistItemDragListene
 import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.errorToast
 import ir.mab.radioamin.util.snackWithNavigateAction
-import ir.mab.radioamin.vm.DevicePlaylistsViewModel
+import ir.mab.radioamin.vm.devicefiles.DevicePlaylistsViewModel
 import ir.mab.radioamin.vo.generic.Status
 import java.util.*
 

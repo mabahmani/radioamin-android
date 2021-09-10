@@ -4,7 +4,7 @@ import android.app.Activity
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import ir.mab.radioamin.ui.deviceonly.DeviceFilesActivity
-import ir.mab.radioamin.vo.DeviceSong
+import ir.mab.radioamin.vo.devicefiles.DeviceSong
 
 object DeviceFilesPlayer {
     fun Activity.setDeviceFilesPlayerPlaylist(deviceSongs: List<DeviceSong>, startPosition: Int) {

@@ -29,10 +29,10 @@ import ir.mab.radioamin.util.DeviceFilesPlayer.setDeviceFilesPlayerPlaylist
 import ir.mab.radioamin.util.errorToast
 import ir.mab.radioamin.util.snack
 import ir.mab.radioamin.util.snackWithNavigateAction
-import ir.mab.radioamin.vm.*
-import ir.mab.radioamin.vo.DeviceFileType
-import ir.mab.radioamin.vo.DevicePlaylist
-import ir.mab.radioamin.vo.DeviceSong
+import ir.mab.radioamin.vm.devicefiles.*
+import ir.mab.radioamin.vo.devicefiles.DeviceFileType
+import ir.mab.radioamin.vo.devicefiles.DevicePlaylist
+import ir.mab.radioamin.vo.devicefiles.DeviceSong
 import ir.mab.radioamin.vo.generic.Status
 import timber.log.Timber
 

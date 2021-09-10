@@ -7,7 +7,7 @@
 
         <variable
             name="playlist"
-            type="ir.mab.radioamin.vo.DevicePlaylist" />
+            type="ir.mab.radioamin.vo.devicefiles.DevicePlaylist" />
 
         <variable
             name="thumbnail"

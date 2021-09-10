@@ -22,8 +22,8 @@ import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.DeviceFilesImageLoader.getOriginalAlbumArt
 import ir.mab.radioamin.util.DeviceFilesPlayer.setDeviceFilesPlayerPlaylist
 import ir.mab.radioamin.util.errorToast
-import ir.mab.radioamin.vm.DeviceAlbumsViewModel
-import ir.mab.radioamin.vo.DeviceFileType
+import ir.mab.radioamin.vm.devicefiles.DeviceAlbumsViewModel
+import ir.mab.radioamin.vo.devicefiles.DeviceFileType
 import ir.mab.radioamin.vo.generic.Status
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

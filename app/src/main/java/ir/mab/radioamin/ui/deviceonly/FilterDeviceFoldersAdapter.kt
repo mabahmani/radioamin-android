@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.mab.radioamin.databinding.ItemFilterFolderBinding
-import ir.mab.radioamin.vo.DeviceSongFolder
+import ir.mab.radioamin.vo.devicefiles.DeviceSongFolder
 
 class FilterDeviceFoldersAdapter(var list: List<DeviceSongFolder>):
     RecyclerView.Adapter<FilterDeviceFoldersAdapter.ViewHolder>() {

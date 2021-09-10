@@ -113,22 +113,28 @@ object DeviceFilesImageLoader {
 
         var thumbnail: Bitmap? = null
 
-        this.contentResolver.query(
-            getDeviceArtistAlbumsUri(artistId),
-            arrayOf(MediaStore.Audio.Artists.Albums.ALBUM_ID),
-            null,
-            null,
-            null
-        ).use {
-            if (it != null && it.count > 0) {
-                it.moveToFirst()
-                val albumId =
-                    it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Artists.Albums.ALBUM_ID))
-                thumbnail = getDeviceAlbumThumbnail(albumId)
+        try {
+            this.contentResolver.query(
+                getDeviceArtistAlbumsUri(artistId),
+                arrayOf(MediaStore.Audio.Artists.Albums.ALBUM_ID),
+                null,
+                null,
+                null
+            ).use {
+                if (it != null && it.count > 0) {
+                    it.moveToFirst()
+                    val albumId =
+                        it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Artists.Albums.ALBUM_ID))
+                    thumbnail = getDeviceAlbumThumbnail(albumId)
+                }
             }
-        }
 
-        return thumbnail
+            return thumbnail
+
+        }catch (ex: java.lang.Exception){
+            Timber.d(ex)
+            return null
+        }
     }
 
     suspend fun Context.getDevicePlaylistThumbnail(playlistId: Long): Bitmap? {

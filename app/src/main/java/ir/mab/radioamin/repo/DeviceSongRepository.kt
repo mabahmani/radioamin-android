@@ -8,9 +8,9 @@ import android.provider.MediaStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import ir.mab.radioamin.util.AppConstants
-import ir.mab.radioamin.vo.DeviceSong
-import ir.mab.radioamin.vo.DeviceSongFolder
-import ir.mab.radioamin.vo.DeviceSongTag
+import ir.mab.radioamin.vo.devicefiles.DeviceSong
+import ir.mab.radioamin.vo.devicefiles.DeviceSongFolder
+import ir.mab.radioamin.vo.devicefiles.DeviceSongTag
 import ir.mab.radioamin.vo.generic.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -51,7 +51,7 @@ class DeviceSongRepository(
 
             val sortOrder = "${MediaStore.Audio.Media.TITLE} ASC"
 
-            val blackList = sharedPreferences.getStringSet(AppConstants.PREFS.BLACK_LIST_FOLDERS, mutableSetOf())
+            val blackList = sharedPreferences.getStringSet(AppConstants.Prefs.BLACK_LIST_FOLDERS, mutableSetOf())
 
             try {
                 queryMediaStore(
@@ -134,7 +134,7 @@ class DeviceSongRepository(
                     null
                 ).use {
 
-                    val blackList = sharedPreferences.getStringSet(AppConstants.PREFS.BLACK_LIST_FOLDERS, mutableSetOf())
+                    val blackList = sharedPreferences.getStringSet(AppConstants.Prefs.BLACK_LIST_FOLDERS, mutableSetOf())
 
                     while (it != null && it.moveToNext()) {
 

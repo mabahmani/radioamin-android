@@ -20,8 +20,8 @@ import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.DeviceFilesPlayer.setDeviceFilesPlayerPlaylist
 import ir.mab.radioamin.util.errorToast
 import ir.mab.radioamin.util.snackWithNavigateAction
-import ir.mab.radioamin.vm.DeviceSongsViewModel
-import ir.mab.radioamin.vo.DeviceFileType
+import ir.mab.radioamin.vm.devicefiles.DeviceSongsViewModel
+import ir.mab.radioamin.vo.devicefiles.DeviceFileType
 import ir.mab.radioamin.vo.generic.Status
 import javax.inject.Inject
 
@@ -54,7 +54,7 @@ class DeviceSongsFragment : DeviceFilesBaseFragment(),
     }
 
     private fun notifySongsFilters() {
-        if (!sharedPreferences.getStringSet(AppConstants.PREFS.BLACK_LIST_FOLDERS, mutableSetOf()).isNullOrEmpty()){
+        if (!sharedPreferences.getStringSet(AppConstants.Prefs.BLACK_LIST_FOLDERS, mutableSetOf()).isNullOrEmpty()){
             requireActivity().snackWithNavigateAction(
                 getString(R.string.filtered_songs_notify_msg),
                 R.id.filterDeviceFolders,

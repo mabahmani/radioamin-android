@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ir.mab.radioamin">
 
+    <uses-permission android:name="android.permission.INTERNET"/>b
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
@@ -16,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="true"
         tools:ignore="AllowBackup">
         <activity android:name=".ui.deviceonly.DeviceFilesActivity"
             android:configChanges="orientation"

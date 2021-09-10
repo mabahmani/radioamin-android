@@ -2,7 +2,7 @@ package ir.mab.radioamin.util
 
 object AppConstants {
 
-    object PREFS{
+    object Prefs{
         const val SHARED_PREFS_NAME = "Radioamin_Prefs"
         const val BLACK_LIST_FOLDERS = "BLACK_LIST_FOLDERS"
     }
@@ -20,6 +20,17 @@ object AppConstants {
     object Notifications{
         const val PLAYER_NOTIFICATION_ID = 1001
         const val PLAYER_NOTIFICATION_CHANNEL_ID = "RadioaminDeviceFilesPlayerNotificationChannel"
+    }
 
+    object RequestCode{
+        const val ONE_TAP_SIGN_IN_REQUEST_CODE = 2001
+    }
+
+    object Base{
+        const val URL = "http://192.168.1.56:8080/api/"
+        object VersionOne{
+            const val CONSUMER: String = URL + "v1/consumer"
+            const val ANONYMOUS: String = URL + "v1/anonymous"
+        }
     }
 }

@@ -8,8 +8,8 @@ import ir.mab.radioamin.databinding.ItemAlbumSongBinding
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceSongsOnClickListeners
 import ir.mab.radioamin.util.DateTimeFormatter
-import ir.mab.radioamin.vo.DeviceFileType
-import ir.mab.radioamin.vo.DeviceSong
+import ir.mab.radioamin.vo.devicefiles.DeviceFileType
+import ir.mab.radioamin.vo.devicefiles.DeviceSong
 
 class DeviceAlbumSongsAdapter(
     var list: List<DeviceSong>,

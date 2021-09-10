@@ -1,4 +1,4 @@
-package ir.mab.radioamin.vo
+package ir.mab.radioamin.vo.devicefiles
 
 data class DeviceAlbum(
     val id: Long?,

@@ -19,8 +19,8 @@ import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.DeviceFilesImageLoader.getOriginalAlbumArt
 import ir.mab.radioamin.util.errorToast
 import ir.mab.radioamin.util.snack
-import ir.mab.radioamin.vm.DeviceSongsViewModel
-import ir.mab.radioamin.vo.DeviceSongTag
+import ir.mab.radioamin.vm.devicefiles.DeviceSongsViewModel
+import ir.mab.radioamin.vo.devicefiles.DeviceSongTag
 import ir.mab.radioamin.vo.generic.Status
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

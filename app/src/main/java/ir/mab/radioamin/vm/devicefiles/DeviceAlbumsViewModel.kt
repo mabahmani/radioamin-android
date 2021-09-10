@@ -1,4 +1,4 @@
-package ir.mab.radioamin.vm
+package ir.mab.radioamin.vm.devicefiles
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ir.mab.radioamin.repo.DeviceAlbumRepository
-import ir.mab.radioamin.vo.DeviceAlbum
-import ir.mab.radioamin.vo.DeviceSong
+import ir.mab.radioamin.vo.devicefiles.DeviceAlbum
+import ir.mab.radioamin.vo.devicefiles.DeviceSong
 import ir.mab.radioamin.vo.generic.Resource
 import kotlinx.coroutines.launch
 import javax.inject.Inject

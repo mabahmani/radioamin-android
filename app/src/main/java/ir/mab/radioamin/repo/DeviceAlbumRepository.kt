@@ -5,8 +5,8 @@ import android.net.Uri
 import android.provider.MediaStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
-import ir.mab.radioamin.vo.DeviceAlbum
-import ir.mab.radioamin.vo.DeviceSong
+import ir.mab.radioamin.vo.devicefiles.DeviceAlbum
+import ir.mab.radioamin.vo.devicefiles.DeviceSong
 import ir.mab.radioamin.vo.generic.Resource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

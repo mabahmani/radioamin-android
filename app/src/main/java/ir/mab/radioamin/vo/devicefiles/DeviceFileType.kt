@@ -1,4 +1,4 @@
-package ir.mab.radioamin.vo
+package ir.mab.radioamin.vo.devicefiles
 
 enum class DeviceFileType {
     PLAYLIST,

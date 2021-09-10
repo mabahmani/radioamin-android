@@ -18,8 +18,8 @@ import ir.mab.radioamin.ui.deviceonly.song.DeviceSongsAdapter
 import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.DeviceFilesPlayer.setDeviceFilesPlayerPlaylist
 import ir.mab.radioamin.util.errorToast
-import ir.mab.radioamin.vm.DeviceGenresViewModel
-import ir.mab.radioamin.vo.DeviceFileType
+import ir.mab.radioamin.vm.devicefiles.DeviceGenresViewModel
+import ir.mab.radioamin.vo.devicefiles.DeviceFileType
 import ir.mab.radioamin.vo.generic.Status
 
 @AndroidEntryPoint

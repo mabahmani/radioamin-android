@@ -9,8 +9,8 @@ import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.ItemGenreBinding
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.util.AppConstants
-import ir.mab.radioamin.vo.DeviceFileType
-import ir.mab.radioamin.vo.DeviceGenre
+import ir.mab.radioamin.vo.devicefiles.DeviceFileType
+import ir.mab.radioamin.vo.devicefiles.DeviceGenre
 
 class DeviceGenresAdapter(
     var list: List<DeviceGenre>,

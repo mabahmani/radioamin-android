@@ -6,7 +6,7 @@
 
         <import type="android.view.View" />
 
-        <import type="ir.mab.radioamin.vo.DeviceFileType" />
+        <import type="ir.mab.radioamin.vo.devicefiles.DeviceFileType" />
 
         <variable
             name="title"
@@ -22,7 +22,7 @@
 
         <variable
             name="type"
-            type="ir.mab.radioamin.vo.DeviceFileType" />
+            type="ir.mab.radioamin.vo.devicefiles.DeviceFileType" />
 
     </data>
 

@@ -8,7 +8,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import ir.mab.radioamin.R
 import ir.mab.radioamin.ui.custom.ProgressCompoundView
 import ir.mab.radioamin.ui.custom.SimpleToolbarWithBackIconAndTitleCompoundView
-import ir.mab.radioamin.vo.DeviceFileType
+import ir.mab.radioamin.vo.devicefiles.DeviceFileType
 
 @BindingAdapter("imageBitmap")
 fun loadImage(view: AppCompatImageView, imageBitmap: Bitmap?) {

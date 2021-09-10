@@ -52,7 +52,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/sign_in"
                 android:layout_gravity="center_horizontal"
-                android:textColor="@color/color1" />
+                android:textColor="@color/color1"
+                android:onClick="@{handlers::onClickSignIn}"
+                />
 
             <Button
                 android:id="@+id/deviceFilesButton"

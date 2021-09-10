@@ -14,8 +14,8 @@ import ir.mab.radioamin.ui.deviceonly.devicefilesoption.DeviceFilesOptionBottomS
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionsChangeListener
 import ir.mab.radioamin.util.errorToast
-import ir.mab.radioamin.vm.DeviceGenresViewModel
-import ir.mab.radioamin.vo.DeviceFileType
+import ir.mab.radioamin.vm.devicefiles.DeviceGenresViewModel
+import ir.mab.radioamin.vo.devicefiles.DeviceFileType
 import ir.mab.radioamin.vo.generic.Status
 
 @AndroidEntryPoint

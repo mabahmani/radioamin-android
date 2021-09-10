@@ -8,7 +8,7 @@
 
         <variable
             name="album"
-            type="ir.mab.radioamin.vo.DeviceAlbum" />
+            type="ir.mab.radioamin.vo.devicefiles.DeviceAlbum" />
 
         <variable
             name="thumbnail"

@@ -16,8 +16,8 @@ import ir.mab.radioamin.databinding.FragmentFilterDeviceFoldersBinding
 import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.errorToast
 import ir.mab.radioamin.util.snack
-import ir.mab.radioamin.vm.DeviceSongsViewModel
-import ir.mab.radioamin.vo.DeviceSongFolder
+import ir.mab.radioamin.vm.devicefiles.DeviceSongsViewModel
+import ir.mab.radioamin.vo.devicefiles.DeviceSongFolder
 import ir.mab.radioamin.vo.generic.Status
 import javax.inject.Inject
 
@@ -63,7 +63,7 @@ class FilterDeviceFoldersFragment : Fragment() {
             sharedPreferences.apply {
                 edit {
                     putStringSet(
-                        AppConstants.PREFS.BLACK_LIST_FOLDERS,
+                        AppConstants.Prefs.BLACK_LIST_FOLDERS,
                         stringSet
                     )
                 }

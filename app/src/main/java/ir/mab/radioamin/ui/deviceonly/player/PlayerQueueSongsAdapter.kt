@@ -10,7 +10,7 @@ import ir.mab.radioamin.databinding.ItemPlayerQueueBinding
 import ir.mab.radioamin.ui.deviceonly.listener.PlayerQueueItemListeners
 import ir.mab.radioamin.util.DateTimeFormatter
 import ir.mab.radioamin.util.DeviceFilesImageLoader.getDeviceAlbumThumbnail
-import ir.mab.radioamin.vo.DeviceSong
+import ir.mab.radioamin.vo.devicefiles.DeviceSong
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

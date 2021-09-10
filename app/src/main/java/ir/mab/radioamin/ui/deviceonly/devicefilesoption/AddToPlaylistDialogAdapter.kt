@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ir.mab.radioamin.databinding.ItemAddToPlaylistDialogBinding
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesOptionAddToPlaylistOnClickListener
-import ir.mab.radioamin.vo.DevicePlaylist
+import ir.mab.radioamin.vo.devicefiles.DevicePlaylist
 
 class AddToPlaylistDialogAdapter(
     var list: List<DevicePlaylist>,

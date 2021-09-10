@@ -8,8 +8,8 @@ import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceSongsOnClickListeners
 import ir.mab.radioamin.util.DateTimeFormatter
 import ir.mab.radioamin.util.DeviceFilesImageLoader.getDeviceAlbumThumbnail
-import ir.mab.radioamin.vo.DeviceFileType
-import ir.mab.radioamin.vo.DeviceSong
+import ir.mab.radioamin.vo.devicefiles.DeviceFileType
+import ir.mab.radioamin.vo.devicefiles.DeviceSong
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

@@ -10,8 +10,8 @@ import ir.mab.radioamin.databinding.ItemPlaylistBinding
 import ir.mab.radioamin.ui.deviceonly.listener.DeviceFilesMoreOnClickListeners
 import ir.mab.radioamin.util.AppConstants
 import ir.mab.radioamin.util.DeviceFilesImageLoader.getDevicePlaylistThumbnail
-import ir.mab.radioamin.vo.DeviceFileType
-import ir.mab.radioamin.vo.DevicePlaylist
+import ir.mab.radioamin.vo.devicefiles.DeviceFileType
+import ir.mab.radioamin.vo.devicefiles.DevicePlaylist
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

@@ -6,11 +6,18 @@ import android.content.SharedPreferences
 import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.audio.AudioAttributes
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import ir.mab.radioamin.api.ApiService
+import ir.mab.radioamin.api.ApiServiceInterceptor
 import ir.mab.radioamin.util.AppConstants
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 
 @Module
@@ -21,7 +28,7 @@ class AppModule {
         application: Application
     ): SharedPreferences {
         return application.getSharedPreferences(
-            AppConstants.PREFS.SHARED_PREFS_NAME,
+            AppConstants.Prefs.SHARED_PREFS_NAME,
             Context.MODE_PRIVATE
         )
     }
@@ -38,5 +45,34 @@ class AppModule {
         player.setAudioAttributes(audioAttributes, true)
         player.setHandleAudioBecomingNoisy(true)
         return player
+    }
+
+    @Provides
+    fun provideOkHttpClient(
+        sharedPreferences: SharedPreferences
+    ): OkHttpClient {
+        val logging = HttpLoggingInterceptor()
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+        val builder = OkHttpClient().newBuilder()
+            .addInterceptor(ApiServiceInterceptor(sharedPreferences))
+            .addInterceptor(logging)
+        return builder.build()
+    }
+
+    @Provides
+    fun provideApiService(
+        okHttpClient: OkHttpClient
+    ): ApiService {
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(AppConstants.Base.URL)
+            .addConverterFactory(GsonConverterFactory.create(
+                GsonBuilder()
+                .setLenient()
+                .create()))
+            .client(okHttpClient)
+            .build()
+
+        return retrofit.create(ApiService::class.java)
     }
 }
