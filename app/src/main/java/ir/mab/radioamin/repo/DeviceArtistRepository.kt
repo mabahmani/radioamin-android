@@ -68,7 +68,13 @@ class DeviceArtistRepository(
                     emit(Resource.success(artists))
                 }
             } catch (ex: Exception) {
-                emit(Resource.error(null, ex.toString(), null, null))
+                emit(Resource.error(
+                    null,
+                    ex.toString(),
+                    null,
+                    null,
+                    null
+                ))
             }
         }
     }
@@ -136,7 +142,13 @@ class DeviceArtistRepository(
                     emit(Resource.success(songs))
                 }
             } catch (ex: Exception) {
-                emit(Resource.error(null, ex.toString(), null, null))
+                emit(Resource.error(
+                    null,
+                    ex.toString(),
+                    null,
+                    null,
+                    null
+                ))
             }
         }
     }

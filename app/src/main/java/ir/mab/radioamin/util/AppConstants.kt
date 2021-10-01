@@ -3,6 +3,9 @@ package ir.mab.radioamin.util
 object AppConstants {
 
     object Prefs{
+        const val ACCESS_TOKEN = "ACCESS_TOKEN"
+        const val REFRESH_TOKEN = "REFRESH_TOKEN"
+        const val IS_LOGIN = "IS_LOGIN"
         const val SHARED_PREFS_NAME = "Radioamin_Prefs"
         const val BLACK_LIST_FOLDERS = "BLACK_LIST_FOLDERS"
     }
@@ -27,7 +30,7 @@ object AppConstants {
     }
 
     object Base{
-        const val URL = "http://192.168.1.56:8080/api/"
+        const val URL = "http://192.168.1.52:8080/api/"
         object VersionOne{
             const val CONSUMER: String = URL + "v1/consumer"
             const val ANONYMOUS: String = URL + "v1/anonymous"

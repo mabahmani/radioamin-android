@@ -56,7 +56,13 @@ class DeviceAlbumRepository(
                     emit(Resource.success(albums))
                 }
             } catch (ex: Exception) {
-                emit(Resource.error(null, ex.toString(), null, null))
+                emit(Resource.error(
+                    null,
+                    ex.toString(),
+                    null,
+                    null,
+                    null
+                ))
             }
         }
     }
@@ -100,7 +106,13 @@ class DeviceAlbumRepository(
                     emit(Resource.success(album))
                 }
             } catch (ex: Exception) {
-                emit(Resource.error(null, ex.toString(), null, null))
+                emit(Resource.error(
+                    null,
+                    ex.toString(),
+                    null,
+                    null,
+                    null
+                ))
             }
         }
     }
@@ -154,7 +166,13 @@ class DeviceAlbumRepository(
                     emit(Resource.success(songs))
                 }
             } catch (ex: Exception) {
-                emit(Resource.error(null, ex.toString(), null, null))
+                emit(Resource.error(
+                    null,
+                    ex.toString(),
+                    null,
+                    null,
+                    null
+                ))
             }
         }
     }

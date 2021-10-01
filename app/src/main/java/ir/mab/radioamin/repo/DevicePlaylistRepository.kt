@@ -63,7 +63,13 @@ class DevicePlaylistRepository(
                     emit(Resource.success(playlists))
                 }
             } catch (ex: Exception) {
-                emit(Resource.error(null, ex.toString(), null, null))
+                emit(Resource.error(
+                    null,
+                    ex.toString(),
+                    null,
+                    null,
+                    null
+                ))
             }
         }
     }
@@ -113,7 +119,13 @@ class DevicePlaylistRepository(
 
                 }
             } catch (ex: Exception) {
-                emit(Resource.error(null, ex.toString(), null, null))
+                emit(Resource.error(
+                    null,
+                    ex.toString(),
+                    null,
+                    null,
+                    null
+                ))
             }
         }
     }
@@ -176,7 +188,13 @@ class DevicePlaylistRepository(
                     emit(Resource.success(songs))
                 }
             } catch (ex: Exception) {
-                emit(Resource.error(null, ex.toString(), null, null))
+                emit(Resource.error(
+                    null,
+                    ex.toString(),
+                    null,
+                    null,
+                    null
+                ))
                 Timber.e(ex)
             }
 
@@ -203,7 +221,13 @@ class DevicePlaylistRepository(
                     emit(Resource.success(true))
 
                 } catch (ex: Exception) {
-                    emit(Resource.error(null, ex.message.toString(), false, null))
+                    emit(Resource.error(
+                        null,
+                        ex.message.toString(),
+                        false,
+                        null,
+                        null
+                    ))
                 }
             } else {
                 try {
@@ -211,7 +235,13 @@ class DevicePlaylistRepository(
                     emit(Resource.success(true))
 
                 } catch (ex: Exception) {
-                    emit(Resource.error(null, ex.message.toString(), false, null))
+                    emit(Resource.error(
+                        null,
+                        ex.message.toString(),
+                        false,
+                        null,
+                        null
+                    ))
                 }
             }
 
@@ -258,7 +288,13 @@ class DevicePlaylistRepository(
                 emit(Resource.success(true))
 
             } catch (ex: java.lang.Exception) {
-                emit(Resource.error(null, ex.message.toString(), true, null))
+                emit(Resource.error(
+                    null,
+                    ex.message.toString(),
+                    true,
+                    null,
+                    null
+                ))
             }
         }
 
@@ -282,7 +318,13 @@ class DevicePlaylistRepository(
                 val result = resolver.insert(playlistCollection, newPlaylistDetails)
                 emit(Resource.success(result))
             } catch (ex: java.lang.Exception) {
-                emit(Resource.error(null, ex.toString(), null, null))
+                emit(Resource.error(
+                    null,
+                    ex.toString(),
+                    null,
+                    null,
+                    null
+                ))
             }
         }
     }
@@ -314,7 +356,13 @@ class DevicePlaylistRepository(
                 resolver.bulkInsert(playlistCollection, contentValuesList)
                 emit(Resource.success(true))
             } catch (ex: Exception) {
-                emit(Resource.error(null, ex.message.toString(), false, null))
+                emit(Resource.error(
+                    null,
+                    ex.message.toString(),
+                    false,
+                    null,
+                    null
+                ))
             }
         }
     }

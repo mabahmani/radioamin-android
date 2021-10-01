@@ -61,7 +61,13 @@ class DeviceGenreRepository(
                     emit(Resource.success(genres))
                 }
             } catch (ex: Exception) {
-                emit(Resource.error(null, ex.toString(), null, null))
+                emit(Resource.error(
+                    null,
+                    ex.toString(),
+                    null,
+                    null,
+                    null
+                ))
             }
         }
     }
@@ -110,7 +116,13 @@ class DeviceGenreRepository(
 
                 }
             } catch (ex: Exception) {
-                emit(Resource.error(null, ex.toString(), null, null))
+                emit(Resource.error(
+                    null,
+                    ex.toString(),
+                    null,
+                    null,
+                    null
+                ))
             }
         }
     }
@@ -177,7 +189,13 @@ class DeviceGenreRepository(
                     emit(Resource.success(songs))
                 }
             } catch (ex: Exception) {
-                emit(Resource.error(null, ex.toString(), null, null))
+                emit(Resource.error(
+                    null,
+                    ex.toString(),
+                    null,
+                    null,
+                    null
+                ))
                 Timber.e(ex)
             }
 

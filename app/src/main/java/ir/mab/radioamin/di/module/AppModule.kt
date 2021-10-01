@@ -11,8 +11,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import ir.mab.radioamin.api.AccessTokenAuthenticator
 import ir.mab.radioamin.api.ApiService
 import ir.mab.radioamin.api.ApiServiceInterceptor
+import ir.mab.radioamin.api.TokenService
 import ir.mab.radioamin.util.AppConstants
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -49,12 +51,14 @@ class AppModule {
 
     @Provides
     fun provideOkHttpClient(
+        tokenService: TokenService,
         sharedPreferences: SharedPreferences
     ): OkHttpClient {
         val logging = HttpLoggingInterceptor()
         logging.setLevel(HttpLoggingInterceptor.Level.BODY)
         val builder = OkHttpClient().newBuilder()
             .addInterceptor(ApiServiceInterceptor(sharedPreferences))
+            .authenticator(AccessTokenAuthenticator(tokenService, sharedPreferences))
             .addInterceptor(logging)
         return builder.build()
     }
@@ -75,4 +79,20 @@ class AppModule {
 
         return retrofit.create(ApiService::class.java)
     }
+
+    @Provides
+    fun provideTokenService(): TokenService {
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(AppConstants.Base.URL)
+            .addConverterFactory(
+                GsonConverterFactory.create(
+                    GsonBuilder()
+                        .setLenient()
+                        .create()))
+            .build()
+
+        return retrofit.create(TokenService::class.java)
+    }
+
 }

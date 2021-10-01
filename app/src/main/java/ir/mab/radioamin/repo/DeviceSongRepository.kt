@@ -102,7 +102,13 @@ class DeviceSongRepository(
                     emit(Resource.success(songs))
                 }
             } catch (ex: Exception) {
-                emit(Resource.error(null, ex.toString(), null, null))
+                emit(Resource.error(
+                    null,
+                    ex.toString(),
+                    null,
+                    null,
+                    null
+                ))
             }
         }
     }
@@ -166,7 +172,13 @@ class DeviceSongRepository(
                     emit(Resource.success(folders))
                 }
             } catch (ex: Exception) {
-                emit(Resource.error(null, ex.toString(), null, null))
+                emit(Resource.error(
+                    null,
+                    ex.toString(),
+                    null,
+                    null,
+                    null
+                ))
             }
         }
     }
@@ -236,7 +248,13 @@ class DeviceSongRepository(
 
                 }
             } catch (ex: Exception) {
-                emit(Resource.error(null, ex.toString(), null, null))
+                emit(Resource.error(
+                    null,
+                    ex.toString(),
+                    null,
+                    null,
+                    null
+                ))
             }
         }
     }
@@ -263,7 +281,13 @@ class DeviceSongRepository(
                     )
                 )
             } catch (ex: java.lang.Exception) {
-                emit(Resource.error(null, ex.message.toString(), null, null))
+                emit(Resource.error(
+                    null,
+                    ex.message.toString(),
+                    null,
+                    null,
+                    null
+                ))
             }
         }
     }
@@ -307,7 +331,13 @@ class DeviceSongRepository(
                 )
 
             } catch (ex: java.lang.Exception) {
-                emit(Resource.error(null, ex.message.toString(), false, null))
+                emit(Resource.error(
+                    null,
+                    ex.message.toString(),
+                    false,
+                    null,
+                    null
+                ))
             }
         }
     }
@@ -323,7 +353,13 @@ class DeviceSongRepository(
                 emit(Resource.success(true))
 
             } catch (ex: java.lang.Exception) {
-                emit(Resource.error(null, ex.message.toString(), false, null))
+                emit(Resource.error(
+                    null,
+                    ex.message.toString(),
+                    false,
+                    null,
+                    null
+                ))
             }
         }
     }

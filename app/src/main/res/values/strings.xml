@@ -84,4 +84,6 @@
     <string name="explore">Explore</string>
     <string name="library">Library</string>
     <string name="account">Account</string>
+    <string name="no_google_account">Can\'t find any google account on this device</string>
+    <string name="no_connection_error">There is no network connection right now</string>
 </resources>

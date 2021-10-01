@@ -4,9 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="handlers"
             type="ir.mab.radioamin.ui.splash.SplashActivity.MyHandlers" />
+
+        <variable
+            name="showProgress"
+            type="boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,6 +19,7 @@
         android:layout_height="match_parent"
         android:background="@color/color1"
         tools:context=".ui.splash.SplashActivity">
+
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/musicLogo"
@@ -71,5 +77,14 @@
         </LinearLayout>
 
 
+        <ir.mab.radioamin.ui.custom.ProgressCompoundView
+            android:id="@+id/loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:prBackgroundColor="@color/half_black"
+            app:pcVisibility="@{showProgress ? View.VISIBLE: View.GONE}"
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

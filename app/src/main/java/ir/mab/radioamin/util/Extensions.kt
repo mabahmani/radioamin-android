@@ -16,6 +16,10 @@ fun Context.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 }
 
+fun Context.networkErrorToast() {
+    Toast.makeText(this, getString(R.string.no_connection_error), Toast.LENGTH_LONG).show()
+}
+
 fun Context.errorToast(message: String) {
     if (BuildConfig.DEBUG){
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()

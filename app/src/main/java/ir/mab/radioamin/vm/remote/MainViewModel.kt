@@ -10,30 +10,29 @@ import ir.mab.radioamin.di.IoDispatcher
 import ir.mab.radioamin.util.safeApiCall
 import ir.mab.radioamin.vo.generic.Resource
 import ir.mab.radioamin.vo.generic.SuccessResponse
-import ir.mab.radioamin.vo.res.JwtRes
+import ir.mab.radioamin.vo.res.HomeTopicsRes
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UserViewModel @Inject constructor(
+class MainViewModel @Inject constructor(
     private val apiService: ApiService,
     @IoDispatcher private val dispatcherIO: CoroutineDispatcher = Dispatchers.IO
-) : ViewModel() {
+): ViewModel() {
 
-    fun loginByGoogle(googleIdToken: String): LiveData<Resource<SuccessResponse<JwtRes>>>{
+    private var homeTopicsResult: LiveData<Resource<SuccessResponse<HomeTopicsRes>>> = MutableLiveData()
 
-        var result: LiveData<Resource<SuccessResponse<JwtRes>>> = MutableLiveData()
-
-
-        viewModelScope.launch {
-
-            result = safeApiCall(dispatcherIO) {
-                apiService.loginUserByGoogle(googleIdToken)
+    fun getHomeTopics(): LiveData<Resource<SuccessResponse<HomeTopicsRes>>>{
+        if (homeTopicsResult.value == null){
+            viewModelScope.launch {
+                homeTopicsResult = safeApiCall(dispatcherIO){
+                    apiService.getHomeTopics()
+                }
             }
         }
-
-        return result
+        return homeTopicsResult
     }
+
 }
