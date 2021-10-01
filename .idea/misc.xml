@@ -3,8 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/drawable/ic_album_collection.xml" value="0.2708333333333333" />
+        <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/drawable/ic_house.xml" value="0.2708333333333333" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/drawable/ic_notif.xml" value="0.26666666666666666" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/drawable/ic_small_logo.xml" value="0.26666666666666666" />
+        <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/drawable/ic_user.xml" value="0.2708333333333333" />
+        <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/drawable/nav_item_color_state.xml" value="0.2708333333333333" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/activity_base.xml" value="0.2546875" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/activity_device_files_only.xml" value="0.1" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/activity_main.xml" value="0.25076923076923074" />
@@ -15,6 +19,7 @@
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/dialog_add_to_playlist.xml" value="0.17685185185185184" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/dialog_delete_playlist.xml" value="0.22592592592592592" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/dialog_delete_song.xml" value="0.2546875" />
+        <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/fragment_account.xml" value="0.2546875" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/fragment_device_album.xml" value="0.2" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/fragment_device_albums.xml" value="0.17685185185185184" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/fragment_device_artist.xml" value="0.24259259259259258" />
@@ -26,7 +31,10 @@
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/fragment_device_songs.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/fragment_edit_device_playlist.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/fragment_edit_device_song_info.xml" value="0.132" />
+        <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/fragment_explore.xml" value="0.2546875" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/fragment_filter_device_folders.xml" value="0.2546875" />
+        <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/fragment_home.xml" value="0.2546875" />
+        <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/fragment_library.xml" value="0.2546875" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/fragment_music_player.xml" value="0.25076923076923074" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/item_add_to_playlist_dialog.xml" value="0.16296296296296298" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/item_album.xml" value="0.19814814814814816" />
@@ -38,6 +46,7 @@
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/item_playlist.xml" value="0.19907407407407407" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/item_song.xml" value="0.19814814814814816" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/layout/item_song_edit_playlist.xml" value="0.13072916666666667" />
+        <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.2546875" />
         <entry key="..\:/Users/mab/AndroidStudioProjects/Radioamin/app/src/main/res/xml/scene_24.xml" value="0.2546875" />
       </map>
     </option>

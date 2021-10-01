@@ -17,6 +17,7 @@ import ir.mab.radioamin.R
 import ir.mab.radioamin.databinding.ActivitySplashBinding
 import ir.mab.radioamin.ui.BaseActivity
 import ir.mab.radioamin.ui.deviceonly.DeviceFilesActivity
+import ir.mab.radioamin.ui.main.MainActivity
 import ir.mab.radioamin.util.AppConstants.RequestCode.ONE_TAP_SIGN_IN_REQUEST_CODE
 import ir.mab.radioamin.vm.remote.UserViewModel
 import timber.log.Timber
@@ -35,6 +36,8 @@ class SplashActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
         binding.handlers = MyHandlers()
+
+        startActivity(Intent(this, MainActivity::class.java))
     }
 
     private fun oneTapSignInWithPreviousAccount() {

@@ -80,4 +80,8 @@
     <string name="song_add_to_queue">Song added to queue</string>
     <string name="artist_add_to_queue">Artist added to queue</string>
     <string name="genre_add_to_queue">Genre added to queue</string>
+    <string name="home">Home</string>
+    <string name="explore">Explore</string>
+    <string name="library">Library</string>
+    <string name="account">Account</string>
 </resources>
