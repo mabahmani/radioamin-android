@@ -1,5 +1,6 @@
 package ir.mab.radioamin.vm.remote
 
+import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,15 +20,16 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val apiService: ApiService,
+    private val application:Application,
     @IoDispatcher private val dispatcherIO: CoroutineDispatcher = Dispatchers.IO
 ): ViewModel() {
 
     private var homeTopicsResult: LiveData<Resource<SuccessResponse<HomeTopicsRes>>> = MutableLiveData()
 
-    fun getHomeTopics(): LiveData<Resource<SuccessResponse<HomeTopicsRes>>>{
-        if (homeTopicsResult.value == null){
+    fun getHomeTopics(forceRefresh: Boolean = false): LiveData<Resource<SuccessResponse<HomeTopicsRes>>>{
+        if (homeTopicsResult.value == null || forceRefresh){
             viewModelScope.launch {
-                homeTopicsResult = safeApiCall(dispatcherIO){
+                homeTopicsResult = safeApiCall(dispatcherIO, homeTopicsResult.value?.data, application){
                     apiService.getHomeTopics()
                 }
             }

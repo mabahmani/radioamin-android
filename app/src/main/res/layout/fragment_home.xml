@@ -3,10 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View" />
 
+        <variable
+            name="showProgress"
+            type="boolean" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/color1">
@@ -66,11 +71,25 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/list"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/contentParent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+
+                <ir.mab.radioamin.ui.custom.ProgressCompoundView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:pcVisibility="@{showProgress ? View.VISIBLE: View.GONE}"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

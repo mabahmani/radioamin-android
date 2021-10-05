@@ -4,7 +4,9 @@
     android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color1">
+    android:background="@color/color1"
+    android:visibility="gone"
+    >
 
     <ProgressBar
         android:layout_width="24dp"

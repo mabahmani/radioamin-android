@@ -1,9 +1,9 @@
 package ir.mab.radioamin.vo.res
 
-import ir.mab.radioamin.vo.Genre
-import ir.mab.radioamin.vo.Mood
+import ir.mab.radioamin.vo.Album
 import ir.mab.radioamin.vo.Music
 import ir.mab.radioamin.vo.Playlist
+import ir.mab.radioamin.vo.Singer
 import ir.mab.radioamin.vo.enums.TopicType
 
 data class HomeTopicsRes(
@@ -15,6 +15,6 @@ data class Topic(
     val topicType: TopicType,
     val musics: List<Music>,
     val playlists: List<Playlist>,
-    val genres: List<Genre>,
-    val moods: List<Mood>
+    val albums: List<Album>,
+    val singers: List<Singer>
 )

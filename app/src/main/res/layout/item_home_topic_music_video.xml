@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="subtitle"
+            type="String" />
+
+        <variable
+            name="coverUrl"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        >
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/musicCover"
+            android:layout_width="224dp"
+            android:layout_height="128dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:shapeAppearanceOverlay="@style/shape_able_image_view_rounded_style"
+            app:imageUrl="@{coverUrl}"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/musicCover"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textColor="@color/white"
+            android:text="@{title}"
+            fontPath="fonts/OpenSans-SemiBold.ttf"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/subtitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/titleTextView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="@color/color10"
+            android:textSize="12sp"
+            android:text="@{subtitle}"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
