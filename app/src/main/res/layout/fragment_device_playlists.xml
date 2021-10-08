@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="handler"
+            type="ir.mab.radioamin.ui.deviceonly.playlist.DevicePlaylistsFragment.Handlers" />
+
+        <variable
+            name="showProgress"
+            type="boolean" />
+
+        <variable
+            name="showEmptyList"
+            type="boolean" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color1"
+        >
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color1"
+            android:fitsSystemWindows="true"
+            app:elevation="0dp">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:contentScrim="@color/color1"
+                app:layout_scrollFlags="scroll|enterAlways">
+
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:contentInsetLeft="0dp"
+                    app:contentInsetStart="0dp"
+                    app:layout_collapseMode="none">
+
+                    <ir.mab.radioamin.ui.custom.SimpleToolbarWithBackIconAndTitleCompoundView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:stBackIconTint="@color/white"
+                        app:stTitle="@string/playlists"
+                        app:stTitleColor="@color/white" />
+
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:id="@+id/newPlaylistParent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?selectableItemBackground"
+                        android:onClick="@{handler::onClickNewPlaylist}">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/coverParent"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            android:layout_marginStart="24dp"
+                            android:layout_marginEnd="24dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginBottom="12dp"
+                            app:cardCornerRadius="5dp"
+                            app:cardBackgroundColor="@color/color6">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="16dp"
+                                app:tint="@color/white"
+                                app:srcCompat="@drawable/ic_plus"
+                                />
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toRightOf="@+id/coverParent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:textColor="@color/white"
+                            android:text="@string/new_playlist"
+                            fontPath="fonts/OpenSans-SemiBold.ttf"
+                            />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </RelativeLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/newPlaylistParent"
+                    android:overScrollMode="never" />
+
+                <ir.mab.radioamin.ui.custom.ProgressCompoundView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:pcVisibility="@{showProgress ? View.VISIBLE: View.GONE}" />
+
+                <ir.mab.radioamin.ui.custom.EmptyListCompoundView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:elText="@string/empty_playlists_msg"
+                    app:elIcon="@drawable/ic_list_music"
+                    android:background="@color/color1"
+                    android:visibility="@{showEmptyList ? View.VISIBLE: View.GONE}"
+                    />
+
+            </RelativeLayout>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

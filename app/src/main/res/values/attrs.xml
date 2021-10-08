@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="NavigationItemWithIconAndTextCompoundView">
+        <attr name="nitTitle" format="string" />
+        <attr name="nitIcon" format="reference" />
+        <attr name="nitTitleColor" format="color" />
+        <attr name="nitIconTint" format="color" />
+        <attr name="nitChevronTint" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="SimpleToolbarWithBackIconAndTitleCompoundView">
+        <attr name="stTitle" format="string" />
+        <attr name="stTitleColor" format="color" />
+        <attr name="stBackIconTint" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="EmptyListCompoundView">
+        <attr name="elText" format="string" />
+        <attr name="elIcon" format="reference" />
+        <attr name="elTextColor" format="color" />
+        <attr name="elIconTint" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="ProgressCompoundView">
+        <attr name="prBackgroundColor" format="color" />
+    </declare-styleable>
+
+</resources>
