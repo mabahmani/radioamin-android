@@ -177,7 +177,7 @@ class ExploreFragment: Fragment() {
     }
 
     private fun getMusicVideos(forceRefresh: Boolean) {
-        mainViewModel.getMusics(forceRefresh, musicType = "VIDEO").observe(viewLifecycleOwner, {
+        mainViewModel.getMusicVideos(forceRefresh).observe(viewLifecycleOwner, {
 
             when(it.status){
                 Status.LOADING ->{

@@ -28,6 +28,7 @@ class MainViewModel @Inject constructor(
 
     private var homeTopicsResult: LiveData<Resource<SuccessResponse<HomeTopicsRes>>> = MutableLiveData()
     private var musicsResult: LiveData<Resource<SuccessResponse<Page<Music>>>> = MutableLiveData()
+    private var musicVideosResult: LiveData<Resource<SuccessResponse<Page<Music>>>> = MutableLiveData()
     private var albumsResult: LiveData<Resource<SuccessResponse<Page<Album>>>> = MutableLiveData()
     private var artistsResult: LiveData<Resource<SuccessResponse<Page<Singer>>>> = MutableLiveData()
     private var genresResult: LiveData<Resource<SuccessResponse<Page<Genre>>>> = MutableLiveData()
@@ -63,6 +64,26 @@ class MainViewModel @Inject constructor(
         }
 
         return musicsResult
+    }
+
+    fun getMusicVideos(
+        forceRefresh: Boolean = false,
+        direction: String = "DESC",
+        page: Int = 0,
+        size: Int = 10,
+        sort: String = "id",
+        musicType: String = "VIDEO"
+    ): LiveData<Resource<SuccessResponse<Page<Music>>>> {
+
+        if (musicVideosResult.value == null || forceRefresh) {
+            viewModelScope.launch {
+                musicVideosResult = safeApiCall(dispatcherIO, musicVideosResult.value?.data, application) {
+                    apiService.getMusics(direction, page, size, sort, musicType)
+                }
+            }
+        }
+
+        return musicVideosResult
     }
 
     fun getAlbums(
