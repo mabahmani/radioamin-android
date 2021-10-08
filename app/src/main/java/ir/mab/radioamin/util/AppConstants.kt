@@ -30,7 +30,7 @@ object AppConstants {
     }
 
     object Base{
-        const val URL = "http://192.168.1.59:8080/api/"
+        const val URL = "http://192.168.1.56:8080/api/"
         object VersionOne{
             const val CONSUMER: String = URL + "v1/consumer"
             const val ANONYMOUS: String = URL + "v1/anonymous"

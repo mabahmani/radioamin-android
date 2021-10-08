@@ -35,7 +35,7 @@ class HomeTopicAdapter(private val list: List<Topic>): RecyclerView.Adapter<Home
 
             TopicType.MUSIC_VIDEO->{
                 holder.binding.list.layoutManager = LinearLayoutManager(holder.binding.root.context, LinearLayoutManager.HORIZONTAL, false)
-                holder.binding.list.adapter = HomeTopicMusicAdapter(list[position].musics)
+                holder.binding.list.adapter = HomeTopicMusicVideoAdapter(list[position].musics)
             }
 
             TopicType.PLAYLIST->{
