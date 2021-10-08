@@ -30,7 +30,7 @@
             android:layout_gravity="bottom"
             app:menu="@menu/bottom_navigation_menu"
             app:labelVisibilityMode="selected"
-            app:backgroundTint="@color/color11"
+            app:backgroundTint="@color/black"
             app:itemIconTint="@drawable/nav_item_color_state"
             app:itemTextColor="@drawable/nav_item_color_state" />
 
