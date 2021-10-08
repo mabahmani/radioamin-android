@@ -133,7 +133,7 @@
                                 android:id="@+id/more"
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
-                                android:background="?selectableItemBackgroundBorderless"
+                                android:background="?actionBarItemBackground"
                                 android:clickable="true"
                                 android:focusable="true"
                                 android:padding="6dp"

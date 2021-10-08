@@ -19,7 +19,7 @@
         app:tint="@color/white"
         android:clickable="true"
         android:focusable="true"
-        android:background="?selectableItemBackgroundBorderless"
+        android:background="?actionBarItemBackground"
         />
 
     <androidx.appcompat.widget.AppCompatTextView

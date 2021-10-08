@@ -143,7 +143,7 @@
                                     android:padding="8dp"
                                     app:srcCompat="@drawable/ic_pen"
                                     app:tint="@color/white"
-                                    android:background="?selectableItemBackgroundBorderless"
+                                    android:background="?actionBarItemBackground"
                                     android:clickable="true"
                                     android:focusable="true"
                                     />
@@ -155,7 +155,7 @@
                                     android:padding="6dp"
                                     app:srcCompat="@drawable/ic_ellipsis_vertical"
                                     app:tint="@color/white"
-                                    android:background="?selectableItemBackgroundBorderless"
+                                    android:background="?actionBarItemBackground"
                                     android:clickable="true"
                                     android:focusable="true"
                                     android:layout_marginStart="16dp"
