@@ -1,11 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/library"
-    app:startDestination="@id/libraryFragment">
+    app:startDestination="@id/deviceFiles">
 
     <fragment
-        android:id="@+id/libraryFragment"
-        android:name="ir.mab.radioamin.ui.main.library.LibraryFragment"
-        android:label="LibraryFragment" />
+        android:id="@+id/deviceFiles"
+        android:name="ir.mab.radioamin.ui.deviceonly.DeviceFilesFragment"
+        android:label="DeviceFiles"
+        tools:layout="@layout/fragment_device_files">
+        <action
+            android:id="@+id/action_deviceFilesFragment_to_devicePlaylistsFragment"
+            app:destination="@id/devicePlaylists"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+        <action
+            android:id="@+id/action_deviceFilesFragment_to_deviceAlbumsFragment"
+            app:destination="@id/deviceAlbums"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+        <action
+            android:id="@+id/action_deviceFilesFragment_to_deviceSongsFragment"
+            app:destination="@id/deviceSongs"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+        <action
+            android:id="@+id/action_deviceFilesFragment_to_deviceArtistsFragment"
+            app:destination="@id/deviceArtists"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+        <action
+            android:id="@+id/action_deviceFilesFragment_to_deviceGenresFragment"
+            app:destination="@id/deviceGenres"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+        <action
+            android:id="@+id/action_deviceFilesFragment_to_filterDeviceFoldersFragment"
+            app:destination="@id/filterDeviceFolders"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+
+        <!--            app:enterAnim="@animator/nav_default_enter_anim"-->
+        <!--            app:exitAnim="@animator/nav_default_exit_anim"-->
+        <!--            app:popEnterAnim="@animator/nav_default_pop_enter_anim"-->
+        <!--            app:popExitAnim="@animator/nav_default_pop_exit_anim"-->
+    </fragment>
+
+    <fragment
+        android:id="@+id/devicePlaylists"
+        android:name="ir.mab.radioamin.ui.deviceonly.playlist.DevicePlaylistsFragment"
+        android:label="DevicePlaylists"
+        tools:layout="@layout/fragment_device_playlists">
+
+        <action
+            android:id="@+id/action_devicePlaylistsFragment_to_devicePlaylistFragment"
+            app:destination="@id/devicePlaylist"
+            app:enterAnim="@anim/slide_in_enter_micro"
+            app:exitAnim="@anim/slide_out_micro"
+            app:popEnterAnim="@anim/slide_in_enter_micro"
+            app:popExitAnim="@anim/slide_out_micro"
+            />
+        <action
+            android:id="@+id/action_devicePlaylistFragment_to_editDevicePlaylistFragment"
+            app:destination="@id/editDevicePlaylist"
+            app:enterAnim="@anim/slide_in_enter_micro"
+            app:exitAnim="@anim/slide_out_micro"
+            app:popEnterAnim="@anim/slide_in_enter_micro"
+            app:popExitAnim="@anim/slide_out_micro"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/devicePlaylist"
+        android:name="ir.mab.radioamin.ui.deviceonly.playlist.DevicePlaylistFragment"
+        android:label="DevicePlaylist"
+        tools:layout="@layout/fragment_device_playlist">
+
+        <action
+            android:id="@+id/action_devicePlaylistFragment_to_editDevicePlaylistFragment"
+            app:destination="@id/editDevicePlaylist"
+            app:enterAnim="@anim/slide_in_enter_micro"
+            app:exitAnim="@anim/slide_out_micro"
+            app:popEnterAnim="@anim/slide_in_enter_micro"
+            app:popExitAnim="@anim/slide_out_micro"
+            />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/deviceAlbums"
+        android:name="ir.mab.radioamin.ui.deviceonly.album.DeviceAlbumsFragment"
+        android:label="DeviceAlbums"
+        tools:layout="@layout/fragment_device_albums">
+
+        <action
+            android:id="@+id/action_deviceAlbumsFragment_to_deviceAlbumFragment"
+            app:destination="@id/deviceAlbum"
+            app:enterAnim="@anim/slide_in_enter_micro"
+            app:exitAnim="@anim/slide_out_micro"
+            app:popEnterAnim="@anim/slide_in_enter_micro"
+            app:popExitAnim="@anim/slide_out_micro"
+            />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/deviceAlbum"
+        android:name="ir.mab.radioamin.ui.deviceonly.album.DeviceAlbumFragment"
+        android:label="DeviceAlbum"
+        tools:layout="@layout/fragment_device_album" />
+
+    <fragment
+        android:id="@+id/deviceSongs"
+        android:name="ir.mab.radioamin.ui.deviceonly.song.DeviceSongsFragment"
+        android:label="DeviceSongs"
+        tools:layout="@layout/fragment_device_songs">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/deviceArtists"
+        android:name="ir.mab.radioamin.ui.deviceonly.artist.DeviceArtistsFragment"
+        android:label="DeviceArtists"
+        tools:layout="@layout/fragment_device_artists">
+
+        <action
+            android:id="@+id/action_deviceArtistsFragment_to_deviceArtistFragment"
+            app:destination="@id/deviceArtist"
+            app:enterAnim="@anim/slide_in_enter_micro"
+            app:exitAnim="@anim/slide_out_micro"
+            app:popEnterAnim="@anim/slide_in_enter_micro"
+            app:popExitAnim="@anim/slide_out_micro"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/deviceArtist"
+        android:name="ir.mab.radioamin.ui.deviceonly.artist.DeviceArtistFragment"
+        android:label="DeviceArtist"
+        tools:layout="@layout/fragment_device_artist" />
+
+    <fragment
+        android:id="@+id/editDevicePlaylist"
+        android:name="ir.mab.radioamin.ui.deviceonly.playlist.EditDevicePlaylistFragment"
+        android:label="EditDevicePlaylist"
+        tools:layout="@layout/fragment_edit_device_playlist" />
+
+    <fragment
+        android:id="@+id/deviceGenres"
+        android:name="ir.mab.radioamin.ui.deviceonly.genre.DeviceGenresFragment"
+        android:label="DeviceGenres"
+        tools:layout="@layout/fragment_device_genres">
+
+        <action
+            android:id="@+id/action_deviceGenresFragment_to_deviceGenreFragment"
+            app:destination="@id/deviceGenre"
+            app:enterAnim="@anim/slide_in_enter_micro"
+            app:exitAnim="@anim/slide_out_micro"
+            app:popEnterAnim="@anim/slide_in_enter_micro"
+            app:popExitAnim="@anim/slide_out_micro"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/deviceGenre"
+        android:name="ir.mab.radioamin.ui.deviceonly.genre.DeviceGenreFragment"
+        android:label="DeviceGenre"
+        tools:layout="@layout/fragment_device_genre" />
+
+    <fragment
+        android:id="@+id/editDeviceSongInfo"
+        android:name="ir.mab.radioamin.ui.deviceonly.song.EditDeviceSongInfoFragment"
+        android:label="EditDeviceSongInfo"
+        tools:layout="@layout/fragment_edit_device_song_info" />
+
+    <fragment
+        android:id="@+id/filterDeviceFolders"
+        android:name="ir.mab.radioamin.ui.deviceonly.FilterDeviceFoldersFragment"
+        android:label="FilterDeviceFolders"
+        tools:layout="@layout/fragment_filter_device_folders" />
+
+    <action
+        android:id="@+id/action_global_editDeviceSongInfo"
+        app:destination="@id/editDeviceSongInfo"
+        app:enterAnim="@anim/slide_in_enter_micro"
+        app:exitAnim="@anim/slide_out_micro"
+        app:popEnterAnim="@anim/slide_in_enter_micro"
+        app:popExitAnim="@anim/slide_out_micro"
+        />
 </navigation>

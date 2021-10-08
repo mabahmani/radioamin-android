@@ -4,6 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
+
+        <variable
+            name="song"
+            type="ir.mab.radioamin.vo.devicefiles.DeviceSong" />
+
+        <variable
+            name="thumbnail"
+            type="android.graphics.Bitmap" />
+
+        <variable
+            name="seekbarProgress"
+            type="Integer" />
+
+        <variable
+            name="seekbarMaxProgress"
+            type="Integer" />
+
+        <variable
+            name="elapsedTime"
+            type="String" />
+
+        <variable
+            name="duration"
+            type="String" />
 
     </data>
 
@@ -22,6 +47,437 @@
             android:background="@color/color1"
             app:defaultNavHost="true"
             app:navGraph="@navigation/main_nav_graph" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/playerBottomSheet"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color1"
+            android:clickable="true"
+            android:focusable="true"
+            app:behavior_hideable="true"
+            app:behavior_peekHeight="72dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+            <androidx.constraintlayout.motion.widget.MotionLayout
+                android:id="@+id/motion"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layoutDescription="@xml/player_scene"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/headerParent"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    app:layout_constraintBottom_toTopOf="@id/playerParent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/close"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_margin="16dp"
+                        android:background="?actionBarItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:padding="6dp"
+                        app:layout_constraintBottom_toBottomOf="@id/headerParent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/headerParent"
+                        app:srcCompat="@drawable/ic_xmark"
+                        app:tint="@color/color10" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/chevronDown"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_margin="16dp"
+                        android:background="?actionBarItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:padding="6dp"
+                        app:layout_constraintBottom_toBottomOf="@id/headerParent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/headerParent"
+                        app:srcCompat="@drawable/ic_chevron_down"
+                        app:tint="@color/color10" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/playerParent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toTopOf="@id/songInfoParent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/headerParent" />
+
+                <LinearLayout
+                    android:id="@+id/miniInfoParent"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="@id/cover"
+                    app:layout_constraintLeft_toRightOf="@id/cover"
+                    app:layout_constraintRight_toLeftOf="@+id/miniPlayerControllerParent"
+                    app:layout_constraintTop_toTopOf="@id/cover">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/miniSongName"
+                        fontPath="fonts/OpenSans-SemiBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@{song.name}"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/miniArtistName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{song.artistName}"
+                        android:textColor="@color/color10"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/miniPlayerControllerParent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="?selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@id/cover"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/cover">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/miniPlay"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:background="?actionBarItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/ic_play"
+                        app:tint="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/miniNext"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:background="?actionBarItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:padding="8dp"
+                        app:srcCompat="@drawable/ic_forward_step"
+                        app:tint="@color/white" />
+                </LinearLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cover"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="24dp"
+                    app:cardBackgroundColor="@color/color1"
+                    app:cardCornerRadius="5dp"
+                    app:cardElevation="10dp"
+                    app:layout_constraintBottom_toBottomOf="@id/playerParent"
+                    app:layout_constraintLeft_toLeftOf="@id/playerParent"
+                    app:layout_constraintRight_toRightOf="@id/playerParent"
+                    app:layout_constraintTop_toTopOf="@id/playerParent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:padding="16dp"
+                        app:srcCompat="@drawable/ic_music_note"
+                        app:tint="@color/color6" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:visibility="@{thumbnail == null ? View.GONE : View.VISIBLE}"
+                        app:imageBitmap="@{thumbnail}" />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/songInfoParent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    app:layout_constraintBottom_toTopOf="@+id/seekbarParent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/songName"
+                        fontPath="fonts/OpenSans-ExtraBold.ttf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:ellipsize="marquee"
+                        android:paddingHorizontal="24dp"
+                        android:singleLine="true"
+                        android:text="@{song.name}"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/artistName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginBottom="24dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@{song.artistName}"
+                        android:textColor="@color/color10"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/songName" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/seekbarParent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="24dp"
+                    app:layout_constraintBottom_toTopOf="@+id/playerControlParent">
+
+                    <androidx.appcompat.widget.AppCompatSeekBar
+                        android:id="@+id/seekbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:max="@{seekbarMaxProgress}"
+                        android:progress="@{seekbarProgress}"
+                        android:progressBackgroundTint="@color/color8"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:targetApi="lollipop" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/elapsedTimeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:text="@{elapsedTime}"
+                        android:textColor="@color/color10"
+                        android:textSize="12sp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/seekbar" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/durationText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:text="@{duration}"
+                        android:textColor="@color/color10"
+                        android:textSize="12sp"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/seekbar" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/playerControlParent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="24dp"
+                    android:paddingVertical="32dp"
+                    app:layout_constraintBottom_toTopOf="@id/queueParent">
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guide1"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.16" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guide2"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.32" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guide3"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.64" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guide4"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.8" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/shuffle"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="?actionBarItemBackground"
+                        android:padding="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@+id/guide1"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_shuffle"
+                        app:tint="@color/color10" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/previous"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="?actionBarItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:padding="14dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/guide1"
+                        app:layout_constraintRight_toLeftOf="@+id/guide2"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_backward_step"
+                        app:tint="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/play"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:background="?actionBarItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:padding="12dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/guide2"
+                        app:layout_constraintRight_toLeftOf="@+id/guide3"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_play"
+                        app:tint="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/next"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="?actionBarItemBackground"
+                        android:padding="14dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/guide3"
+                        app:layout_constraintRight_toLeftOf="@+id/guide4"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_forward_step"
+                        app:tint="@color/white" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/repeat"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="?actionBarItemBackground"
+                        android:padding="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/guide4"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_repeat"
+                        app:tint="@color/color10" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/queueParent"
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    app:cardUseCompatPadding="false"
+                    android:padding="0dp"
+                    app:cardBackgroundColor="@color/color6"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay_card_custom_corners"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        >
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/queueHandlerView"
+                            android:layout_width="32dp"
+                            android:layout_height="3dp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            android:layout_marginTop="4dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:cardBackgroundColor="@color/color10"
+                            app:cardCornerRadius="14dp"
+                            />
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/queueText"
+                            fontPath="fonts/OpenSans-SemiBold.ttf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:gravity="top|center_horizontal"
+                            android:text="@string/up_next"
+                            android:textColor="@color/white"
+                            android:layout_marginTop="10dp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/queueHandlerView"
+                            />
+
+                        <View
+                            android:id="@+id/queueDivider"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/color4"
+                            app:layout_constraintTop_toBottomOf="@+id/queueText" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/queueList"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:background="@color/color6"
+                            android:layout_marginTop="8dp"
+                            android:overScrollMode="never"
+                            app:layout_constraintTop_toBottomOf="@id/queueDivider"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+
+            </androidx.constraintlayout.motion.widget.MotionLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
